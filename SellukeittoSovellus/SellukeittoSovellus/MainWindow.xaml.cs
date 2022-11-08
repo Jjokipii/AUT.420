@@ -23,5 +23,13 @@ namespace SellukeittoSovellus
         {
             InitializeComponent();
         }
+
+        // TODO UpdateValues
+
+        // TODO UpdateControl
+
+        // TODO getConfiguration 
+
+
     }
 }
