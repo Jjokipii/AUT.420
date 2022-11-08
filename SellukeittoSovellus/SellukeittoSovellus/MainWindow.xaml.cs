@@ -24,6 +24,11 @@ namespace SellukeittoSovellus
             InitializeComponent();
         }
 
+        private void button_start_process_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         // TODO UpdateValues
 
         // TODO UpdateControl
