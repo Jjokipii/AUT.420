@@ -28,9 +28,11 @@ namespace SellukeittoSovellus
         private const int STATE_IDLE = 2;
         private const int STATE_RUNNING = 3;
 
-        private const int THREAD_DELAY_MS = 10;
+        
 
         #endregion
+
+        private const int THREAD_DELAY_MS = 10;
 
         private int State;
 
@@ -53,12 +55,15 @@ namespace SellukeittoSovellus
         {
             try
             {
-                while (true)
+                while (true) // TODO close
                 {
-                    //Console.WriteLine("ControlThread tick");
-                    // TODO get values
+                    Console.WriteLine("{0} ControlThread tick", DateTime.Now.ToString("hh:mm:ss"));
+                    
+                    // TODO get values from process
 
-                    // TODO update UI
+                    // TODO update values to UI
+
+                    // TODO implement system control
 
 
                     
@@ -109,7 +114,7 @@ namespace SellukeittoSovellus
                     UpdateParameterControls(false);
                     break;
                 default:
-                    Console.WriteLine("UpdateControl ERROR");
+                    Console.WriteLine("ERROR: UpdateControl() switch default statement called");
                     break;
             }
         }
