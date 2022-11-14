@@ -36,18 +36,26 @@ namespace SellukeittoSovellus
         #endregion
 
         private const int THREAD_DELAY_MS = 10;
+        private const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
 
         private int State;
+
+        private Tuni.MppOpcUaClientLib.ConnectionParamsHolder mConnectionParamsHolder;
+        private Tuni.MppOpcUaClientLib.MppClient mMppClient;
 
         public MainWindow()
         {
             // Set internal variables
             State = STATE_DISCONNECTED;
+            mConnectionParamsHolder = new Tuni.MppOpcUaClientLib.ConnectionParamsHolder(CLIENT_URL);
 
             InitializeComponent();
 
             // Init static UI elemets
             InitUI();
+
+            // Try to establish process connection
+            CreateProcessConnection();
 
             // Update system controls 
             UpdateControl();
@@ -66,7 +74,7 @@ namespace SellukeittoSovellus
             {
                 while (true) // TODO close
                 {
-                    Console.WriteLine("{0} ControlThread tick", DateTime.Now.ToString("hh:mm:ss"));
+                    //Console.WriteLine("{0} ControlThread tick", DateTime.Now.ToString("hh:mm:ss"));
                     
                     // TODO get values from process
 
@@ -183,11 +191,28 @@ namespace SellukeittoSovellus
 
         private void button_connect_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
-
-            State = STATE_IDLE;
+            CreateProcessConnection();
 
             UpdateControl();
+        }
+
+        private void CreateProcessConnection()
+        {
+            try
+            {
+                mMppClient = new Tuni.MppOpcUaClientLib.MppClient(mConnectionParamsHolder);
+
+                mMppClient.Init();
+
+                State = STATE_IDLE;
+            }
+            catch (Exception ex)
+            {
+                // TODO reset params
+                
+                Console.WriteLine(ex.Message);
+                State = STATE_FAILSAFE;
+            }
         }
 
         private void button_set_parameters_Click(object sender, RoutedEventArgs e)
