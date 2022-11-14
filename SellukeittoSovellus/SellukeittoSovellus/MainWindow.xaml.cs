@@ -28,6 +28,13 @@ namespace SellukeittoSovellus
         private const int STATE_DISCONNECTED = 1;
         private const int STATE_IDLE = 2;
         private const int STATE_RUNNING = 3;
+        private const string STATE_FAILSAFE_STRING = "Vikaturvallinen";
+        private const string STATE_DISCONNECTED_STRING = "Yhteydetön";
+        private const string STATE_IDLE_STRING = "Odottaa";
+        private const string STATE_RUNNING_STRING = "Prosessi käynnissä";
+        private const string STATE_CONNECTED_STRING = "Yhdistetty";
+        private SolidColorBrush STATE_COLOR_GREEN = Brushes.Green;
+        private SolidColorBrush STATE_COLOR_RED = Brushes.Red;
 
         // Tank parameters
         private const int TANK_MAX_VALUE = 300;
@@ -56,6 +63,9 @@ namespace SellukeittoSovellus
 
             // Try to establish process connection
             CreateProcessConnection();
+
+            // Update UI values
+            UpdateValues();
 
             // Update system controls 
             UpdateControl();
@@ -136,6 +146,8 @@ namespace SellukeittoSovellus
             }
         }
 
+
+
         private void UpdateParameterControls(bool isEnabled)
         {
             // Update slider controls status
@@ -151,7 +163,39 @@ namespace SellukeittoSovellus
             textBox_saturation_time.IsEnabled = isEnabled;
         }
 
-        // TODO UpdateValues
+        private void UpdateValues()
+        {
+            switch (State)
+            {
+                case STATE_FAILSAFE:
+                    label_connection_status.Content = STATE_DISCONNECTED_STRING; // TODO Dynamic value needed
+                    label_connection_status.Foreground = STATE_COLOR_RED;
+                    label_control_status.Content = STATE_FAILSAFE_STRING;
+                    label_control_status.Foreground = STATE_COLOR_RED;
+                    break;
+                case STATE_DISCONNECTED:
+                    label_connection_status.Content = STATE_DISCONNECTED_STRING;
+                    label_connection_status.Foreground = STATE_COLOR_RED;
+                    label_control_status.Content = STATE_DISCONNECTED_STRING;
+                    label_control_status.Foreground = STATE_COLOR_RED;
+                    break;
+                case STATE_IDLE:
+                    label_connection_status.Content = STATE_CONNECTED_STRING;
+                    label_connection_status.Foreground = STATE_COLOR_GREEN;
+                    label_control_status.Content = STATE_IDLE_STRING;
+                    label_control_status.Foreground = STATE_COLOR_GREEN;
+                    break;
+                case STATE_RUNNING:
+                    label_connection_status.Content = STATE_CONNECTED_STRING;
+                    label_connection_status.Foreground = STATE_COLOR_GREEN;
+                    label_control_status.Content = STATE_RUNNING_STRING;
+                    label_control_status.Foreground = STATE_COLOR_GREEN;
+                    break;
+                default:
+                    Console.WriteLine("ERROR: UpdateValues() switch default statement called");
+                    break;
+            }
+        }
 
         private void InitUI()
         {
@@ -177,6 +221,8 @@ namespace SellukeittoSovellus
 
             State = STATE_RUNNING;
 
+            UpdateValues();
+
             UpdateControl();
         }
 
@@ -186,12 +232,16 @@ namespace SellukeittoSovellus
 
             State = STATE_FAILSAFE;
 
+            UpdateValues();
+
             UpdateControl();
         }
 
         private void button_connect_Click(object sender, RoutedEventArgs e)
         {
             CreateProcessConnection();
+
+            UpdateValues();
 
             UpdateControl();
         }
