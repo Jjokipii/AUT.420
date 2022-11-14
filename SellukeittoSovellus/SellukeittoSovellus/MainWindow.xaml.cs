@@ -23,12 +23,15 @@ namespace SellukeittoSovellus
     {
         #region CONSTANTS
 
+        // System states
         private const int STATE_FAILSAFE = 0;
         private const int STATE_DISCONNECTED = 1;
         private const int STATE_IDLE = 2;
         private const int STATE_RUNNING = 3;
 
-        
+        // Tank parameters
+        private const int TANK_MAX_VALUE = 300;
+        private const int TANK_MIN_VALUE = 0;
 
         #endregion
 
@@ -38,17 +41,23 @@ namespace SellukeittoSovellus
 
         public MainWindow()
         {
+            // Set internal variables
             State = STATE_DISCONNECTED;
 
+            InitializeComponent();
+
+            // Init static UI elemets
+            InitUI();
+
+            // Update system controls 
+            UpdateControl();
+
+            // Start main thread
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
                 ControlThread();
             }).Start();
-            
-            InitializeComponent();
-
-            UpdateControl();
         }
 
         private void ControlThread()
@@ -135,6 +144,24 @@ namespace SellukeittoSovellus
         }
 
         // TODO UpdateValues
+
+        private void InitUI()
+        {
+            
+            // Set progress bar MAX values
+            progressBar_T100.Maximum = TANK_MAX_VALUE;
+            progressBar_T200.Maximum = TANK_MAX_VALUE;
+            progressBar_T300_pressure.Maximum = TANK_MAX_VALUE;
+            progressBar_T300_temperature.Maximum = TANK_MAX_VALUE;
+            progressBar_T400.Maximum = TANK_MAX_VALUE;
+
+            // Set progress bar MIN values
+            progressBar_T100.Minimum = TANK_MIN_VALUE;
+            progressBar_T200.Minimum = TANK_MIN_VALUE;
+            progressBar_T300_pressure.Minimum = TANK_MIN_VALUE;
+            progressBar_T300_temperature.Minimum = TANK_MIN_VALUE;
+            progressBar_T400.Minimum = TANK_MIN_VALUE;
+        }
 
         private void button_start_process_Click(object sender, RoutedEventArgs e)
         {
