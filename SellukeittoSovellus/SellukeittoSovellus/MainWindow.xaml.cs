@@ -61,14 +61,11 @@ namespace SellukeittoSovellus
             // Init static UI elemets
             InitUI();
 
-            // Try to establish process connection
-            CreateProcessConnection();
+            CreateProcessConnection(); // Try to establish process connection
 
-            // Update UI values
-            UpdateValues();
+            UpdateValues(); // Update UI values
 
-            // Update system controls 
-            UpdateControl();
+            UpdateControl(); // Update system controls 
 
             // Start main thread
             new Thread(() =>
@@ -86,14 +83,31 @@ namespace SellukeittoSovellus
                 {
                     //Console.WriteLine("{0} ControlThread tick", DateTime.Now.ToString("hh:mm:ss"));
                     
-                    // TODO get values from process
+                    // Get values
 
-                    // TODO update values to UI
+                    // Update controls
 
-                    // TODO implement system control
+                    // Update values
 
+                    switch (State)
+                    {
+                        case STATE_FAILSAFE:
+                            
+                            break;
+                        case STATE_DISCONNECTED:
+                            
+                            break;
+                        case STATE_IDLE:
+                            
+                            break;
+                        case STATE_RUNNING:
+                            
+                            break;
+                        default:
+                            Console.WriteLine("ERROR: UpdateValues() switch default statement called");
+                            break;
+                    }
 
-                    
                     Thread.Sleep(THREAD_DELAY_MS);
                 }
             }
@@ -145,8 +159,6 @@ namespace SellukeittoSovellus
                     break;
             }
         }
-
-
 
         private void UpdateParameterControls(bool isEnabled)
         {
@@ -261,7 +273,7 @@ namespace SellukeittoSovellus
                 // TODO reset params
                 
                 Console.WriteLine(ex.Message);
-                State = STATE_FAILSAFE;
+                State = STATE_DISCONNECTED;
             }
         }
 
