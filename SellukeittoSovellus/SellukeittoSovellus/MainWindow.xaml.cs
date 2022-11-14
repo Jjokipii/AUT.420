@@ -42,13 +42,25 @@ namespace SellukeittoSovellus
 
         #endregion
 
+        #region CONFIGURABLE PARAMETERS
+
         private const int THREAD_DELAY_MS = 10;
         private const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
 
+        #endregion
+
+        #region CLASS VARIABLES
+
         private int State;
+
+        #endregion
+
+        #region OPC
 
         private Tuni.MppOpcUaClientLib.ConnectionParamsHolder mConnectionParamsHolder;
         private Tuni.MppOpcUaClientLib.MppClient mMppClient;
+
+        #endregion
 
         public MainWindow()
         {
@@ -58,8 +70,7 @@ namespace SellukeittoSovellus
 
             InitializeComponent();
 
-            // Init static UI elemets
-            InitUI();
+            InitUI(); // Init static UI elemets
 
             CreateProcessConnection(); // Try to establish process connection
 
@@ -67,8 +78,8 @@ namespace SellukeittoSovellus
 
             UpdateControl(); // Update system controls 
 
-            // Start main thread
-            new Thread(() =>
+
+            new Thread(() => // Start control thread
             {
                 Thread.CurrentThread.IsBackground = true;
                 ControlThread();
@@ -82,6 +93,8 @@ namespace SellukeittoSovellus
                 while (true) // TODO close
                 {
                     //Console.WriteLine("{0} ControlThread tick", DateTime.Now.ToString("hh:mm:ss"));
+
+                    // TODO check connection status
                     
                     // Get values
 
@@ -211,7 +224,6 @@ namespace SellukeittoSovellus
 
         private void InitUI()
         {
-            
             // Set progress bar MAX values
             progressBar_T100.Maximum = TANK_MAX_VALUE;
             progressBar_T200.Maximum = TANK_MAX_VALUE;
