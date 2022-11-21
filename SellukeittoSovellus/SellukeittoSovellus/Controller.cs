@@ -9,6 +9,10 @@ namespace SellukeittoSovellus
 {
     class Controller
     {
+        // Constants
+        #region CONSTANTS
+        public const string PARAMETER_TEXTFILE_PATH = "\\default_parameter_values.txt"
+        #endregion
 
         // Class variables
         #region CLASS VARIABLES
@@ -38,7 +42,7 @@ namespace SellukeittoSovellus
                 {
                     basedirectory = Directory.GetParent(basedirectory).ToString();
                 }
-                string parameters_filepath = basedirectory + "\\default_parameter_values.txt";
+                string parameters_filepath = basedirectory + PARAMETER_TEXTFILE_PATH;
                 Console.WriteLine(parameters_filepath);
                 string[] lines = File.ReadAllLines(parameters_filepath);
                 string[] parameters;

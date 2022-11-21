@@ -79,14 +79,14 @@ namespace SellukeittoSovellus
         public MainWindow()
         {
             // Set internal variables
-            State = STATE_IDLE;
+            State = STATE_DISCONNECTED;
             mConnectionParamsHolder = new Tuni.MppOpcUaClientLib.ConnectionParamsHolder(CLIENT_URL);
 
             InitializeComponent();
 
             InitUI(); // Init static UI elemets
 
-            // CreateProcessConnection(); // Try to establish process connection
+            CreateProcessConnection(); // Try to establish process connection
 
             UpdateValues(); // Update UI values
 
