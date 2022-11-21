@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Windows.Threading;
 
+
 namespace SellukeittoSovellus
 {
     /// <summary>
@@ -29,7 +30,7 @@ namespace SellukeittoSovellus
         private const int STATE_IDLE = 2;
         private const int STATE_RUNNING = 3;
         private const string STATE_FAILSAFE_STRING = "Vikaturvallinen";
-        private const string STATE_DISCONNECTED_STRING = "Yhteydetön";
+        private const string STATE_DISCONNECTED_STRING = "Verkkoyhteydetön";
         private const string STATE_IDLE_STRING = "Odottaa";
         private const string STATE_RUNNING_STRING = "Prosessi käynnissä";
         private const string STATE_CONNECTED_STRING = "Yhdistetty";
@@ -39,6 +40,12 @@ namespace SellukeittoSovellus
         // Tank parameters
         private const int TANK_MAX_VALUE = 300;
         private const int TANK_MIN_VALUE = 0;
+
+        // Sequence UI parameters
+        private const string PARAMETERS_NOT_CONFIRMED = "Lukitsemattomia muutoksia!";
+        private const string PARAMETERS_INCORRECT = "Parametrit virheellisiä.";
+        private const string PARAMETERS_CONFIRMED = "Muutokset tallennettu.";
+
 
         #endregion
 
@@ -62,6 +69,13 @@ namespace SellukeittoSovellus
 
         #endregion
 
+        #region OBJECTS
+
+        Controller CTR = new Controller();  // Object for calling the Controller()
+
+        #endregion
+
+
         public MainWindow()
         {
             // Set internal variables
@@ -78,6 +92,7 @@ namespace SellukeittoSovellus
 
             UpdateControl(); // Update system controls 
 
+            ResetUIParameters();    // Loads the default parameter values
 
             new Thread(() => // Start control thread
             {
@@ -114,7 +129,7 @@ namespace SellukeittoSovellus
                             
                             break;
                         case STATE_RUNNING:
-                            
+
                             break;
                         default:
                             Console.WriteLine("ERROR: UpdateValues() switch default statement called");
@@ -185,7 +200,7 @@ namespace SellukeittoSovellus
             textBox_cooking_pressure.IsEnabled = isEnabled;
             textBox_cooking_temperature.IsEnabled = isEnabled;
             textBox_cooking_time.IsEnabled = isEnabled;
-            textBox_saturation_time.IsEnabled = isEnabled;
+            textBox_impregnation_time.IsEnabled = isEnabled;
         }
 
         private void UpdateValues()
@@ -275,7 +290,6 @@ namespace SellukeittoSovellus
             try
             {
                 mMppClient = new Tuni.MppOpcUaClientLib.MppClient(mConnectionParamsHolder);
-
                 mMppClient.Init();
 
                 State = STATE_IDLE;
@@ -291,12 +305,67 @@ namespace SellukeittoSovellus
 
         private void button_set_parameters_Click(object sender, RoutedEventArgs e)
         {
+            SendParametersToController();
+            
+        }
 
+        private void SendParametersToController() 
+        {
+            try
+            {
+                CTR.Cooking_time = Int32.Parse(textBox_cooking_time.Text);
+                CTR.Cooking_pressure = Int32.Parse(textBox_cooking_pressure.Text);
+                CTR.Cooking_temperature = Int32.Parse(textBox_cooking_temperature.Text);
+                CTR.Impregnation_time = Int32.Parse(textBox_impregnation_time.Text);
+
+                UpdateParameterUIStatus(1);
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+
+                UpdateParameterUIStatus(0);
+            }
+        }
+
+        private void UpdateParameterUIStatus(int success) 
+        {
+            // success = 0: Not correct user input parameters.
+            // success = 1: Sending the values succeeded.
+            // success = -1: Reseting to a not-confirmed state.
+
+            if (success == 1) {
+                textblock_parameter_status.Text = PARAMETERS_CONFIRMED;
+                textblock_parameter_status.Foreground = STATE_COLOR_GREEN;
+            } 
+            else if (success == 0)
+            {
+                textblock_parameter_status.Text = PARAMETERS_INCORRECT;
+                textblock_parameter_status.Foreground = STATE_COLOR_RED;
+            }
+            else if (success == -1) {
+                textblock_parameter_status.Text = PARAMETERS_NOT_CONFIRMED;
+                textblock_parameter_status.Foreground = STATE_COLOR_RED;
+            }
         }
 
         private void button_reset_parameters_Click(object sender, RoutedEventArgs e)
         {
+            ResetUIParameters();
 
+        }
+
+        private void ResetUIParameters() 
+        {
+            textBox_cooking_pressure.Text = CTR.default_Cooking_pressure.ToString();
+            textBox_cooking_time.Text = CTR.default_Cooking_time.ToString();
+            textBox_cooking_temperature.Text = CTR.default_Cooking_temperature.ToString();
+            textBox_impregnation_time.Text = CTR.default_Impregnation_time.ToString();
+        }
+
+        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateParameterUIStatus(-1);
         }
 
     }

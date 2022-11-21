@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace SellukeittoSovellus
 {
     class SequenceDriver
     {
-    
+
         public SequenceDriver()
         {
             // TODO
@@ -48,24 +49,28 @@ namespace SellukeittoSovellus
         
         private int RunSequenceOne()
         {
+            Console.WriteLine("Running sequence one...");
             // TODO
             return 0;
         }
 
         private int RunSequenceTwo()
         {
+            Console.WriteLine("Running sequence two...");
             // TODO
             return 0;
         }
 
         private int RunSequenceThree()
         {
+            Console.WriteLine("Running sequence three...");
             // TODO
             return 0;
         }
 
         private int RunSequenceFour()
         {
+            Console.WriteLine("Running sequence four...");
             // TODO
 
             return 0;
@@ -73,6 +78,7 @@ namespace SellukeittoSovellus
 
         private int RunSequenceFive()
         {
+            Console.WriteLine("Running sequence five...");
             // TODO
             return 0;
         }
