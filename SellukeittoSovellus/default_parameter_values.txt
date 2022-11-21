@@ -1,0 +1,4 @@
+default_Cooking_time=50
+default_Cooking_temperature=100
+default_Cooking_pressure=200
+default_Impregnation_time=300
