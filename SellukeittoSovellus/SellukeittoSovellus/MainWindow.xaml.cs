@@ -49,7 +49,7 @@ namespace SellukeittoSovellus
 
         #region CLASS VARIABLES
 
-        Controller mController;  // Object for calling the Controller()
+        Controller mController = new Controller();  // Object for calling the Controller()
 
         public int default_Cooking_time;
         public int default_Cooking_temperature;
@@ -60,15 +60,11 @@ namespace SellukeittoSovellus
 
         public MainWindow()
         {
-            // Set internal variables
-
             InitializeComponent();
 
             readDefaultParametersFromFile();
 
             InitUI(); // Init static UI elemets
-
-            Controller mController = new Controller();  // System controller
 
             UpdateValues(mController.State); // Update UI values
 
@@ -212,8 +208,8 @@ namespace SellukeittoSovellus
 
         private void button_connect_Click(object sender, RoutedEventArgs e)
         {
-            mController.CreateProcessConnection();
-
+            // TODO 
+            
             UpdateValues(mController.State);
 
             UpdateControl(mController.State);

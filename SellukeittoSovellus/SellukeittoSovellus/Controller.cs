@@ -27,22 +27,16 @@ namespace SellukeittoSovellus
         public int Cooking_pressure;
         public int Impregnation_time;
 
-        // For the state-machine
-        public int State;
+        public int State; // Controller state
+
+        ProcessClient mProcessClient = new ProcessClient();
 
         #endregion
 
         #region CONFIGURABLE PARAMETERS
 
         private const int THREAD_DELAY_MS = 10;
-        private const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
-
-        #endregion
-
-        #region OPC
-
-        private Tuni.MppOpcUaClientLib.ConnectionParamsHolder mConnectionParamsHolder;
-        private Tuni.MppOpcUaClientLib.MppClient mMppClient;
+        
 
         #endregion
 
@@ -50,33 +44,11 @@ namespace SellukeittoSovellus
         {
             State = STATE_DISCONNECTED;
 
-            // mConnectionParamsHolder = new Tuni.MppOpcUaClientLib.ConnectionParamsHolder(CLIENT_URL);
-
-            // CreateProcessConnection(); // Try to establish process connection
-
             new Thread(() => // Start control thread
             {
                 Thread.CurrentThread.IsBackground = true;
                 ControlThread();
             }).Start();
-        }
-
-        public void CreateProcessConnection()
-        {
-            try
-            {
-                mMppClient = new Tuni.MppOpcUaClientLib.MppClient(mConnectionParamsHolder);
-                mMppClient.Init();
-
-                State = STATE_IDLE;
-            }
-            catch (Exception ex)
-            {
-                // TODO reset params
-                
-                Console.WriteLine(ex.Message);
-                State = STATE_DISCONNECTED;
-            }
         }
 
         private void ControlThread()
@@ -122,11 +94,6 @@ namespace SellukeittoSovellus
                 Console.WriteLine(ex.Message);
             }
         }
-
-        
-        
-        // TODO implement thread.
-        
             
     }
 }
