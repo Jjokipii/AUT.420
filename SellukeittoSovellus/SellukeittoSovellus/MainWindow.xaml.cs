@@ -23,12 +23,8 @@ namespace SellukeittoSovellus
     public partial class MainWindow : Window
     {
         #region CONSTANTS
-
-        // System states
-        private const int STATE_FAILSAFE = 0;
-        private const int STATE_DISCONNECTED = 1;
-        private const int STATE_IDLE = 2;
-        private const int STATE_RUNNING = 3;
+        
+        // Parameter configuration board parameters
         private const string STATE_FAILSAFE_STRING = "Vikaturvallinen";
         private const string STATE_DISCONNECTED_STRING = "Verkkoyhteydetön";
         private const string STATE_IDLE_STRING = "Odottaa";
@@ -49,29 +45,9 @@ namespace SellukeittoSovellus
 
         #endregion
 
-        #region CONFIGURABLE PARAMETERS
-
-        private const int THREAD_DELAY_MS = 10;
-        private const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
-
-        #endregion
-
-        #region CLASS VARIABLES
-
-        private int State;
-
-        #endregion
-
-        #region OPC
-
-        private Tuni.MppOpcUaClientLib.ConnectionParamsHolder mConnectionParamsHolder;
-        private Tuni.MppOpcUaClientLib.MppClient mMppClient;
-
-        #endregion
-
         #region OBJECTS
 
-        Controller CTR = new Controller();  // Object for calling the Controller()
+        Controller CTR;  // Object for calling the Controller()
 
         #endregion
 
@@ -79,78 +55,28 @@ namespace SellukeittoSovellus
         public MainWindow()
         {
             // Set internal variables
-            State = STATE_DISCONNECTED;
-            mConnectionParamsHolder = new Tuni.MppOpcUaClientLib.ConnectionParamsHolder(CLIENT_URL);
 
             InitializeComponent();
 
             InitUI(); // Init static UI elemets
 
-            CreateProcessConnection(); // Try to establish process connection
+            Controller CTR = new Controller();  // Object for calling the Controller()
 
-            UpdateValues(); // Update UI values
+            UpdateValues(CTR.State); // Update UI values
 
-            UpdateControl(); // Update system controls 
+            UpdateControl(CTR.State); // Update system controls 
 
             ResetUIParameters();    // Loads the default parameter values
 
-            new Thread(() => // Start control thread
-            {
-                Thread.CurrentThread.IsBackground = true;
-                ControlThread();
-            }).Start();
-        }
-
-        private void ControlThread()
-        {
-            try
-            {
-                while (true) // TODO close
-                {
-                    //Console.WriteLine("{0} ControlThread tick", DateTime.Now.ToString("hh:mm:ss"));
-
-                    // TODO check connection status
-                    
-                    // Get values
-
-                    // Update controls
-
-                    // Update values
-
-                    switch (State)
-                    {
-                        case STATE_FAILSAFE:
-                            
-                            break;
-                        case STATE_DISCONNECTED:
-                            
-                            break;
-                        case STATE_IDLE:
-                            
-                            break;
-                        case STATE_RUNNING:
-
-                            break;
-                        default:
-                            Console.WriteLine("ERROR: UpdateValues() switch default statement called");
-                            break;
-                    }
-
-                    Thread.Sleep(THREAD_DELAY_MS);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            Console.WriteLine("moi");
         }
 
         
-        private void UpdateControl()
+        private void UpdateControl(int State)
         {
             switch (State)
             {
-                case STATE_FAILSAFE:
+                case Controller.STATE_FAILSAFE:
                     button_connect.IsEnabled = false;
                     button_start_process.IsEnabled = false;
                     button_interrupt_process.IsEnabled = false;
@@ -158,7 +84,7 @@ namespace SellukeittoSovellus
                     button_reset_parameters.IsEnabled = false;
                     UpdateParameterControls(false);
                     break;
-                case STATE_DISCONNECTED:
+                case Controller.STATE_DISCONNECTED:
                     button_connect.IsEnabled = true;
                     button_start_process.IsEnabled = false;
                     button_interrupt_process.IsEnabled = false;
@@ -166,7 +92,7 @@ namespace SellukeittoSovellus
                     button_reset_parameters.IsEnabled = false;
                     UpdateParameterControls(false);
                     break;
-                case STATE_IDLE:
+                case Controller.STATE_IDLE:
                     button_connect.IsEnabled = false;
                     button_start_process.IsEnabled = true;
                     button_interrupt_process.IsEnabled = false;
@@ -174,7 +100,7 @@ namespace SellukeittoSovellus
                     button_reset_parameters.IsEnabled = true;
                     UpdateParameterControls(true);
                     break;
-                case STATE_RUNNING:
+                case Controller.STATE_RUNNING:
                     button_connect.IsEnabled = false;
                     button_start_process.IsEnabled = false;
                     button_interrupt_process.IsEnabled = true;
@@ -203,29 +129,29 @@ namespace SellukeittoSovellus
             textBox_impregnation_time.IsEnabled = isEnabled;
         }
 
-        private void UpdateValues()
+        private void UpdateValues(int State)
         {
             switch (State)
             {
-                case STATE_FAILSAFE:
+                case Controller.STATE_FAILSAFE:
                     label_connection_status.Content = STATE_DISCONNECTED_STRING; // TODO Dynamic value needed
                     label_connection_status.Foreground = STATE_COLOR_RED;
                     label_control_status.Content = STATE_FAILSAFE_STRING;
                     label_control_status.Foreground = STATE_COLOR_RED;
                     break;
-                case STATE_DISCONNECTED:
+                case Controller.STATE_DISCONNECTED:
                     label_connection_status.Content = STATE_DISCONNECTED_STRING;
                     label_connection_status.Foreground = STATE_COLOR_RED;
                     label_control_status.Content = STATE_DISCONNECTED_STRING;
                     label_control_status.Foreground = STATE_COLOR_RED;
                     break;
-                case STATE_IDLE:
+                case Controller.STATE_IDLE:
                     label_connection_status.Content = STATE_CONNECTED_STRING;
                     label_connection_status.Foreground = STATE_COLOR_GREEN;
                     label_control_status.Content = STATE_IDLE_STRING;
                     label_control_status.Foreground = STATE_COLOR_GREEN;
                     break;
-                case STATE_RUNNING:
+                case Controller.STATE_RUNNING:
                     label_connection_status.Content = STATE_CONNECTED_STRING;
                     label_connection_status.Foreground = STATE_COLOR_GREEN;
                     label_control_status.Content = STATE_RUNNING_STRING;
@@ -258,49 +184,33 @@ namespace SellukeittoSovellus
         {
             // TODO
 
-            State = STATE_RUNNING;
+            CTR.State = Controller.STATE_RUNNING;
 
-            UpdateValues();
+            UpdateValues(CTR.State);
 
-            UpdateControl();
+            UpdateControl(CTR.State);
+
         }
 
         private void button_interrupt_process_Click(object sender, RoutedEventArgs e)
         {
             // TODO
 
-            State = STATE_FAILSAFE;
+            CTR.State = Controller.STATE_FAILSAFE;
 
-            UpdateValues();
+            UpdateValues(CTR.State);
 
-            UpdateControl();
+            UpdateControl(CTR.State);
+
         }
 
         private void button_connect_Click(object sender, RoutedEventArgs e)
         {
-            CreateProcessConnection();
+            CTR.CreateProcessConnection();
 
-            UpdateValues();
+            UpdateValues(CTR.State);
 
-            UpdateControl();
-        }
-
-        private void CreateProcessConnection()
-        {
-            try
-            {
-                mMppClient = new Tuni.MppOpcUaClientLib.MppClient(mConnectionParamsHolder);
-                mMppClient.Init();
-
-                State = STATE_IDLE;
-            }
-            catch (Exception ex)
-            {
-                // TODO reset params
-                
-                Console.WriteLine(ex.Message);
-                State = STATE_DISCONNECTED;
-            }
+            UpdateControl(CTR.State);
         }
 
         private void button_set_parameters_Click(object sender, RoutedEventArgs e)
