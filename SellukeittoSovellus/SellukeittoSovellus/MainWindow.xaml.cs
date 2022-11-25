@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,15 +43,20 @@ namespace SellukeittoSovellus
         private const string PARAMETERS_INCORRECT = "Parametrit virheellisiä.";
         private const string PARAMETERS_CONFIRMED = "Muutokset tallennettu.";
 
+        public const string PARAMETER_TEXTFILE_PATH = "\\default_parameter_values.txt";
 
         #endregion
 
-        #region OBJECTS
+        #region CLASS VARIABLES
 
-        Controller CTR;  // Object for calling the Controller()
+        Controller mController;  // Object for calling the Controller()
+
+        public int default_Cooking_time;
+        public int default_Cooking_temperature;
+        public int default_Cooking_pressure;
+        public int default_Impregnation_time;
 
         #endregion
-
 
         public MainWindow()
         {
@@ -58,17 +64,17 @@ namespace SellukeittoSovellus
 
             InitializeComponent();
 
+            readDefaultParametersFromFile();
+
             InitUI(); // Init static UI elemets
 
-            Controller CTR = new Controller();  // Object for calling the Controller()
+            Controller mController = new Controller();  // System controller
 
-            UpdateValues(CTR.State); // Update UI values
+            UpdateValues(mController.State); // Update UI values
 
-            UpdateControl(CTR.State); // Update system controls 
+            UpdateControl(mController.State); // Update system controls 
 
             ResetUIParameters();    // Loads the default parameter values
-
-            Console.WriteLine("moi");
         }
 
         
@@ -184,11 +190,11 @@ namespace SellukeittoSovellus
         {
             // TODO
 
-            CTR.State = Controller.STATE_RUNNING;
+            mController.State = Controller.STATE_RUNNING;
 
-            UpdateValues(CTR.State);
+            UpdateValues(mController.State);
 
-            UpdateControl(CTR.State);
+            UpdateControl(mController.State);
 
         }
 
@@ -196,21 +202,21 @@ namespace SellukeittoSovellus
         {
             // TODO
 
-            CTR.State = Controller.STATE_FAILSAFE;
+            mController.State = Controller.STATE_FAILSAFE;
 
-            UpdateValues(CTR.State);
+            UpdateValues(mController.State);
 
-            UpdateControl(CTR.State);
+            UpdateControl(mController.State);
 
         }
 
         private void button_connect_Click(object sender, RoutedEventArgs e)
         {
-            CTR.CreateProcessConnection();
+            mController.CreateProcessConnection();
 
-            UpdateValues(CTR.State);
+            UpdateValues(mController.State);
 
-            UpdateControl(CTR.State);
+            UpdateControl(mController.State);
         }
 
         private void button_set_parameters_Click(object sender, RoutedEventArgs e)
@@ -223,12 +229,12 @@ namespace SellukeittoSovellus
         {
             try
             {
-                CTR.Cooking_time = Int32.Parse(textBox_cooking_time.Text);
-                CTR.Cooking_pressure = Int32.Parse(textBox_cooking_pressure.Text);
-                CTR.Cooking_temperature = Int32.Parse(textBox_cooking_temperature.Text);
-                CTR.Impregnation_time = Int32.Parse(textBox_impregnation_time.Text);
+                mController.Cooking_time = Int32.Parse(textBox_cooking_time.Text);
+                mController.Cooking_pressure = Int32.Parse(textBox_cooking_pressure.Text);
+                mController.Cooking_temperature = Int32.Parse(textBox_cooking_temperature.Text);
+                mController.Impregnation_time = Int32.Parse(textBox_impregnation_time.Text);
 
-                UpdateParameterUIStatus(1);
+                UpdateParameterUIStatus(1); // TODO näihin constant
             }
             catch (Exception ex) 
             {
@@ -267,15 +273,78 @@ namespace SellukeittoSovellus
 
         private void ResetUIParameters() 
         {
-            textBox_cooking_pressure.Text = CTR.default_Cooking_pressure.ToString();
-            textBox_cooking_time.Text = CTR.default_Cooking_time.ToString();
-            textBox_cooking_temperature.Text = CTR.default_Cooking_temperature.ToString();
-            textBox_impregnation_time.Text = CTR.default_Impregnation_time.ToString();
+            try
+            {
+                textBox_cooking_pressure.Text = default_Cooking_pressure.ToString();
+                textBox_cooking_time.Text = default_Cooking_time.ToString();
+                textBox_cooking_temperature.Text = default_Cooking_temperature.ToString();
+                textBox_impregnation_time.Text = default_Impregnation_time.ToString();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateParameterUIStatus(-1);
+        }
+
+        private void readDefaultParametersFromFile()
+        {
+            try
+            {
+                string basedirectory = AppDomain.CurrentDomain.BaseDirectory;
+                for (int i = 0; i <= 3; i++) // TODO modular
+                {
+                    basedirectory = Directory.GetParent(basedirectory).ToString();
+                }
+                string parameters_filepath = basedirectory + PARAMETER_TEXTFILE_PATH;
+                Console.WriteLine(parameters_filepath);
+                string[] lines = File.ReadAllLines(parameters_filepath);
+                string[] parameters;
+
+                foreach (string line in lines)
+                {
+                    parameters = line.Split('=');
+                    declareDefaultParameters(parameters);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("Using zeros as a default values instead.");
+
+                default_Cooking_time = 0;
+                default_Cooking_temperature = 0;
+                default_Cooking_pressure = 0;
+                default_Impregnation_time = 0;
+            }
+        }
+
+        private void declareDefaultParameters(string[] parameters)
+        {
+            if (parameters[0] == "default_Cooking_time") // TODO switch?
+            {
+                default_Cooking_time = Int32.Parse(parameters[1]);
+                Console.WriteLine("Default cooking time loaded.");
+            }
+            else if (parameters[0] == "default_Cooking_temperature")
+            {
+                default_Cooking_temperature = Int32.Parse(parameters[1]);
+                Console.WriteLine("Default cooking temperature loaded.");
+            }
+            else if (parameters[0] == "default_Cooking_pressure")
+            {
+                default_Cooking_pressure = Int32.Parse(parameters[1]);
+                Console.WriteLine("Default cooking pressure loaded.");
+            }
+            else if (parameters[0] == "default_Impregnation_time")
+            {
+                default_Impregnation_time = Int32.Parse(parameters[1]);
+                Console.WriteLine("Default impregnation time loaded.");
+            }
         }
 
     }
