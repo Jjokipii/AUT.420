@@ -22,10 +22,10 @@ namespace SellukeittoSovellus
 
         #region CLASS VARIABLES
         
-        public double Cooking_time;
-        public double Cooking_temperature;
-        public double Cooking_pressure;
-        public double Impregnation_time;
+        public int Cooking_time;
+        public int Cooking_temperature;
+        public int Cooking_pressure;
+        public int Impregnation_time;
 
         public int State; // Controller state
 
@@ -57,15 +57,14 @@ namespace SellukeittoSovellus
             {
                 while (true) // TODO close
                 {
-                    //Console.WriteLine("{0} ControlThread tick", DateTime.Now.ToString("hh:mm:ss"));
+                    //Console.WriteLine("{0} ControlThread cycle", DateTime.Now.ToString("hh:mm:ss"));
 
-                    // TODO check connection status
-                    
-                    // Get values
+                    CheckConnectionStatus();
 
                     // Update controls
 
                     // Update values
+                    
 
                     switch (State)
                     {
@@ -92,6 +91,24 @@ namespace SellukeittoSovellus
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void CheckConnectionStatus()
+        {
+            if (mProcessClient.mConnectionState)
+            {
+                if (State == STATE_DISCONNECTED)
+                {
+                    State = STATE_IDLE;
+                }
+            }
+            else
+            {
+                if (State == STATE_RUNNING || State == STATE_IDLE)
+                {
+                    State = STATE_FAILSAFE;
+                }
             }
         }
             
