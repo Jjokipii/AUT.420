@@ -51,10 +51,21 @@ namespace SellukeittoSovellus
 
         Controller mController = new Controller();  // Object for calling the Controller()
 
-        public int default_Cooking_time;
-        public int default_Cooking_temperature;
-        public int default_Cooking_pressure;
-        public int default_Impregnation_time;
+        public double default_Cooking_time;
+        public int default_Cooking_time_min;
+        public int default_Cooking_time_max;
+
+        public double default_Cooking_temperature;
+        public int default_Cooking_temperature_min;
+        public int default_Cooking_temperature_max;
+
+        public double default_Cooking_pressure;
+        public int default_Cooking_pressure_min;
+        public int default_Cooking_pressure_max;
+
+        public double default_Impregnation_time;
+        public int default_Impregnation_time_min;
+        public int default_Impregnation_time_max;
 
         #endregion
 
@@ -62,15 +73,32 @@ namespace SellukeittoSovellus
         {
             InitializeComponent();
 
-            readDefaultParametersFromFile();
-
             InitUI(); // Init static UI elemets
 
-            UpdateControl(mController.State); // Update system controls 
+            UpdateControl(mController.State); // Update system controls
+
+            readDefaultParametersFromFile();    // Load default parameters from the file.
+
+            InitSliders();
 
             ResetUIParameters();    // Loads the default parameter values
         }
 
+        private void InitSliders()
+        {
+            slider_cooking_time.Maximum = double.Parse(default_Cooking_time_max.ToString());
+            slider_cooking_time.Minimum = double.Parse(default_Cooking_time_min.ToString());
+
+            slider_cooking_pressure.Minimum = double.Parse(default_Cooking_pressure_min.ToString());
+            slider_cooking_pressure.Maximum = double.Parse(default_Cooking_pressure_max.ToString());
+
+            slider_cooking_temperature.Minimum = double.Parse(default_Cooking_temperature_min.ToString());
+            slider_cooking_temperature.Maximum = double.Parse(default_Cooking_temperature_max.ToString());
+
+            slider_impregnation_time.Maximum = double.Parse(default_Impregnation_time_max.ToString());
+            slider_impregnation_time.Minimum = double.Parse(default_Impregnation_time_min.ToString());
+
+        }
         
         private void UpdateControl(int State)
         {
@@ -136,7 +164,7 @@ namespace SellukeittoSovellus
             slider_cooking_pressure.IsEnabled = isEnabled;
             slider_cooking_temperature.IsEnabled = isEnabled;
             slider_cooking_time.IsEnabled = isEnabled;
-            slider_saturation_time.IsEnabled = isEnabled;
+            slider_impregnation_time.IsEnabled = isEnabled;
             
             // Update textbox slider status
             textBox_cooking_pressure.IsEnabled = isEnabled;
@@ -204,10 +232,10 @@ namespace SellukeittoSovellus
         {
             try
             {
-                mController.Cooking_time = Int32.Parse(textBox_cooking_time.Text);
-                mController.Cooking_pressure = Int32.Parse(textBox_cooking_pressure.Text);
-                mController.Cooking_temperature = Int32.Parse(textBox_cooking_temperature.Text);
-                mController.Impregnation_time = Int32.Parse(textBox_impregnation_time.Text);
+                mController.Cooking_time = double.Parse(textBox_cooking_time.Text);
+                mController.Cooking_pressure = double.Parse(textBox_cooking_pressure.Text);
+                mController.Cooking_temperature = double.Parse(textBox_cooking_temperature.Text);
+                mController.Impregnation_time = double.Parse(textBox_impregnation_time.Text);
 
                 UpdateParameterUIStatus(1); // TODO näihin constant
             }
@@ -264,6 +292,27 @@ namespace SellukeittoSovellus
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateParameterUIStatus(-1);
+
+            // Lets also update the sliders.
+            try
+            {
+                slider_cooking_time.Value = Math.Round(double.Parse(textBox_cooking_time.Text), 1, MidpointRounding.ToEven);
+                slider_cooking_temperature.Value = Math.Round(double.Parse(textBox_cooking_temperature.Text), 1, MidpointRounding.ToEven);
+                slider_cooking_pressure.Value = Math.Round(double.Parse(textBox_cooking_pressure.Text), 1, MidpointRounding.ToEven);
+                slider_impregnation_time.Value = Math.Round(double.Parse(textBox_impregnation_time.Text), 1, MidpointRounding.ToEven);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            textBox_cooking_time.Text = slider_cooking_time.Value.ToString();
+            textBox_cooking_pressure.Text = slider_cooking_pressure.Value.ToString();
+            textBox_cooking_temperature.Text = slider_cooking_temperature.Value.ToString();
+            textBox_impregnation_time.Text = slider_impregnation_time.Value.ToString();
         }
 
         private void readDefaultParametersFromFile()
@@ -291,33 +340,67 @@ namespace SellukeittoSovellus
                 Console.WriteLine(ex);
                 Console.WriteLine("Using zeros as a default values instead.");
 
+                // Lets disable the sliders, if the default-textfile is corrupted or missing.
+
                 default_Cooking_time = 0;
+                default_Cooking_time_min = -1;
+                default_Cooking_time_max = 1;
+                slider_cooking_time.IsEnabled = false;
+
                 default_Cooking_temperature = 0;
+                default_Cooking_temperature_min = -1;
+                default_Cooking_temperature_max = 1;
+                slider_cooking_temperature.IsEnabled = false;
+
                 default_Cooking_pressure = 0;
+                default_Cooking_pressure_min = -1;
+                default_Cooking_pressure_max = 1;
+                slider_cooking_pressure.IsEnabled = false;
+
                 default_Impregnation_time = 0;
+                default_Impregnation_time_min = -1;
+                default_Impregnation_time_max = 1;
+                slider_impregnation_time.IsEnabled = false;
             }
         }
 
         private void declareDefaultParameters(string[] parameters)
         {
+            string min_and_max_string;
+            string[] min_and_max_array;
+
+            // Lets separate the key arguments, default values and default value borders from each other.
+            min_and_max_string = parameters[2];
+            char[] charsToTrim = { '[', ' ', ']' };
+            min_and_max_string = min_and_max_string.Trim(charsToTrim);
+            min_and_max_array = min_and_max_string.Split(',');
+            
             if (parameters[0] == "default_Cooking_time") // TODO switch?
             {
-                default_Cooking_time = Int32.Parse(parameters[1]);
+                default_Cooking_time = double.Parse(parameters[1]);
+                default_Cooking_time_min = Int32.Parse(min_and_max_array[0]);
+                default_Cooking_time_max = Int32.Parse(min_and_max_array[1]);
                 Console.WriteLine("Default cooking time loaded.");
             }
             else if (parameters[0] == "default_Cooking_temperature")
             {
-                default_Cooking_temperature = Int32.Parse(parameters[1]);
+                default_Cooking_temperature = double.Parse(parameters[1]);
+                default_Cooking_temperature_min = Int32.Parse(min_and_max_array[0]);
+                default_Cooking_temperature_max = Int32.Parse(min_and_max_array[1]);
                 Console.WriteLine("Default cooking temperature loaded.");
             }
             else if (parameters[0] == "default_Cooking_pressure")
             {
-                default_Cooking_pressure = Int32.Parse(parameters[1]);
+                default_Cooking_pressure = double.Parse(parameters[1]);
+                default_Cooking_pressure_min = Int32.Parse(min_and_max_array[0]);
+                default_Cooking_pressure_max = Int32.Parse(min_and_max_array[1]);
                 Console.WriteLine("Default cooking pressure loaded.");
             }
             else if (parameters[0] == "default_Impregnation_time")
             {
-                default_Impregnation_time = Int32.Parse(parameters[1]);
+                default_Impregnation_time = double.Parse(parameters[1]);
+                default_Impregnation_time_min = Int32.Parse(min_and_max_array[0]);
+                default_Impregnation_time_max = Int32.Parse(min_and_max_array[1]);
                 Console.WriteLine("Default impregnation time loaded.");
             }
         }
