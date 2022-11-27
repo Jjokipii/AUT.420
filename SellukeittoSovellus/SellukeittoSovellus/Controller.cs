@@ -22,10 +22,10 @@ namespace SellukeittoSovellus
 
         #region CLASS VARIABLES
         
-        public int Cooking_time;
-        public int Cooking_temperature;
-        public int Cooking_pressure;
-        public int Impregnation_time;
+        public double Cooking_time;
+        public double Cooking_temperature;
+        public double Cooking_pressure;
+        public double Impregnation_time;
 
         public int State; // Controller state
 
