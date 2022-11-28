@@ -34,19 +34,22 @@ namespace SellukeittoSovellus
 
         public ProcessClient()
         {
-            mData = new Data();
-            
-            mConnectionParamsHolder = new ConnectionParamsHolder(CLIENT_URL);
-            mMppClient = new MppClient(mConnectionParamsHolder);
+            if (mConnectionState == DISCONNECTED)
+            {
+                mData = new Data();
 
-            mMppClient.ConnectionStatus += new MppClient.ConnectionStatusEventHandler(ConnectionStatus);
-            mMppClient.ProcessItemsChanged += new MppClient.ProcessItemsChangedEventHandler(ProcessItemsChanged);
+                mConnectionParamsHolder = new ConnectionParamsHolder(CLIENT_URL);
+                mMppClient = new MppClient(mConnectionParamsHolder);
 
-            mMppClient.Init();
+                mMppClient.ConnectionStatus += new MppClient.ConnectionStatusEventHandler(ConnectionStatus);
+                mMppClient.ProcessItemsChanged += new MppClient.ProcessItemsChangedEventHandler(ProcessItemsChanged);
 
-            addSubscriptions(); // TODO Muualle
+                mMppClient.Init();
 
-            mConnectionState = CONNECTED;
+                addSubscriptions(); // TODO Muualle
+
+                mConnectionState = CONNECTED;
+            }
         }
 
         private static void ConnectionStatus(object source, ConnectionStatusEventArgs args)

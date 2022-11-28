@@ -20,10 +20,10 @@
         <Label Content="Keittopaine [hPa]" Height="28" HorizontalAlignment="Left" Margin="35,555,0,0" Name="label_cooking_pressure" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
         <Label Content="Keittolämpötila [°C]" Height="28" HorizontalAlignment="Left" Margin="35,590,0,0" Name="label_cooking_cooking_temperature" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
         <Label Content="Kyllästysaika [s]" HorizontalAlignment="Left" Margin="35,625,0,0" Name="label_saturation_time" Height="28" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
-        <Slider Height="23" HorizontalAlignment="Left" Margin="215,522,0,0" Name="slider_cooking_time" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="305" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
-        <Slider Height="23" HorizontalAlignment="Left" Margin="215,557,0,0" Name="slider_cooking_pressure" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="305" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
-        <Slider Height="23" HorizontalAlignment="Left" Margin="215,592,0,0" Name="slider_cooking_temperature" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="305" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
-        <Slider Height="23" HorizontalAlignment="Left" Margin="215,627,0,0" Name="slider_impregnation_time" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="305" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
+        <Slider Height="23" HorizontalAlignment="Left" Margin="245,522,0,0" Name="slider_cooking_time" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
+        <Slider Height="23" Margin="245,557,528,0" Name="slider_cooking_pressure" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
+        <Slider Height="23" HorizontalAlignment="Left" Margin="245,592,0,0" Name="slider_cooking_temperature" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
+        <Slider Height="23" HorizontalAlignment="Left" Margin="245,627,0,0" Name="slider_impregnation_time" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
         <Button Content="Aseta" Height="23" HorizontalAlignment="Left" Margin="540,625,0,0" Name="button_set_parameters" VerticalAlignment="Top" Width="75" Click="button_set_parameters_Click" />
         <Button Content="Palauta" Height="23" HorizontalAlignment="Left" Margin="540,590,0,0" Name="button_reset_parameters" VerticalAlignment="Top" Width="75" Click="button_reset_parameters_Click" />
         <ProgressBar Height="300" Margin="50,75,0,0" Name="progressBar_T100" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="175" LargeChange="1" Maximum="300" />
@@ -41,7 +41,7 @@
         <Label Content="Lämpötila [°C]" Height="28" HorizontalAlignment="Left" Margin="635,390,0,0" Name="label_STATIC_T300_info_temperature" VerticalAlignment="Top" Width="90" HorizontalContentAlignment="Center" FontSize="12" />
         <Label Content="Pinnankorkeus [mm]" Height="28" HorizontalAlignment="Left" Margin="800,390,0,0" Name="label_STATIC_T400_info" VerticalAlignment="Top" Width="175" HorizontalContentAlignment="Center" FontSize="12" />
         <Label Content="Parametrit" Height="Auto" HorizontalAlignment="Left" Margin="227,480,0,0" Name="label_STATIC_process_params" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
-        <TextBlock Height="Auto" HorizontalAlignment="Left" Margin="542,522,0,0" Name="textblock_parameter_status" Text="Lukitsemattomia muutoksia!" VerticalAlignment="Top" Width="100" TextWrapping="Wrap" Foreground="Red" FontSize="11" FontWeight="Normal" />
+        <TextBlock Height="Auto" HorizontalAlignment="Left" Margin="540,520,0,0" Name="textblock_parameter_status" Text="Lukitsemattomia muutoksia!" VerticalAlignment="Top" Width="100" TextWrapping="Wrap" Foreground="Red" FontSize="11" FontWeight="Normal" />
         <Label Content="Verkkoyhteys" Height="Auto" HorizontalAlignment="Left" Margin="727,480,0,0" Name="label_STATIC_connection" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
         <Label Content="Tila: " Height="28" HorizontalAlignment="Left" Margin="670,520,0,0" Name="label_STATIC_connection_status" VerticalAlignment="Top" FontSize="12" Width="35" />
         <Button Content="Yhdistä" Height="23" HorizontalAlignment="Left" Margin="913,520,0,0" Name="button_connect" VerticalAlignment="Top" Width="75" Click="button_connect_Click" />
@@ -64,6 +64,14 @@
         <Label Content="350" Height="28" HorizontalAlignment="Left" Margin="545,57,0,0" Name="label_T300_pressure_max" VerticalAlignment="Top" Width="80" />
         <Label Content="80" Height="28" HorizontalAlignment="Left" Margin="635,57,0,0" Name="label_T300_temperature_max" VerticalAlignment="Top" Width="80" />
         <Label Content="300" Height="28" HorizontalAlignment="Left" Margin="795,57,0,0" Name="label_T400_max" VerticalAlignment="Top" Width="80" />
+        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="206,521,0,0" Name="label_cooking_time_min" Foreground="Teal" VerticalAlignment="Top" />
+        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="500,519,0,0" Name="label_cooking_time_max" Foreground="Teal" VerticalAlignment="Top" />
+        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="206,552,0,0" Name="label_cooking_pressure_min" Foreground="Teal" VerticalAlignment="Top" />
+        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="500,552,0,0" Name="label_cooking_pressure_max" Foreground="Teal" VerticalAlignment="Top" />
+        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="206,587,0,0" Name="label_cooking_temperature_min" Foreground="Teal" VerticalAlignment="Top" />
+        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="500,587,0,0" Name="label_cooking_temperature_max" Foreground="Teal" VerticalAlignment="Top" />
+        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="206,622,0,0" Name="label_impregnation_time_min" Foreground="Teal" VerticalAlignment="Top" />
+        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="500,622,0,0" Name="label_impregnation_time_max" Foreground="Teal" VerticalAlignment="Top" />
     </Grid>
 </Window>
 

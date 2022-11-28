@@ -137,18 +137,26 @@ namespace SellukeittoSovellus
         
         private void InitSliders()
         {
+
+            // Slider elements
             slider_cooking_time.Maximum = double.Parse(default_Cooking_time_max.ToString());
             slider_cooking_time.Minimum = double.Parse(default_Cooking_time_min.ToString());
-
             slider_cooking_pressure.Minimum = double.Parse(default_Cooking_pressure_min.ToString());
             slider_cooking_pressure.Maximum = double.Parse(default_Cooking_pressure_max.ToString());
-
             slider_cooking_temperature.Minimum = double.Parse(default_Cooking_temperature_min.ToString());
             slider_cooking_temperature.Maximum = double.Parse(default_Cooking_temperature_max.ToString());
-
             slider_impregnation_time.Maximum = double.Parse(default_Impregnation_time_max.ToString());
             slider_impregnation_time.Minimum = double.Parse(default_Impregnation_time_min.ToString());
 
+            // Min and max label elements
+            label_cooking_time_min.Content = default_Cooking_time_min.ToString();
+            label_cooking_time_max.Content = default_Cooking_time_max.ToString();
+            label_cooking_pressure_min.Content = default_Cooking_pressure_min.ToString();
+            label_cooking_pressure_max.Content = default_Cooking_pressure_max.ToString();
+            label_cooking_temperature_min.Content = default_Cooking_temperature_min.ToString();
+            label_cooking_temperature_max.Content = default_Cooking_temperature_max.ToString();
+            label_impregnation_time_min.Content = default_Impregnation_time_min.ToString();
+            label_impregnation_time_max.Content = default_Impregnation_time_max.ToString();
         }
 
         #endregion
