@@ -78,6 +78,9 @@ namespace SellukeittoSovellus
 
         public MainWindow()
         {
+            Logger logger = new Logger();   // Initializes the logger element.
+            logger.WriteLog("Initializing UI...");
+
             InitializeComponent();
 
             InitUI(); // Init static UI elemets
@@ -95,6 +98,8 @@ namespace SellukeittoSovellus
                 Thread.CurrentThread.IsBackground = true;
                 ControlThread();
             }).Start();
+
+            logger.WriteLog("UI initialized.");
         }
 
 
@@ -373,8 +378,8 @@ namespace SellukeittoSovellus
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                Console.WriteLine("Using zeros as a default values instead.");
+                logger.WriteLog(ex.Message);
+                logger.WriteLog("Using zeros as a default values instead.");
 
                 // Lets disable the sliders, if the default-textfile is corrupted or missing.
 
@@ -416,28 +421,28 @@ namespace SellukeittoSovellus
                 default_Cooking_time = double.Parse(parameters[1]);
                 default_Cooking_time_min = Int32.Parse(min_and_max_array[0]);
                 default_Cooking_time_max = Int32.Parse(min_and_max_array[1]);
-                Console.WriteLine("Default cooking time loaded.");
+                logger.WriteLog("Default cooking time loaded.");
             }
             else if (parameters[0] == "default_Cooking_temperature")
             {
                 default_Cooking_temperature = double.Parse(parameters[1]);
                 default_Cooking_temperature_min = Int32.Parse(min_and_max_array[0]);
                 default_Cooking_temperature_max = Int32.Parse(min_and_max_array[1]);
-                Console.WriteLine("Default cooking temperature loaded.");
+                logger.WriteLog("Default cooking temperature loaded.");
             }
             else if (parameters[0] == "default_Cooking_pressure")
             {
                 default_Cooking_pressure = double.Parse(parameters[1]);
                 default_Cooking_pressure_min = Int32.Parse(min_and_max_array[0]);
                 default_Cooking_pressure_max = Int32.Parse(min_and_max_array[1]);
-                Console.WriteLine("Default cooking pressure loaded.");
+                logger.WriteLog("Default cooking pressure loaded.");
             }
             else if (parameters[0] == "default_Impregnation_time")
             {
                 default_Impregnation_time = double.Parse(parameters[1]);
                 default_Impregnation_time_min = Int32.Parse(min_and_max_array[0]);
                 default_Impregnation_time_max = Int32.Parse(min_and_max_array[1]);
-                Console.WriteLine("Default impregnation time loaded.");
+                logger.WriteLog("Default Impregnation time loaded.");
             }
         }
 
@@ -475,7 +480,7 @@ namespace SellukeittoSovellus
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.WriteLog(ex.Message);
             }
         }
 

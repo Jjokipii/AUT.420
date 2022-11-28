@@ -19,7 +19,7 @@ namespace SellukeittoSovellus
     {
         const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
 
-        public bool mConnectionState = DISCONNECTED;
+        public bool mConnectionState = CONNECTED;
 
         const bool CONNECTED = true;
         const bool DISCONNECTED = false;
@@ -31,6 +31,8 @@ namespace SellukeittoSovellus
         //DATA
         
         public Data mData = new Data();
+
+        Logger logger = new Logger();
 
         public ProcessClient()
         {
@@ -54,6 +56,7 @@ namespace SellukeittoSovellus
 
         private static void ConnectionStatus(object source, ConnectionStatusEventArgs args)
         {
+            // Cannot use logger because of the static function.
             Console.WriteLine("Connection event" + args.StatusInfo.FullStatusString);
 
             // TODO 
@@ -66,27 +69,27 @@ namespace SellukeittoSovellus
                 switch (item.Key)
                 {
                     case "LI100":
-                        Console.WriteLine("LI100 set: " + item.Value.GetValue());
+                        logger.WriteLog("LI100 set: " + item.Value.GetValue());
                         mData.LI100 = (int)item.Value.GetValue();
                         break;
                     case "LI200":
-                        Console.WriteLine("LI200 set: " + item.Value.GetValue());
+                        logger.WriteLog("LI200 set: " + item.Value.GetValue());
                         mData.LI200 = (int)item.Value.GetValue();
                         break;
                     case "PI300":
-                        Console.WriteLine("PI300 set: " + item.Value.GetValue());
+                        logger.WriteLog("PI300 set: " + item.Value.GetValue());
                         mData.PI300 = (int)item.Value.GetValue();
                         break;
                     case "TI300":
-                        Console.WriteLine("TI300 set: " + item.Value.GetValue());
+                        logger.WriteLog("TI300 set: " + item.Value.GetValue());
                         mData.TI300 = (double)item.Value.GetValue();
                         break;
                     case "LI400":
-                        Console.WriteLine("LI400 set: " + item.Value.GetValue());
+                        logger.WriteLog("LI400 set: " + item.Value.GetValue());
                         mData.LI400 = (int)item.Value.GetValue();
                         break;
                     default:
-                        Console.WriteLine("ERROR: ProcessItemsChanged item " + item.Key + " not handeled" );
+                        logger.WriteLog("ERROR: ProcessItemsChanged item " + item.Key + " not handeled");
                         break;
                 }
             }
