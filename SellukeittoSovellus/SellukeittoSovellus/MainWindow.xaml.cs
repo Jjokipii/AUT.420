@@ -35,8 +35,12 @@ namespace SellukeittoSovellus
         private SolidColorBrush STATE_COLOR_RED = Brushes.Red;
 
         // Tank parameters
-        private const int TANK_MAX_VALUE = 300;
-        private const int TANK_MIN_VALUE = 0;
+        private const int TANK_MAX_L_VALUE = 300;
+        private const int TANK_MIN_L_VALUE = 0;
+        private const int TANK_MAX_P_VALUE = 350;
+        private const int TANK_MIN_P_VALUE = 0;
+        private const int TANK_MAX_T_VALUE = 80;
+        private const int TANK_MIN_T_VALUE = 0;
 
         // Sequence UI parameters
         private const string PARAMETERS_NOT_CONFIRMED = "Lukitsemattomia muutoksia!";
@@ -98,19 +102,37 @@ namespace SellukeittoSovellus
 
         private void InitUI()
         {
-            // Set progress bar MAX values
-            progressBar_T100.Maximum = TANK_MAX_VALUE;
-            progressBar_T200.Maximum = TANK_MAX_VALUE;
-            progressBar_T300_pressure.Maximum = TANK_MAX_VALUE;
-            progressBar_T300_temperature.Maximum = TANK_MAX_VALUE;
-            progressBar_T400.Maximum = TANK_MAX_VALUE;
+            // T100
+            progressBar_T100.Maximum = TANK_MAX_L_VALUE;
+            progressBar_T100.Minimum = TANK_MIN_L_VALUE;
+            label_T100_max.Content = TANK_MAX_L_VALUE;
+            label_T100_min.Content = TANK_MIN_L_VALUE;
 
-            // Set progress bar MIN values
-            progressBar_T100.Minimum = TANK_MIN_VALUE;
-            progressBar_T200.Minimum = TANK_MIN_VALUE;
-            progressBar_T300_pressure.Minimum = TANK_MIN_VALUE;
-            progressBar_T300_temperature.Minimum = TANK_MIN_VALUE;
-            progressBar_T400.Minimum = TANK_MIN_VALUE;
+            // T200
+            progressBar_T200.Maximum = TANK_MAX_L_VALUE;
+            progressBar_T200.Minimum = TANK_MIN_L_VALUE;
+            label_T200_max.Content = TANK_MAX_L_VALUE;
+            label_T200_min.Content = TANK_MIN_L_VALUE;
+
+            // T300 - Pressure
+            progressBar_T300_pressure.Maximum = TANK_MAX_P_VALUE;
+            progressBar_T300_pressure.Minimum = TANK_MIN_P_VALUE;
+            label_T300_pressure_max.Content = TANK_MAX_P_VALUE;
+            label_T300_pressure_min.Content = TANK_MIN_P_VALUE;
+
+            // T300 - Temperature
+            progressBar_T300_temperature.Maximum = TANK_MAX_T_VALUE;
+            progressBar_T300_temperature.Minimum = TANK_MIN_T_VALUE;
+            label_T300_temperature_max.Content = TANK_MAX_T_VALUE;
+            label_T300_temperature_min.Content = TANK_MIN_T_VALUE;
+
+            // T400
+            progressBar_T400.Maximum = TANK_MAX_L_VALUE;
+            progressBar_T400.Minimum = TANK_MIN_L_VALUE;
+            label_T400_max.Content = TANK_MAX_L_VALUE;
+            label_T400_min.Content = TANK_MIN_L_VALUE;
+
+           
         }
         
         private void InitSliders()
@@ -196,12 +218,20 @@ namespace SellukeittoSovellus
         {
             //Console.WriteLine("UpdateValues called");
 
-            // Tanks 
+            // Graphics 
             progressBar_T100.Value = mProcessClient.mData.LI100;
             progressBar_T200.Value = mProcessClient.mData.LI200;
             progressBar_T400.Value = mProcessClient.mData.LI400;
             progressBar_T300_pressure.Value = mProcessClient.mData.PI300;
             progressBar_T300_temperature.Value = mProcessClient.mData.TI300;
+
+            // Numerical
+            label_T100.Content = mProcessClient.mData.LI100;
+            label_T200.Content = mProcessClient.mData.LI200;
+            label_T400.Content = mProcessClient.mData.LI400;
+            label_T300_pressure.Content = mProcessClient.mData.PI300;
+            label_T300_temperature.Content = mProcessClient.mData.TI300;
+
         }
 
         private void UpdateParameterControls(bool isEnabled)

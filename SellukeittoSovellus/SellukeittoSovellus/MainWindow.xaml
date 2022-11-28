@@ -17,8 +17,8 @@
         <TextBox Height="23" HorizontalAlignment="Left" Margin="150,592,0,0" Name="textBox_cooking_temperature" VerticalAlignment="Top" Width="50" TextChanged="textBox_TextChanged"/>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="150,557,0,0" Name="textBox_cooking_pressure" VerticalAlignment="Top" Width="50" TextChanged="textBox_TextChanged"/>
         <Label Content="Keittoaika [s]" Height="28" HorizontalAlignment="Left" Margin="35,520,0,0" Name="label_cooking_time" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
-        <Label Content="Keittopaine [X]" Height="28" HorizontalAlignment="Left" Margin="35,555,0,0" Name="label_cooking_pressure" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
-        <Label Content="Keittolämpötila [X]" Height="28" HorizontalAlignment="Left" Margin="35,590,0,0" Name="label_cooking_cooking_temperature" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
+        <Label Content="Keittopaine [hPa]" Height="28" HorizontalAlignment="Left" Margin="35,555,0,0" Name="label_cooking_pressure" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
+        <Label Content="Keittolämpötila [°C]" Height="28" HorizontalAlignment="Left" Margin="35,590,0,0" Name="label_cooking_cooking_temperature" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
         <Label Content="Kyllästysaika [s]" HorizontalAlignment="Left" Margin="35,625,0,0" Name="label_saturation_time" Height="28" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
         <Slider Height="23" HorizontalAlignment="Left" Margin="215,522,0,0" Name="slider_cooking_time" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="305" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
         <Slider Height="23" HorizontalAlignment="Left" Margin="215,557,0,0" Name="slider_cooking_pressure" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="305" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
@@ -26,20 +26,20 @@
         <Slider Height="23" HorizontalAlignment="Left" Margin="215,627,0,0" Name="slider_impregnation_time" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="305" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
         <Button Content="Aseta" Height="23" HorizontalAlignment="Left" Margin="540,625,0,0" Name="button_set_parameters" VerticalAlignment="Top" Width="75" Click="button_set_parameters_Click" />
         <Button Content="Palauta" Height="23" HorizontalAlignment="Left" Margin="540,590,0,0" Name="button_reset_parameters" VerticalAlignment="Top" Width="75" Click="button_reset_parameters_Click" />
-        <ProgressBar Height="300" Margin="50,75,0,0" Name="progressBar_T100" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="175" />
-        <ProgressBar Height="300" Margin="300,75,0,0" Name="progressBar_T200" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="175" />
-        <ProgressBar Height="300" Margin="550,75,0,0" Name="progressBar_T300_pressure" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="80" />
-        <ProgressBar Height="300" Margin="640,75,0,0" Name="progressBar_T300_temperature" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="80" />
-        <ProgressBar Height="300" Margin="800,75,0,0" Name="progressBar_T400" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="175" />
-        <Label Content="T100" Height="Auto" HorizontalAlignment="Left" Margin="87,37,0,0" Name="label_STATIC_T100" VerticalAlignment="Top" Width="100" FontSize="20" HorizontalContentAlignment="Center" />
-        <Label Content="T200" Height="Auto" HorizontalAlignment="Left" Margin="337,37,0,0" Name="label_STATIC_T200" VerticalAlignment="Top" Width="100" FontSize="20" HorizontalContentAlignment="Center" />
-        <Label Content="T300" Height="Auto" HorizontalAlignment="Left" Margin="587,37,0,0" Name="label_STATIC_T300" VerticalAlignment="Top" Width="100" FontSize="20" HorizontalContentAlignment="Center" />
-        <Label Content="T400" Height="Auto" HorizontalAlignment="Left" Margin="837,37,0,0" Name="label_STATIC_T400" VerticalAlignment="Top" Width="100" FontSize="20" HorizontalContentAlignment="Center" />
-        <Label Content="Pinnankorkeus [X]" Height="28" HorizontalAlignment="Left" Margin="50,380,0,0" Name="label_STATIC_T100_info" VerticalAlignment="Top" Width="175" HorizontalContentAlignment="Center" FontSize="12" />
-        <Label Content="Pinnankorkeus [X]" Height="28" HorizontalAlignment="Left" Margin="300,380,0,0" Name="label_STATIC_T200_info" VerticalAlignment="Top" Width="175" HorizontalContentAlignment="Center" FontSize="12" />
-        <Label Content="Paine [X]" Height="28" HorizontalAlignment="Left" Margin="550,380,0,0" Name="label_STATIC_T300_info_pressure" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" FontSize="12" />
-        <Label Content="Lämpötila [X]" Height="28" HorizontalAlignment="Left" Margin="640,380,0,0" Name="label_STATIC_T300_info_temperature" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" FontSize="12" />
-        <Label Content="Pinnankorkeus [X]" Height="28" HorizontalAlignment="Left" Margin="800,380,0,0" Name="label_STATIC_T400_info" VerticalAlignment="Top" Width="175" HorizontalContentAlignment="Center" FontSize="12" />
+        <ProgressBar Height="300" Margin="50,75,0,0" Name="progressBar_T100" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="175" LargeChange="1" Maximum="300" />
+        <ProgressBar Height="300" Margin="300,75,0,0" Name="progressBar_T200" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="175" Maximum="300" />
+        <ProgressBar Height="300" Margin="550,75,0,0" Name="progressBar_T300_pressure" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="80" Maximum="350" />
+        <ProgressBar Height="300" Margin="640,75,0,0" Name="progressBar_T300_temperature" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="80" Maximum="80" />
+        <ProgressBar Height="300" Margin="800,75,0,0" Name="progressBar_T400" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="175" Maximum="300" />
+        <Label Content="T100" Height="Auto" HorizontalAlignment="Left" Margin="87,32,0,0" Name="label_STATIC_T100" VerticalAlignment="Top" Width="100" FontSize="20" HorizontalContentAlignment="Center" />
+        <Label Content="T200" Height="Auto" HorizontalAlignment="Left" Margin="337,32,0,0" Name="label_STATIC_T200" VerticalAlignment="Top" Width="100" FontSize="20" HorizontalContentAlignment="Center" />
+        <Label Content="T300" Height="Auto" HorizontalAlignment="Left" Margin="587,32,0,0" Name="label_STATIC_T300" VerticalAlignment="Top" Width="100" FontSize="20" HorizontalContentAlignment="Center" />
+        <Label Content="T400" Height="Auto" HorizontalAlignment="Left" Margin="837,32,0,0" Name="label_STATIC_T400" VerticalAlignment="Top" Width="100" FontSize="20" HorizontalContentAlignment="Center" />
+        <Label Content="Pinnankorkeus [mm]" Height="28" HorizontalAlignment="Left" Margin="50,390,0,0" Name="label_STATIC_T100_info" VerticalAlignment="Top" Width="175" HorizontalContentAlignment="Center" FontSize="12" />
+        <Label Content="Pinnankorkeus [mm]" Height="28" HorizontalAlignment="Left" Margin="300,390,0,0" Name="label_STATIC_T200_info" VerticalAlignment="Top" Width="175" HorizontalContentAlignment="Center" FontSize="12" />
+        <Label Content="Paine [hPa]" Height="28" HorizontalAlignment="Left" Margin="550,390,0,0" Name="label_STATIC_T300_info_pressure" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" FontSize="12" />
+        <Label Content="Lämpötila [°C]" Height="28" HorizontalAlignment="Left" Margin="635,390,0,0" Name="label_STATIC_T300_info_temperature" VerticalAlignment="Top" Width="90" HorizontalContentAlignment="Center" FontSize="12" />
+        <Label Content="Pinnankorkeus [mm]" Height="28" HorizontalAlignment="Left" Margin="800,390,0,0" Name="label_STATIC_T400_info" VerticalAlignment="Top" Width="175" HorizontalContentAlignment="Center" FontSize="12" />
         <Label Content="Parametrit" Height="Auto" HorizontalAlignment="Left" Margin="227,480,0,0" Name="label_STATIC_process_params" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
         <TextBlock Height="Auto" HorizontalAlignment="Left" Margin="542,522,0,0" Name="textblock_parameter_status" Text="Lukitsemattomia muutoksia!" VerticalAlignment="Top" Width="100" TextWrapping="Wrap" Foreground="Red" FontSize="11" FontWeight="Normal" />
         <Label Content="Verkkoyhteys" Height="Auto" HorizontalAlignment="Left" Margin="727,480,0,0" Name="label_STATIC_connection" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
@@ -49,6 +49,21 @@
         <Label Content="Prosessi" Height="Auto" HorizontalAlignment="Left" Margin="727,587,0,0" Name="label_STATIC_control" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
         <Label Content="Tila: " Height="28" HorizontalAlignment="Left" Margin="670,627,0,0" Name="label_STATIC_control_status" VerticalAlignment="Top" FontSize="12" Width="35" />
         <Label Content="Verkkoyhteydetön" Height="28" HorizontalAlignment="Left" Margin="705,627,0,0" Name="label_control_status" VerticalAlignment="Top" FontSize="12" Foreground="Red" />
+        <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="25,407,0,0" Name="label_T100" VerticalAlignment="Top" Width="225" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
+        <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="275,407,0,0" Name="label_T200" VerticalAlignment="Top" Width="225" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
+        <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="550,407,0,0" Name="label_T300_pressure" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
+        <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="640,407,0,0" Name="label_T300_temperature" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
+        <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="775,407,0,0" Name="label_T400" VerticalAlignment="Top" Width="225" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
+        <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="45,370,0,0" Name="label_T100_min" VerticalAlignment="Top" Width="80" />
+        <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="295,370,0,0" Name="label_T200_min" VerticalAlignment="Top" Width="80" />
+        <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="545,370,0,0" Name="label_T300_pressure_min" VerticalAlignment="Top" Width="80" />
+        <Label Content="20" Height="28" HorizontalAlignment="Left" Margin="635,370,0,0" Name="label_T300_temperature_min" VerticalAlignment="Top" Width="80" />
+        <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="795,370,0,0" Name="label_T400_min" VerticalAlignment="Top" Width="80" />
+        <Label Content="300" Height="28" HorizontalAlignment="Left" Margin="45,57,0,0" Name="label_T100_max" VerticalAlignment="Top" Width="80" />
+        <Label Content="300" Height="28" HorizontalAlignment="Left" Margin="295,57,0,0" Name="label_T200_max" VerticalAlignment="Top" Width="80" />
+        <Label Content="350" Height="28" HorizontalAlignment="Left" Margin="545,57,0,0" Name="label_T300_pressure_max" VerticalAlignment="Top" Width="80" />
+        <Label Content="80" Height="28" HorizontalAlignment="Left" Margin="635,57,0,0" Name="label_T300_temperature_max" VerticalAlignment="Top" Width="80" />
+        <Label Content="300" Height="28" HorizontalAlignment="Left" Margin="795,57,0,0" Name="label_T400_max" VerticalAlignment="Top" Width="80" />
     </Grid>
 </Window>
 
