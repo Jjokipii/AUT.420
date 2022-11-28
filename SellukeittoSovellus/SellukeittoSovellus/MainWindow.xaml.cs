@@ -43,13 +43,27 @@ namespace SellukeittoSovellus
         private const string PARAMETERS_INCORRECT = "Parametrit virheellisiä.";
         private const string PARAMETERS_CONFIRMED = "Muutokset tallennettu.";
 
+        // System state
+        public const int STATE_FAILSAFE = 0;
+        public const int STATE_DISCONNECTED = 1;
+        public const int STATE_IDLE = 2;
+        public const int STATE_RUNNING = 3;
+
+        // Defaul file URL
         public const string PARAMETER_TEXTFILE_PATH = "\\default_parameter_values.txt";
 
         #endregion
 
         #region CLASS VARIABLES
 
-        Controller mController = new Controller();  // Object for calling the Controller()
+        public int State = STATE_DISCONNECTED; // Controller state
+
+        ProcessClient mProcessClient = new ProcessClient();
+
+        public double Cooking_time;
+        public double Cooking_temperature;
+        public double Cooking_pressure;
+        public double Impregnation_time;
 
         public double default_Cooking_time;
         public int default_Cooking_time_min;
@@ -69,19 +83,99 @@ namespace SellukeittoSovellus
 
         #endregion
 
+        #region CONFIGURABLE PARAMETERS
+
+        private const int THREAD_DELAY_MS = 10;
+
+        #endregion
+
+        #region DELEGATES
+
+        private delegate void UpdateControl_callback();
+        private delegate void UpdateValues_callback();
+
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
 
             InitUI(); // Init static UI elemets
 
-            UpdateControl(mController.State); // Update system controls
+            UpdateControl(); // Update system controls
 
             readDefaultParametersFromFile();    // Load default parameters from the file.
 
             InitSliders();
 
             ResetUIParameters();    // Loads the default parameter values
+
+            new Thread(() => // Start control thread
+            {
+                Thread.CurrentThread.IsBackground = true;
+                ControlThread();
+            }).Start();
+        }
+
+        private void ControlThread()
+        {
+            try
+            {
+                while (true) // TODO close
+                {
+                    Thread.Sleep(THREAD_DELAY_MS);
+                    //Console.WriteLine("{0} ControlThread cycle", DateTime.Now.ToString("hh:mm:ss"));
+
+                    CheckConnectionStatus();
+
+                    // Update controls
+                    Dispatcher.BeginInvoke(new UpdateControl_callback(UpdateControl), DispatcherPriority.Render, new object[] { });
+
+                    // Update values
+                    Dispatcher.BeginInvoke(new UpdateValues_callback(UpdateValues), DispatcherPriority.Render, new object[] { });
+
+                    switch (State)
+                    {
+                        case STATE_FAILSAFE:
+
+                            break;
+                        case STATE_DISCONNECTED:
+
+                            break;
+                        case STATE_IDLE:
+
+                            break;
+                        case STATE_RUNNING:
+
+                            break;
+                        default:
+                            Console.WriteLine("ERROR: UpdateValues() switch default statement called");
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void CheckConnectionStatus()
+        {
+            if (mProcessClient.mConnectionState)
+            {
+                if (State == STATE_DISCONNECTED)
+                {
+                    State = STATE_IDLE;
+                }
+            }
+            else
+            {
+                if (State == STATE_RUNNING || State == STATE_IDLE)
+                {
+                    State = STATE_FAILSAFE;
+                }
+            }
         }
 
         private void InitSliders()
@@ -99,12 +193,12 @@ namespace SellukeittoSovellus
             slider_impregnation_time.Minimum = double.Parse(default_Impregnation_time_min.ToString());
 
         }
-        
-        private void UpdateControl(int State)
+
+        private void UpdateControl()
         {
             switch (State)
             {
-                case Controller.STATE_FAILSAFE:
+                case STATE_FAILSAFE:
                     button_connect.IsEnabled = false;
                     button_start_process.IsEnabled = false;
                     button_interrupt_process.IsEnabled = false;
@@ -116,7 +210,7 @@ namespace SellukeittoSovellus
                     label_control_status.Content = STATE_FAILSAFE_STRING;
                     label_control_status.Foreground = STATE_COLOR_RED;
                     break;
-                case Controller.STATE_DISCONNECTED:
+                case STATE_DISCONNECTED:
                     button_connect.IsEnabled = true;
                     button_start_process.IsEnabled = false;
                     button_interrupt_process.IsEnabled = false;
@@ -128,7 +222,7 @@ namespace SellukeittoSovellus
                     label_control_status.Content = STATE_DISCONNECTED_STRING;
                     label_control_status.Foreground = STATE_COLOR_RED;
                     break;
-                case Controller.STATE_IDLE:
+                case STATE_IDLE:
                     button_connect.IsEnabled = false;
                     button_start_process.IsEnabled = true;
                     button_interrupt_process.IsEnabled = false;
@@ -140,7 +234,7 @@ namespace SellukeittoSovellus
                     label_control_status.Content = STATE_IDLE_STRING;
                     label_control_status.Foreground = STATE_COLOR_GREEN;
                     break;
-                case Controller.STATE_RUNNING:
+                case STATE_RUNNING:
                     button_connect.IsEnabled = false;
                     button_start_process.IsEnabled = false;
                     button_interrupt_process.IsEnabled = true;
@@ -173,9 +267,16 @@ namespace SellukeittoSovellus
             textBox_impregnation_time.IsEnabled = isEnabled;
         }
 
-        private void UpdateValues(Data dataIn)
+        private void UpdateValues()
         {
+            //Console.WriteLine("UpdateValues called");
             
+            // Tanks 
+            progressBar_T100.Value = mProcessClient.mData.LI100;
+            progressBar_T200.Value = mProcessClient.mData.LI200;
+            progressBar_T400.Value = mProcessClient.mData.LI400;
+            progressBar_T300_pressure.Value = mProcessClient.mData.PI300;
+            progressBar_T300_temperature.Value = mProcessClient.mData.TI300;
         }
 
         private void InitUI()
@@ -199,9 +300,9 @@ namespace SellukeittoSovellus
         {
             // TODO
 
-            mController.State = Controller.STATE_RUNNING;
+            State = STATE_RUNNING;
 
-            UpdateControl(mController.State);
+            UpdateControl();
 
         }
 
@@ -209,9 +310,9 @@ namespace SellukeittoSovellus
         {
             // TODO
 
-            mController.State = Controller.STATE_FAILSAFE;
+            State = STATE_FAILSAFE;
 
-            UpdateControl(mController.State);
+            UpdateControl();
 
         }
 
@@ -219,7 +320,7 @@ namespace SellukeittoSovellus
         {
             // TODO 
 
-            UpdateControl(mController.State);
+            UpdateControl();
         }
 
         private void button_set_parameters_Click(object sender, RoutedEventArgs e)
@@ -232,10 +333,10 @@ namespace SellukeittoSovellus
         {
             try
             {
-                mController.Cooking_time = double.Parse(textBox_cooking_time.Text);
-                mController.Cooking_pressure = double.Parse(textBox_cooking_pressure.Text);
-                mController.Cooking_temperature = double.Parse(textBox_cooking_temperature.Text);
-                mController.Impregnation_time = double.Parse(textBox_impregnation_time.Text);
+                Cooking_time = double.Parse(textBox_cooking_time.Text);
+                Cooking_pressure = double.Parse(textBox_cooking_pressure.Text);
+                Cooking_temperature = double.Parse(textBox_cooking_temperature.Text);
+                Impregnation_time = double.Parse(textBox_impregnation_time.Text);
 
                 UpdateParameterUIStatus(1); // TODO näihin constant
             }
