@@ -43,27 +43,13 @@ namespace SellukeittoSovellus
         private const string PARAMETERS_INCORRECT = "Parametrit virheellisiä.";
         private const string PARAMETERS_CONFIRMED = "Muutokset tallennettu.";
 
-        // System state
-        public const int STATE_FAILSAFE = 0;
-        public const int STATE_DISCONNECTED = 1;
-        public const int STATE_IDLE = 2;
-        public const int STATE_RUNNING = 3;
-
         // Defaul file URL
         public const string PARAMETER_TEXTFILE_PATH = "\\default_parameter_values.txt";
 
         #endregion
 
+
         #region CLASS VARIABLES
-
-        public int State = STATE_DISCONNECTED; // Controller state
-
-        ProcessClient mProcessClient = new ProcessClient();
-
-        public double Cooking_time;
-        public double Cooking_temperature;
-        public double Cooking_pressure;
-        public double Impregnation_time;
 
         public double default_Cooking_time;
         public int default_Cooking_time_min;
@@ -83,18 +69,8 @@ namespace SellukeittoSovellus
 
         #endregion
 
-        #region CONFIGURABLE PARAMETERS
 
-        private const int THREAD_DELAY_MS = 10;
-
-        #endregion
-
-        #region DELEGATES
-
-        private delegate void UpdateControl_callback();
-        private delegate void UpdateValues_callback();
-
-        #endregion
+        //#####################
 
         public MainWindow()
         {
@@ -117,67 +93,26 @@ namespace SellukeittoSovellus
             }).Start();
         }
 
-        private void ControlThread()
+
+        #region INITILIZATION
+
+        private void InitUI()
         {
-            try
-            {
-                while (true) // TODO close
-                {
-                    Thread.Sleep(THREAD_DELAY_MS);
-                    //Console.WriteLine("{0} ControlThread cycle", DateTime.Now.ToString("hh:mm:ss"));
+            // Set progress bar MAX values
+            progressBar_T100.Maximum = TANK_MAX_VALUE;
+            progressBar_T200.Maximum = TANK_MAX_VALUE;
+            progressBar_T300_pressure.Maximum = TANK_MAX_VALUE;
+            progressBar_T300_temperature.Maximum = TANK_MAX_VALUE;
+            progressBar_T400.Maximum = TANK_MAX_VALUE;
 
-                    CheckConnectionStatus();
-
-                    // Update controls
-                    Dispatcher.BeginInvoke(new UpdateControl_callback(UpdateControl), DispatcherPriority.Render, new object[] { });
-
-                    // Update values
-                    Dispatcher.BeginInvoke(new UpdateValues_callback(UpdateValues), DispatcherPriority.Render, new object[] { });
-
-                    switch (State)
-                    {
-                        case STATE_FAILSAFE:
-
-                            break;
-                        case STATE_DISCONNECTED:
-
-                            break;
-                        case STATE_IDLE:
-
-                            break;
-                        case STATE_RUNNING:
-
-                            break;
-                        default:
-                            Console.WriteLine("ERROR: UpdateValues() switch default statement called");
-                            break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            // Set progress bar MIN values
+            progressBar_T100.Minimum = TANK_MIN_VALUE;
+            progressBar_T200.Minimum = TANK_MIN_VALUE;
+            progressBar_T300_pressure.Minimum = TANK_MIN_VALUE;
+            progressBar_T300_temperature.Minimum = TANK_MIN_VALUE;
+            progressBar_T400.Minimum = TANK_MIN_VALUE;
         }
-
-        private void CheckConnectionStatus()
-        {
-            if (mProcessClient.mConnectionState)
-            {
-                if (State == STATE_DISCONNECTED)
-                {
-                    State = STATE_IDLE;
-                }
-            }
-            else
-            {
-                if (State == STATE_RUNNING || State == STATE_IDLE)
-                {
-                    State = STATE_FAILSAFE;
-                }
-            }
-        }
-
+        
         private void InitSliders()
         {
             slider_cooking_time.Maximum = double.Parse(default_Cooking_time_max.ToString());
@@ -193,6 +128,11 @@ namespace SellukeittoSovellus
             slider_impregnation_time.Minimum = double.Parse(default_Impregnation_time_min.ToString());
 
         }
+
+        #endregion
+
+
+        #region UPDATES
 
         private void UpdateControl()
         {
@@ -252,6 +192,18 @@ namespace SellukeittoSovellus
             }
         }
 
+        private void UpdateValues()
+        {
+            //Console.WriteLine("UpdateValues called");
+
+            // Tanks 
+            progressBar_T100.Value = mProcessClient.mData.LI100;
+            progressBar_T200.Value = mProcessClient.mData.LI200;
+            progressBar_T400.Value = mProcessClient.mData.LI400;
+            progressBar_T300_pressure.Value = mProcessClient.mData.PI300;
+            progressBar_T300_temperature.Value = mProcessClient.mData.TI300;
+        }
+
         private void UpdateParameterControls(bool isEnabled)
         {
             // Update slider controls status
@@ -267,33 +219,35 @@ namespace SellukeittoSovellus
             textBox_impregnation_time.IsEnabled = isEnabled;
         }
 
-        private void UpdateValues()
+        #endregion
+
+        
+        #region USER INTERFACE EVENTS
+
+        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //Console.WriteLine("UpdateValues called");
-            
-            // Tanks 
-            progressBar_T100.Value = mProcessClient.mData.LI100;
-            progressBar_T200.Value = mProcessClient.mData.LI200;
-            progressBar_T400.Value = mProcessClient.mData.LI400;
-            progressBar_T300_pressure.Value = mProcessClient.mData.PI300;
-            progressBar_T300_temperature.Value = mProcessClient.mData.TI300;
+            UpdateParameterUIStatus(-1);
+
+            // Lets also update the sliders.
+            try
+            {
+                slider_cooking_time.Value = Math.Round(double.Parse(textBox_cooking_time.Text), 1, MidpointRounding.ToEven);
+                slider_cooking_temperature.Value = Math.Round(double.Parse(textBox_cooking_temperature.Text), 1, MidpointRounding.ToEven);
+                slider_cooking_pressure.Value = Math.Round(double.Parse(textBox_cooking_pressure.Text), 1, MidpointRounding.ToEven);
+                slider_impregnation_time.Value = Math.Round(double.Parse(textBox_impregnation_time.Text), 1, MidpointRounding.ToEven);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
-        private void InitUI()
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            // Set progress bar MAX values
-            progressBar_T100.Maximum = TANK_MAX_VALUE;
-            progressBar_T200.Maximum = TANK_MAX_VALUE;
-            progressBar_T300_pressure.Maximum = TANK_MAX_VALUE;
-            progressBar_T300_temperature.Maximum = TANK_MAX_VALUE;
-            progressBar_T400.Maximum = TANK_MAX_VALUE;
-
-            // Set progress bar MIN values
-            progressBar_T100.Minimum = TANK_MIN_VALUE;
-            progressBar_T200.Minimum = TANK_MIN_VALUE;
-            progressBar_T300_pressure.Minimum = TANK_MIN_VALUE;
-            progressBar_T300_temperature.Minimum = TANK_MIN_VALUE;
-            progressBar_T400.Minimum = TANK_MIN_VALUE;
+            textBox_cooking_time.Text = slider_cooking_time.Value.ToString();
+            textBox_cooking_pressure.Text = slider_cooking_pressure.Value.ToString();
+            textBox_cooking_temperature.Text = slider_cooking_temperature.Value.ToString();
+            textBox_impregnation_time.Text = slider_impregnation_time.Value.ToString();
         }
 
         private void button_start_process_Click(object sender, RoutedEventArgs e)
@@ -326,10 +280,10 @@ namespace SellukeittoSovellus
         private void button_set_parameters_Click(object sender, RoutedEventArgs e)
         {
             SendParametersToController();
-            
+
         }
 
-        private void SendParametersToController() 
+        private void SendParametersToController() // TODO
         {
             try
             {
@@ -340,32 +294,11 @@ namespace SellukeittoSovellus
 
                 UpdateParameterUIStatus(1); // TODO näihin constant
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
 
                 UpdateParameterUIStatus(0);
-            }
-        }
-
-        private void UpdateParameterUIStatus(int success) 
-        {
-            // success = 0: Not correct user input parameters.
-            // success = 1: Sending the values succeeded.
-            // success = -1: Reseting to a not-confirmed state.
-
-            if (success == 1) {
-                textblock_parameter_status.Text = PARAMETERS_CONFIRMED;
-                textblock_parameter_status.Foreground = STATE_COLOR_GREEN;
-            } 
-            else if (success == 0)
-            {
-                textblock_parameter_status.Text = PARAMETERS_INCORRECT;
-                textblock_parameter_status.Foreground = STATE_COLOR_RED;
-            }
-            else if (success == -1) {
-                textblock_parameter_status.Text = PARAMETERS_NOT_CONFIRMED;
-                textblock_parameter_status.Foreground = STATE_COLOR_RED;
             }
         }
 
@@ -375,46 +308,10 @@ namespace SellukeittoSovellus
 
         }
 
-        private void ResetUIParameters() 
-        {
-            try
-            {
-                textBox_cooking_pressure.Text = default_Cooking_pressure.ToString();
-                textBox_cooking_time.Text = default_Cooking_time.ToString();
-                textBox_cooking_temperature.Text = default_Cooking_temperature.ToString();
-                textBox_impregnation_time.Text = default_Impregnation_time.ToString();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
+        #endregion
 
-        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdateParameterUIStatus(-1);
 
-            // Lets also update the sliders.
-            try
-            {
-                slider_cooking_time.Value = Math.Round(double.Parse(textBox_cooking_time.Text), 1, MidpointRounding.ToEven);
-                slider_cooking_temperature.Value = Math.Round(double.Parse(textBox_cooking_temperature.Text), 1, MidpointRounding.ToEven);
-                slider_cooking_pressure.Value = Math.Round(double.Parse(textBox_cooking_pressure.Text), 1, MidpointRounding.ToEven);
-                slider_impregnation_time.Value = Math.Round(double.Parse(textBox_impregnation_time.Text), 1, MidpointRounding.ToEven);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            textBox_cooking_time.Text = slider_cooking_time.Value.ToString();
-            textBox_cooking_pressure.Text = slider_cooking_pressure.Value.ToString();
-            textBox_cooking_temperature.Text = slider_cooking_temperature.Value.ToString();
-            textBox_impregnation_time.Text = slider_impregnation_time.Value.ToString();
-        }
+        #region PARAMETER HANDLING
 
         private void readDefaultParametersFromFile()
         {
@@ -505,6 +402,47 @@ namespace SellukeittoSovellus
                 Console.WriteLine("Default impregnation time loaded.");
             }
         }
+
+        private void UpdateParameterUIStatus(int success)
+        {
+            // success = 0: Not correct user input parameters.
+            // success = 1: Sending the values succeeded.
+            // success = -1: Reseting to a not-confirmed state.
+
+            if (success == 1)
+            {
+                textblock_parameter_status.Text = PARAMETERS_CONFIRMED;
+                textblock_parameter_status.Foreground = STATE_COLOR_GREEN;
+            }
+            else if (success == 0)
+            {
+                textblock_parameter_status.Text = PARAMETERS_INCORRECT;
+                textblock_parameter_status.Foreground = STATE_COLOR_RED;
+            }
+            else if (success == -1)
+            {
+                textblock_parameter_status.Text = PARAMETERS_NOT_CONFIRMED;
+                textblock_parameter_status.Foreground = STATE_COLOR_RED;
+            }
+        }
+
+        private void ResetUIParameters()
+        {
+            try
+            {
+                textBox_cooking_pressure.Text = default_Cooking_pressure.ToString();
+                textBox_cooking_time.Text = default_Cooking_time.ToString();
+                textBox_cooking_temperature.Text = default_Cooking_temperature.ToString();
+                textBox_impregnation_time.Text = default_Impregnation_time.ToString();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        #endregion
+
 
     }
 }
