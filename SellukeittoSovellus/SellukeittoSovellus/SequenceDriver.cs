@@ -9,6 +9,8 @@ namespace SellukeittoSovellus
     class SequenceDriver
     {
 
+        Logger logger = new Logger();
+
         public SequenceDriver()
         {
             // TODO
@@ -49,28 +51,28 @@ namespace SellukeittoSovellus
         
         private int RunSequenceOne()
         {
-            Console.WriteLine("Running sequence one...");
+            logger.WriteLog("Running sequence one...");
             // TODO
             return 0;
         }
 
         private int RunSequenceTwo()
         {
-            Console.WriteLine("Running sequence two...");
+            logger.WriteLog("Running sequence two...");
             // TODO
             return 0;
         }
 
         private int RunSequenceThree()
         {
-            Console.WriteLine("Running sequence three...");
+            logger.WriteLog("Running sequence three...");
             // TODO
             return 0;
         }
 
         private int RunSequenceFour()
         {
-            Console.WriteLine("Running sequence four...");
+            logger.WriteLog("Running sequence four...");
             // TODO
 
             return 0;
@@ -78,7 +80,7 @@ namespace SellukeittoSovellus
 
         private int RunSequenceFive()
         {
-            Console.WriteLine("Running sequence five...");
+            logger.WriteLog("Running sequence five...");
             // TODO
             return 0;
         }

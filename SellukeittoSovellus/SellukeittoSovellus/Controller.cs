@@ -36,7 +36,7 @@ namespace SellukeittoSovellus
 
         ProcessClient mProcessClient = new ProcessClient();
 
-        public int State = STATE_DISCONNECTED; // Controller state
+        public int State = STATE_IDLE; // Controller state
 
         public double Cooking_time;
         public double Cooking_temperature;
@@ -60,6 +60,7 @@ namespace SellukeittoSovellus
 
         #endregion
 
+        Logger logger = new Logger();
 
         //#################
 
@@ -96,7 +97,7 @@ namespace SellukeittoSovellus
 
                             break;
                         default:
-                            Console.WriteLine("ERROR: UpdateValues() switch default statement called");
+                            logger.WriteLog("ERROR: UpdateValues() switch default statement called");
                             break;
                     }
                 }
@@ -104,6 +105,7 @@ namespace SellukeittoSovellus
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                logger.WriteLog(ex.Message);
             }
         }
 
