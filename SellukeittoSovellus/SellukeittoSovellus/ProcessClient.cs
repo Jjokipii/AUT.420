@@ -19,7 +19,7 @@ namespace SellukeittoSovellus
     {
         const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
 
-        public bool mConnectionState = CONNECTED;
+        public bool mConnectionState = DISCONNECTED;
 
         const bool CONNECTED = true;
         const bool DISCONNECTED = false;
@@ -36,11 +36,23 @@ namespace SellukeittoSovellus
 
         public ProcessClient()
         {
-            if (mConnectionState == DISCONNECTED)
-            {
-                mData = new Data();
+            mConnectionParamsHolder = new ConnectionParamsHolder(CLIENT_URL);
+            ConnectOPCUA();
+        }
 
-                mConnectionParamsHolder = new ConnectionParamsHolder(CLIENT_URL);
+        private static void ConnectionStatus(object source, ConnectionStatusEventArgs args)
+        {
+            // Cannot use logger because of the static function.
+            Console.WriteLine("Connection event" + args.StatusInfo.FullStatusString);
+
+            // TODO 
+        }
+
+        public void ConnectOPCUA()
+        {
+            try
+            {
+
                 mMppClient = new MppClient(mConnectionParamsHolder);
 
                 mMppClient.ConnectionStatus += new MppClient.ConnectionStatusEventHandler(ConnectionStatus);
@@ -52,14 +64,10 @@ namespace SellukeittoSovellus
 
                 mConnectionState = CONNECTED;
             }
-        }
-
-        private static void ConnectionStatus(object source, ConnectionStatusEventArgs args)
-        {
-            // Cannot use logger because of the static function.
-            Console.WriteLine("Connection event" + args.StatusInfo.FullStatusString);
-
-            // TODO 
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex.Message);
+            }
         }
 
         private void ProcessItemsChanged(object source, ProcessItemChangedEventArgs args)

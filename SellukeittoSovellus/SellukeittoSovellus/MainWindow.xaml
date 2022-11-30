@@ -21,7 +21,7 @@
         <Label Content="Keittolämpötila [°C]" Height="28" HorizontalAlignment="Left" Margin="35,590,0,0" Name="label_cooking_cooking_temperature" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
         <Label Content="Kyllästysaika [s]" HorizontalAlignment="Left" Margin="35,625,0,0" Name="label_saturation_time" Height="28" VerticalAlignment="Top" FontSize="12" VerticalContentAlignment="Center" />
         <Slider Height="23" HorizontalAlignment="Left" Margin="245,522,0,0" Name="slider_cooking_time" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
-        <Slider Height="23" Margin="245,557,528,0" Name="slider_cooking_pressure" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
+        <Slider Height="23" Margin="245,557,528,0" Name="slider_cooking_pressure" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
         <Slider Height="23" HorizontalAlignment="Left" Margin="245,592,0,0" Name="slider_cooking_temperature" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
         <Slider Height="23" HorizontalAlignment="Left" Margin="245,627,0,0" Name="slider_impregnation_time" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
         <Button Content="Aseta" Height="23" HorizontalAlignment="Left" Margin="540,625,0,0" Name="button_set_parameters" VerticalAlignment="Top" Width="75" Click="button_set_parameters_Click" />
@@ -46,7 +46,7 @@
         <Label Content="Tila: " Height="28" HorizontalAlignment="Left" Margin="670,520,0,0" Name="label_STATIC_connection_status" VerticalAlignment="Top" FontSize="12" Width="35" />
         <Button Content="Yhdistä" Height="23" HorizontalAlignment="Left" Margin="913,520,0,0" Name="button_connect" VerticalAlignment="Top" Width="75" Click="button_connect_Click" />
         <Label Content="Verkkoyhteydetön" Height="28" HorizontalAlignment="Left" Margin="705,520,0,0" Name="label_connection_status" VerticalAlignment="Top" FontSize="12" Foreground="Red" />
-        <Label Content="Prosessi" Height="Auto" HorizontalAlignment="Left" Margin="727,587,0,0" Name="label_STATIC_control" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
+        <Label Content="Prosessi" Height="Auto" HorizontalAlignment="Left" Margin="655,587,0,0" Name="label_STATIC_control" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
         <Label Content="Tila: " Height="28" HorizontalAlignment="Left" Margin="670,627,0,0" Name="label_STATIC_control_status" VerticalAlignment="Top" FontSize="12" Width="35" />
         <Label Content="Verkkoyhteydetön" Height="28" HorizontalAlignment="Left" Margin="705,627,0,0" Name="label_control_status" VerticalAlignment="Top" FontSize="12" Foreground="Red" />
         <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="25,407,0,0" Name="label_T100" VerticalAlignment="Top" Width="225" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
@@ -72,6 +72,7 @@
         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="500,587,0,0" Name="label_cooking_temperature_max" Foreground="Teal" VerticalAlignment="Top" />
         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="206,622,0,0" Name="label_impregnation_time_min" Foreground="Teal" VerticalAlignment="Top" />
         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="500,622,0,0" Name="label_impregnation_time_max" Foreground="Teal" VerticalAlignment="Top" />
+        <Button Content="Prosessi alkutilassaan" Height="23" HorizontalAlignment="Left" Margin="828,627,0,0" Name="button_confirm_initial_state" VerticalAlignment="Top" Width="160" Click="button_confirm_initial_state_Click" Visibility="Hidden" />
     </Grid>
 </Window>
 

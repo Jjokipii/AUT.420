@@ -36,7 +36,7 @@ namespace SellukeittoSovellus
 
         ProcessClient mProcessClient = new ProcessClient();
 
-        public int State = STATE_IDLE; // Controller state
+        public int State = STATE_DISCONNECTED; // Controller state
 
         public double Cooking_time;
         public double Cooking_temperature;
@@ -111,6 +111,11 @@ namespace SellukeittoSovellus
 
         private void CheckConnectionStatus()
         {
+            /*if (mProcessClient == null)
+            {
+                return;
+            }*/
+
             if (mProcessClient.mConnectionState)
             {
                 if (State == STATE_DISCONNECTED)
@@ -125,6 +130,16 @@ namespace SellukeittoSovellus
                     State = STATE_FAILSAFE;
                 }
             }
+        }
+
+        public void InterruptProcess()
+        {
+
+            // mProcessClient = null;
+
+            State = STATE_FAILSAFE;
+
+            UpdateControl();
         }
     }
 }

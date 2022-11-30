@@ -34,6 +34,10 @@ namespace SellukeittoSovellus
         private SolidColorBrush STATE_COLOR_GREEN = Brushes.Green;
         private SolidColorBrush STATE_COLOR_RED = Brushes.Red;
 
+        private const int PARAMETERS_STATE_NOT_CONFIRMED = -1; 
+        private const int PARAMETERS_STATE_INCORRECT = 0;
+        private const int PARAMETERS_STATE_CONFIRMED = 1;
+
         // Tank parameters
         private const int TANK_MAX_L_VALUE = 300;
         private const int TANK_MIN_L_VALUE = 0;
@@ -54,6 +58,8 @@ namespace SellukeittoSovellus
 
 
         #region CLASS VARIABLES
+
+        public int parameter_status = 0;
 
         public double default_Cooking_time;
         public int default_Cooking_time_min;
@@ -171,11 +177,12 @@ namespace SellukeittoSovellus
 
         private void UpdateControl()
         {
+            UpdateParameterUIStatus();
             switch (State)
             {
                 case STATE_FAILSAFE:
                     button_connect.IsEnabled = false;
-                    button_start_process.IsEnabled = false;
+                    button_confirm_initial_state.Visibility = System.Windows.Visibility.Visible;
                     button_interrupt_process.IsEnabled = false;
                     button_set_parameters.IsEnabled = false;
                     button_reset_parameters.IsEnabled = false;
@@ -187,7 +194,7 @@ namespace SellukeittoSovellus
                     break;
                 case STATE_DISCONNECTED:
                     button_connect.IsEnabled = true;
-                    button_start_process.IsEnabled = false;
+                    button_confirm_initial_state.Visibility = System.Windows.Visibility.Hidden;
                     button_interrupt_process.IsEnabled = false;
                     button_set_parameters.IsEnabled = false;
                     button_reset_parameters.IsEnabled = false;
@@ -199,7 +206,7 @@ namespace SellukeittoSovellus
                     break;
                 case STATE_IDLE:
                     button_connect.IsEnabled = false;
-                    button_start_process.IsEnabled = true;
+                    button_confirm_initial_state.Visibility = System.Windows.Visibility.Hidden;
                     button_interrupt_process.IsEnabled = false;
                     button_set_parameters.IsEnabled = true;
                     button_reset_parameters.IsEnabled = true;
@@ -211,7 +218,7 @@ namespace SellukeittoSovellus
                     break;
                 case STATE_RUNNING:
                     button_connect.IsEnabled = false;
-                    button_start_process.IsEnabled = false;
+                    button_confirm_initial_state.Visibility = System.Windows.Visibility.Hidden;
                     button_interrupt_process.IsEnabled = true;
                     button_set_parameters.IsEnabled = false;
                     button_reset_parameters.IsEnabled = false;
@@ -269,8 +276,6 @@ namespace SellukeittoSovellus
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateParameterUIStatus(-1);
-
             // Lets also update the sliders.
             try
             {
@@ -278,6 +283,10 @@ namespace SellukeittoSovellus
                 slider_cooking_temperature.Value = Math.Round(double.Parse(textBox_cooking_temperature.Text), 1, MidpointRounding.ToEven);
                 slider_cooking_pressure.Value = Math.Round(double.Parse(textBox_cooking_pressure.Text), 1, MidpointRounding.ToEven);
                 slider_impregnation_time.Value = Math.Round(double.Parse(textBox_impregnation_time.Text), 1, MidpointRounding.ToEven);
+
+                parameter_status = PARAMETERS_STATE_NOT_CONFIRMED;
+
+                UpdateControl();
             }
             catch (Exception ex)
             {
@@ -291,6 +300,10 @@ namespace SellukeittoSovellus
             textBox_cooking_pressure.Text = slider_cooking_pressure.Value.ToString();
             textBox_cooking_temperature.Text = slider_cooking_temperature.Value.ToString();
             textBox_impregnation_time.Text = slider_impregnation_time.Value.ToString();
+
+            parameter_status = PARAMETERS_STATE_NOT_CONFIRMED;
+
+            UpdateControl();
         }
 
         private void button_start_process_Click(object sender, RoutedEventArgs e)
@@ -300,33 +313,21 @@ namespace SellukeittoSovellus
             State = STATE_RUNNING;
 
             UpdateControl();
-
         }
 
         private void button_interrupt_process_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
-
-            State = STATE_FAILSAFE;
-
-            UpdateControl();
-
+            InterruptProcess();
         }
 
         private void button_connect_Click(object sender, RoutedEventArgs e)
         {
             // TODO 
-
+            mProcessClient.ConnectOPCUA();
             UpdateControl();
         }
 
         private void button_set_parameters_Click(object sender, RoutedEventArgs e)
-        {
-            SendParametersToController();
-
-        }
-
-        private void SendParametersToController() // TODO
         {
             try
             {
@@ -335,20 +336,30 @@ namespace SellukeittoSovellus
                 Cooking_temperature = double.Parse(textBox_cooking_temperature.Text);
                 Impregnation_time = double.Parse(textBox_impregnation_time.Text);
 
-                UpdateParameterUIStatus(1); // TODO näihin constant
+                parameter_status = PARAMETERS_STATE_CONFIRMED;
+
+                UpdateControl();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
 
-                UpdateParameterUIStatus(0);
+                parameter_status = PARAMETERS_STATE_INCORRECT;
+
+                UpdateControl();
             }
+
         }
 
         private void button_reset_parameters_Click(object sender, RoutedEventArgs e)
         {
             ResetUIParameters();
 
+        }
+
+        private void button_confirm_initial_state_Click(object sender, RoutedEventArgs e)
+        {
+            State = STATE_DISCONNECTED;
         }
 
         #endregion
@@ -446,26 +457,25 @@ namespace SellukeittoSovellus
             }
         }
 
-        private void UpdateParameterUIStatus(int success)
+        private void UpdateParameterUIStatus()
         {
-            // success = 0: Not correct user input parameters.
-            // success = 1: Sending the values succeeded.
-            // success = -1: Reseting to a not-confirmed state.
-
-            if (success == 1)
+            if (parameter_status == PARAMETERS_STATE_CONFIRMED)
             {
                 textblock_parameter_status.Text = PARAMETERS_CONFIRMED;
                 textblock_parameter_status.Foreground = STATE_COLOR_GREEN;
+                button_start_process.IsEnabled = true;
             }
-            else if (success == 0)
+            else if (parameter_status == PARAMETERS_STATE_INCORRECT)
             {
                 textblock_parameter_status.Text = PARAMETERS_INCORRECT;
                 textblock_parameter_status.Foreground = STATE_COLOR_RED;
+                button_start_process.IsEnabled = false;
             }
-            else if (success == -1)
+            else if (parameter_status == PARAMETERS_STATE_NOT_CONFIRMED)
             {
                 textblock_parameter_status.Text = PARAMETERS_NOT_CONFIRMED;
                 textblock_parameter_status.Foreground = STATE_COLOR_RED;
+                button_start_process.IsEnabled = false;
             }
         }
 
@@ -485,7 +495,6 @@ namespace SellukeittoSovellus
         }
 
         #endregion
-
 
     }
 }
