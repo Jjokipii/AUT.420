@@ -20,6 +20,12 @@ namespace SellukeittoSovellus
 {
     public partial class MainWindow : Window
     {
+        #region OBJECTS
+
+        Logger logger = new Logger();
+        SequenceDriver mSequenceDriver;
+
+        #endregion
 
         #region CONSTANTS
 
@@ -60,8 +66,6 @@ namespace SellukeittoSovellus
 
         #endregion
 
-        Logger logger = new Logger();
-
         //#################
 
 
@@ -94,6 +98,16 @@ namespace SellukeittoSovellus
 
                             break;
                         case STATE_RUNNING:
+
+                            if (mSequenceDriver == null)
+                            {
+                                mSequenceDriver = new SequenceDriver();
+                            }
+                            else if (mSequenceDriver.sequence_finished) 
+                            {
+                                mSequenceDriver = null;
+                                State = STATE_IDLE;
+                            }
 
                             break;
                         default:

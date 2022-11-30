@@ -46,7 +46,7 @@
         <Label Content="Tila: " Height="28" HorizontalAlignment="Left" Margin="670,520,0,0" Name="label_STATIC_connection_status" VerticalAlignment="Top" FontSize="12" Width="35" />
         <Button Content="Yhdistä" Height="23" HorizontalAlignment="Left" Margin="913,520,0,0" Name="button_connect" VerticalAlignment="Top" Width="75" Click="button_connect_Click" />
         <Label Content="Verkkoyhteydetön" Height="28" HorizontalAlignment="Left" Margin="705,520,0,0" Name="label_connection_status" VerticalAlignment="Top" FontSize="12" Foreground="Red" />
-        <Label Content="Prosessi" Height="Auto" HorizontalAlignment="Left" Margin="655,587,0,0" Name="label_STATIC_control" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
+        <Label Content="Prosessi" Height="Auto" HorizontalAlignment="Left" Margin="800,582,0,0" Name="label_STATIC_control" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
         <Label Content="Tila: " Height="28" HorizontalAlignment="Left" Margin="670,627,0,0" Name="label_STATIC_control_status" VerticalAlignment="Top" FontSize="12" Width="35" />
         <Label Content="Verkkoyhteydetön" Height="28" HorizontalAlignment="Left" Margin="705,627,0,0" Name="label_control_status" VerticalAlignment="Top" FontSize="12" Foreground="Red" />
         <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="25,407,0,0" Name="label_T100" VerticalAlignment="Top" Width="225" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
@@ -73,6 +73,7 @@
         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="206,622,0,0" Name="label_impregnation_time_min" Foreground="Teal" VerticalAlignment="Top" />
         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="500,622,0,0" Name="label_impregnation_time_max" Foreground="Teal" VerticalAlignment="Top" />
         <Button Content="Prosessi alkutilassaan" Height="23" HorizontalAlignment="Left" Margin="828,627,0,0" Name="button_confirm_initial_state" VerticalAlignment="Top" Width="160" Click="button_confirm_initial_state_Click" Visibility="Hidden" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="705,603,0,0" Name="label_sequence_state" Foreground="Purple" VerticalAlignment="Top" />
     </Grid>
 </Window>
 

@@ -10,11 +10,8 @@ namespace SellukeittoSovellus {
 
     public class Logger
     {
-        #region CONSTANTS
 
-        public const string DEFAULT_LOGFILEPATH = "\\logs\\log.txt";
-
-        #endregion
+        public string DEFAULT_LOGFILEPATH = "\\logs\\log_" + System.DateTime.Today.ToString().Split(' ')[0] + ".txt";
 
         public string logPath;
 

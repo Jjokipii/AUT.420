@@ -23,6 +23,7 @@ namespace SellukeittoSovellus
     /// </summary>
     public partial class MainWindow : Window
     {
+
         #region CONSTANTS
         
         // Parameter configuration board parameters
@@ -85,7 +86,9 @@ namespace SellukeittoSovellus
         public MainWindow()
         {
             Logger logger = new Logger();   // Initializes the logger element.
-            logger.WriteLog("Initializing UI...");
+            logger.WriteLog("");
+            logger.WriteLog("STARTING SEQUENCE PROCESS");
+            logger.WriteLog("");
 
             InitializeComponent();
 
@@ -191,6 +194,8 @@ namespace SellukeittoSovellus
                     label_connection_status.Foreground = STATE_COLOR_RED;
                     label_control_status.Content = STATE_FAILSAFE_STRING;
                     label_control_status.Foreground = STATE_COLOR_RED;
+                    button_start_process.IsEnabled = false;
+                    label_sequence_state.Content = "";
                     break;
                 case STATE_DISCONNECTED:
                     button_connect.IsEnabled = true;
@@ -203,6 +208,8 @@ namespace SellukeittoSovellus
                     label_connection_status.Foreground = STATE_COLOR_RED;
                     label_control_status.Content = STATE_DISCONNECTED_STRING;
                     label_control_status.Foreground = STATE_COLOR_RED;
+                    button_start_process.IsEnabled = false;
+                    label_sequence_state.Content = "";
                     break;
                 case STATE_IDLE:
                     button_connect.IsEnabled = false;
@@ -215,6 +222,7 @@ namespace SellukeittoSovellus
                     label_connection_status.Foreground = STATE_COLOR_GREEN;
                     label_control_status.Content = STATE_IDLE_STRING;
                     label_control_status.Foreground = STATE_COLOR_GREEN;
+                    label_sequence_state.Content = "";
                     break;
                 case STATE_RUNNING:
                     button_connect.IsEnabled = false;
@@ -227,6 +235,8 @@ namespace SellukeittoSovellus
                     label_connection_status.Foreground = STATE_COLOR_GREEN;
                     label_control_status.Content = STATE_RUNNING_STRING;
                     label_control_status.Foreground = STATE_COLOR_GREEN;
+                    button_start_process.IsEnabled = false;
+                    label_sequence_state.Content = mSequenceDriver == null? "":mSequenceDriver.current_sequence_state;
                     break;
                 default:
                     Console.WriteLine("ERROR: UpdateControl() switch default statement called");
@@ -338,6 +348,8 @@ namespace SellukeittoSovellus
 
                 parameter_status = PARAMETERS_STATE_CONFIRMED;
 
+                logger.WriteLog("UI Parameters loaded into the controller.");
+
                 UpdateControl();
             }
             catch (Exception ex)
@@ -345,6 +357,8 @@ namespace SellukeittoSovellus
                 Console.WriteLine(ex.Message);
 
                 parameter_status = PARAMETERS_STATE_INCORRECT;
+
+                logger.WriteLog("UI parameters were incorrect.");
 
                 UpdateControl();
             }
@@ -386,6 +400,7 @@ namespace SellukeittoSovellus
                     parameters = line.Split('=');
                     declareDefaultParameters(parameters);
                 }
+                logger.WriteLog("Default parameters loaded.");
             }
             catch (Exception ex)
             {
@@ -432,28 +447,24 @@ namespace SellukeittoSovellus
                 default_Cooking_time = double.Parse(parameters[1]);
                 default_Cooking_time_min = Int32.Parse(min_and_max_array[0]);
                 default_Cooking_time_max = Int32.Parse(min_and_max_array[1]);
-                logger.WriteLog("Default cooking time loaded.");
             }
             else if (parameters[0] == "default_Cooking_temperature")
             {
                 default_Cooking_temperature = double.Parse(parameters[1]);
                 default_Cooking_temperature_min = Int32.Parse(min_and_max_array[0]);
                 default_Cooking_temperature_max = Int32.Parse(min_and_max_array[1]);
-                logger.WriteLog("Default cooking temperature loaded.");
             }
             else if (parameters[0] == "default_Cooking_pressure")
             {
                 default_Cooking_pressure = double.Parse(parameters[1]);
                 default_Cooking_pressure_min = Int32.Parse(min_and_max_array[0]);
                 default_Cooking_pressure_max = Int32.Parse(min_and_max_array[1]);
-                logger.WriteLog("Default cooking pressure loaded.");
             }
             else if (parameters[0] == "default_Impregnation_time")
             {
                 default_Impregnation_time = double.Parse(parameters[1]);
                 default_Impregnation_time_min = Int32.Parse(min_and_max_array[0]);
                 default_Impregnation_time_max = Int32.Parse(min_and_max_array[1]);
-                logger.WriteLog("Default Impregnation time loaded.");
             }
         }
 
