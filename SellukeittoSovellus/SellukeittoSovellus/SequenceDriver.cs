@@ -23,16 +23,17 @@ namespace SellukeittoSovellus
 
         public string current_sequence_state;
 
+        private Thread sequencedrivethread;
+
         public SequenceDriver()
         {
             logger.WriteLog("Sequence Driver started.");
-
-            new Thread(() => // Start control thread
+            sequencedrivethread = new Thread(() => // Start control thread
             {
                 Thread.CurrentThread.IsBackground = true;
                 RunSequence();
-            }).Start();
-
+            });
+            sequencedrivethread.Start();
         }
         
         private void RunSequence()
@@ -51,6 +52,12 @@ namespace SellukeittoSovellus
 
             logger.WriteLog("Sequence finished succesfully!");
             logger.WriteLog("");
+        }
+
+        public void StopSequence()
+        {
+            logger.WriteLog("Stopping SequenceDrive process at stage " + current_sequence_state);
+            sequencedrivethread.Abort();
         }
         
         private int RunSequenceOne()

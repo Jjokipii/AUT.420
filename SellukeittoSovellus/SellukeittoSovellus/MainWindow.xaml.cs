@@ -180,7 +180,6 @@ namespace SellukeittoSovellus
 
         private void UpdateControl()
         {
-            UpdateParameterUIStatus();
             switch (State)
             {
                 case STATE_FAILSAFE:
@@ -242,6 +241,7 @@ namespace SellukeittoSovellus
                     Console.WriteLine("ERROR: UpdateControl() switch default statement called");
                     break;
             }
+            UpdateParameterUIStatus();
         }
 
         private void UpdateValues()
@@ -374,6 +374,7 @@ namespace SellukeittoSovellus
         private void button_confirm_initial_state_Click(object sender, RoutedEventArgs e)
         {
             State = STATE_DISCONNECTED;
+            logger.WriteLog("Return to initial state.");
         }
 
         #endregion
@@ -475,18 +476,21 @@ namespace SellukeittoSovellus
                 textblock_parameter_status.Text = PARAMETERS_CONFIRMED;
                 textblock_parameter_status.Foreground = STATE_COLOR_GREEN;
                 button_start_process.IsEnabled = true;
+                button_set_parameters.IsEnabled = false;
             }
             else if (parameter_status == PARAMETERS_STATE_INCORRECT)
             {
                 textblock_parameter_status.Text = PARAMETERS_INCORRECT;
                 textblock_parameter_status.Foreground = STATE_COLOR_RED;
                 button_start_process.IsEnabled = false;
+                button_set_parameters.IsEnabled = true;
             }
             else if (parameter_status == PARAMETERS_STATE_NOT_CONFIRMED)
             {
                 textblock_parameter_status.Text = PARAMETERS_NOT_CONFIRMED;
                 textblock_parameter_status.Foreground = STATE_COLOR_RED;
                 button_start_process.IsEnabled = false;
+                button_set_parameters.IsEnabled = true;
             }
         }
 
@@ -498,6 +502,7 @@ namespace SellukeittoSovellus
                 textBox_cooking_time.Text = default_Cooking_time.ToString();
                 textBox_cooking_temperature.Text = default_Cooking_temperature.ToString();
                 textBox_impregnation_time.Text = default_Impregnation_time.ToString();
+                logger.WriteLog("UI parameters reseted.");
             }
             catch (Exception ex)
             {

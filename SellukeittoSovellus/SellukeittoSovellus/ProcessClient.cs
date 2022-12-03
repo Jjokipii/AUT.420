@@ -77,23 +77,18 @@ namespace SellukeittoSovellus
                 switch (item.Key)
                 {
                     case "LI100":
-                        logger.WriteLog("LI100 set: " + item.Value.GetValue());
                         mData.LI100 = (int)item.Value.GetValue();
                         break;
                     case "LI200":
-                        logger.WriteLog("LI200 set: " + item.Value.GetValue());
                         mData.LI200 = (int)item.Value.GetValue();
                         break;
                     case "PI300":
-                        logger.WriteLog("PI300 set: " + item.Value.GetValue());
                         mData.PI300 = (int)item.Value.GetValue();
                         break;
                     case "TI300":
-                        logger.WriteLog("TI300 set: " + item.Value.GetValue());
                         mData.TI300 = (double)item.Value.GetValue();
                         break;
                     case "LI400":
-                        logger.WriteLog("LI400 set: " + item.Value.GetValue());
                         mData.LI400 = (int)item.Value.GetValue();
                         break;
                     default:

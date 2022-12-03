@@ -98,9 +98,9 @@ namespace SellukeittoSovellus
 
                             break;
                         case STATE_RUNNING:
-
                             if (mSequenceDriver == null)
                             {
+                                // SequenceDrive starts immediately.
                                 mSequenceDriver = new SequenceDriver();
                             }
                             else if (mSequenceDriver.sequence_finished) 
@@ -152,7 +152,8 @@ namespace SellukeittoSovellus
             // mProcessClient = null;
 
             State = STATE_FAILSAFE;
-
+            mSequenceDriver.StopSequence();
+            mSequenceDriver = null;
             UpdateControl();
         }
     }
