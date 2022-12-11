@@ -1,6 +1,0 @@
-11.12.2022 14:54:00 : 
-11.12.2022 14:54:00 : STARTING SEQUENCE PROCESS
-11.12.2022 14:54:00 : 
-11.12.2022 14:54:00 : Default parameters loaded.
-11.12.2022 14:54:00 : UI parameters reseted.
-11.12.2022 14:54:00 : UI initialized.
