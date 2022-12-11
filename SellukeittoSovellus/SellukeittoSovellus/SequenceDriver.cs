@@ -15,11 +15,11 @@ namespace SellukeittoSovellus
 
         #region CONSTANTS
 
-        private const string SEQUENCE1_STRING = "Vaihe 1";
-        private const string SEQUENCE2_STRING = "Vaihe 2";
-        private const string SEQUENCE3_STRING = "Vaihe 3";
-        private const string SEQUENCE4_STRING = "Vaihe 4";
-        private const string SEQUENCE5_STRING = "Vaihe 5";
+        private const string SEQUENCE1_STRING = "VAIHE 1";
+        private const string SEQUENCE2_STRING = "VAIHE 2";
+        private const string SEQUENCE3_STRING = "VAIHE 3";
+        private const string SEQUENCE4_STRING = "VAIHE 4";
+        private const string SEQUENCE5_STRING = "VAIHE 5";
 
         #endregion
 
@@ -36,6 +36,8 @@ namespace SellukeittoSovellus
         public double Cooking_pressure;
         public double Impregnation_time;
 
+        double V104controlValue = 100;
+
         #endregion
 
 
@@ -47,7 +49,6 @@ namespace SellukeittoSovellus
 
         #endregion
 
-        double V104controlValue = 100;
 
         //#############################################
 
@@ -98,6 +99,10 @@ namespace SellukeittoSovellus
             sequencedrivethread.Abort();
         }
 
+
+        #region MAIN SEQUENCES
+
+        
         private void RunSequenceOne()
         {
             // Impregnation process
@@ -133,8 +138,7 @@ namespace SellukeittoSovellus
             EM5_OP1();
             EM4_OP1();
 
-            //int limit = mProcessClient.mData.LI200;
-            while (mProcessClient.mData.LI400 > 28)
+            while (mProcessClient.mData.LI400 > 27)
             {
                 Thread.Sleep(10);
             }
@@ -183,7 +187,7 @@ namespace SellukeittoSovellus
                 U1_OP1_2();
             }
 
-            // Maintaint cooking values
+            // Maintaint cooking values for cooking time
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             while(stopwatch.ElapsedMilliseconds < Cooking_time * 1000)
@@ -216,6 +220,12 @@ namespace SellukeittoSovellus
             EM5_OP4();
             EM3_OP7();
         }
+
+
+        #endregion
+
+
+        #region MINI SEQUENCE
 
         private void U1_OP1_2()
         {
@@ -309,7 +319,6 @@ namespace SellukeittoSovellus
         {
             mClient.SetOnOffItem("V302", false);
             mClient.SetOnOffItem("V204", false);
-
         }
 
         private void EM3_OP8()
@@ -355,5 +364,8 @@ namespace SellukeittoSovellus
             mClient.SetOnOffItem("V303", false);
             mClient.SetPumpControl("P200", 0);
         }
+
+        #endregion
+
     }
 }

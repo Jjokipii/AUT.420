@@ -151,7 +151,6 @@ namespace SellukeittoSovellus
         
         private void InitSliders()
         {
-
             // Slider elements
             slider_cooking_time.Maximum = double.Parse(default_Cooking_time_max.ToString());
             slider_cooking_time.Minimum = double.Parse(default_Cooking_time_min.ToString());
@@ -222,6 +221,7 @@ namespace SellukeittoSovellus
                     label_control_status.Content = STATE_IDLE_STRING;
                     label_control_status.Foreground = STATE_COLOR_GREEN;
                     label_sequence_state.Content = "";
+                    UpdateParameterUIStatus();
                     break;
                 case STATE_RUNNING:
                     button_connect.IsEnabled = false;
@@ -241,7 +241,6 @@ namespace SellukeittoSovellus
                     Console.WriteLine("ERROR: UpdateControl() switch default statement called");
                     break;
             }
-            UpdateParameterUIStatus();
         }
 
         private void UpdateValues()
@@ -318,8 +317,6 @@ namespace SellukeittoSovellus
 
         private void button_start_process_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
-
             State = STATE_RUNNING;
 
             UpdateControl();
@@ -328,12 +325,10 @@ namespace SellukeittoSovellus
         private void button_interrupt_process_Click(object sender, RoutedEventArgs e)
         {
             InterruptProcess();
-            UpdateControl();
         }
 
         private void button_connect_Click(object sender, RoutedEventArgs e)
         {
-            // TODO 
             mProcessClient.ConnectOPCUA();
             UpdateControl();
         }
@@ -369,7 +364,6 @@ namespace SellukeittoSovellus
         private void button_reset_parameters_Click(object sender, RoutedEventArgs e)
         {
             ResetUIParameters();
-
         }
 
         private void button_confirm_initial_state_Click(object sender, RoutedEventArgs e)
@@ -444,7 +438,7 @@ namespace SellukeittoSovellus
             min_and_max_string = min_and_max_string.Trim(charsToTrim);
             min_and_max_array = min_and_max_string.Split(',');
             
-            if (parameters[0] == "default_Cooking_time") // TODO switch?
+            if (parameters[0] == "default_Cooking_time")
             {
                 default_Cooking_time = double.Parse(parameters[1]);
                 default_Cooking_time_min = Int32.Parse(min_and_max_array[0]);

@@ -157,9 +157,6 @@ namespace SellukeittoSovellus
 
         public void InterruptProcess()
         {
-
-            // mProcessClient = null;
-
             State = STATE_FAILSAFE;
             mSequenceDriver.StopSequence();
             mSequenceDriver = null;
