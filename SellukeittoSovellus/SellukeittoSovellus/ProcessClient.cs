@@ -45,10 +45,7 @@ namespace SellukeittoSovellus
 
         private void ConnectionStatus(object source, ConnectionStatusEventArgs args)
         {
-            // Cannot use logger because of the static function.
-            Console.WriteLine("Connection event" + args.StatusInfo.FullStatusString);
-
-            // TODO 
+            mConnectionState = (args.StatusInfo.FullStatusString == "Connected");
         }
 
         public void ConnectOPCUA()

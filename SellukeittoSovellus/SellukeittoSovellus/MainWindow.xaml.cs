@@ -188,8 +188,8 @@ namespace SellukeittoSovellus
                     button_set_parameters.IsEnabled = false;
                     button_reset_parameters.IsEnabled = false;
                     UpdateParameterControls(false);
-                    label_connection_status.Content = STATE_DISCONNECTED_STRING; // TODO Dynamic value needed
-                    label_connection_status.Foreground = STATE_COLOR_RED;
+                    label_connection_status.Content = mProcessClient.mConnectionState ? STATE_CONNECTED_STRING : STATE_DISCONNECTED_STRING;
+                    label_connection_status.Foreground = mProcessClient.mConnectionState ? STATE_COLOR_GREEN : STATE_COLOR_RED;
                     label_control_status.Content = STATE_FAILSAFE_STRING;
                     label_control_status.Foreground = STATE_COLOR_RED;
                     button_start_process.IsEnabled = false;
