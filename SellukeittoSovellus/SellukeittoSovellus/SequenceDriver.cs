@@ -73,7 +73,7 @@ namespace SellukeittoSovellus
 
         private void RunSequence()
         {
-            // Compulsory flags by Salmari.
+            // Compulsory flag
             mClient.SetOnOffItem("P100_P200_PRESET", true);
 
             RunSequenceOne();
@@ -134,7 +134,7 @@ namespace SellukeittoSovellus
             EM4_OP1();
 
             //int limit = mProcessClient.mData.LI200;
-            while (mProcessClient.mData.LI400 > 28) // TODO START VALUE
+            while (mProcessClient.mData.LI400 > 28)
             {
                 Thread.Sleep(10);
             }
@@ -152,7 +152,7 @@ namespace SellukeittoSovellus
             EM3_OP3();
             EM1_OP2();
 
-            while (mProcessClient.mData.LI400 < 90) // TODO START VALUE
+            while (mProcessClient.mData.LI400 < 90)
             {
                 Thread.Sleep(10);
             }
@@ -180,16 +180,17 @@ namespace SellukeittoSovellus
             // Drive cooking values up
             while (mProcessClient.mData.PI300 < (int)Cooking_pressure || mProcessClient.mData.TI300 < Cooking_temperature)
             {
-                Console.WriteLine(mProcessClient.mData.PI300);
                 U1_OP1_2();
             }
 
-            // Maintaint cooking valuesS
+            // Maintaint cooking values
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            while(stopwatch.ElapsedMilliseconds < Cooking_time * 1000) // TODO vahti
+            while(stopwatch.ElapsedMilliseconds < Cooking_time * 1000)
             {
                 Console.WriteLine(mProcessClient.mData.PI300);
+                sequence_error = (mProcessClient.mData.PI300 < Cooking_pressure - 10 || mProcessClient.mData.PI300 > Cooking_pressure + 10);
+                sequence_error = (mProcessClient.mData.TI300 < Cooking_temperature - 0.3 || mProcessClient.mData.TI300 > Cooking_temperature + 0.3);
                 U1_OP1_2();
             }
 
@@ -218,13 +219,10 @@ namespace SellukeittoSovellus
 
         private void U1_OP1_2()
         {
-
-            V104controlValue = (V104controlValue -( 0.001*(Cooking_pressure - mProcessClient.mData.PI300))); // TÄMÄ
-            
+            V104controlValue = (V104controlValue -( 0.001*(Cooking_pressure - mProcessClient.mData.PI300)));
 
             if (V104controlValue > 100) { V104controlValue = 100; }
             if (V104controlValue < 0) { V104controlValue = 0; }
-
 
             mClient.SetValveOpening("V104", (int)V104controlValue);
 
