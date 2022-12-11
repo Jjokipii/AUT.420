@@ -27,6 +27,7 @@ namespace SellukeittoSovellus
 
         #endregion
 
+
         #region CONSTANTS
 
         // System state
@@ -101,7 +102,8 @@ namespace SellukeittoSovellus
                             if (mSequenceDriver == null)
                             {
                                 // SequenceDrive starts immediately.
-                                mSequenceDriver = new SequenceDriver();
+                                mSequenceDriver = new SequenceDriver(Cooking_time, 
+                                    Cooking_temperature, Cooking_pressure, Impregnation_time, mProcessClient);
                             }
                             else if (mSequenceDriver.sequence_finished) 
                             {

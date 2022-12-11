@@ -13,6 +13,8 @@ namespace SellukeittoSovellus
         public int PI300;
         public double TI300;
         public int LI400;
+
+        public bool LSplus300;
     }
     
     class ProcessClient
@@ -26,7 +28,7 @@ namespace SellukeittoSovellus
 
         // OPC
         ConnectionParamsHolder mConnectionParamsHolder;
-        MppClient mMppClient;
+        public MppClient mMppClient;
 
         //DATA
         
@@ -40,7 +42,7 @@ namespace SellukeittoSovellus
             ConnectOPCUA();
         }
 
-        private static void ConnectionStatus(object source, ConnectionStatusEventArgs args)
+        private void ConnectionStatus(object source, ConnectionStatusEventArgs args)
         {
             // Cannot use logger because of the static function.
             Console.WriteLine("Connection event" + args.StatusInfo.FullStatusString);
@@ -91,6 +93,9 @@ namespace SellukeittoSovellus
                     case "LI400":
                         mData.LI400 = (int)item.Value.GetValue();
                         break;
+                    case "LS+300":
+                        mData.LSplus300 = (bool)item.Value.GetValue();
+                        break;
                     default:
                         logger.WriteLog("ERROR: ProcessItemsChanged item " + item.Key + " not handeled");
                         break;
@@ -108,7 +113,8 @@ namespace SellukeittoSovellus
             mMppClient.AddToSubscription("TI300");
             mMppClient.AddToSubscription("LI400");
 
-            //Valves
+            //Sensor
+            mMppClient.AddToSubscription("LS+300");
 
             //Pumps
         }
