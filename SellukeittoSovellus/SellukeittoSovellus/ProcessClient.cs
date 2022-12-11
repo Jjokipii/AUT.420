@@ -15,6 +15,7 @@ namespace SellukeittoSovellus
         public int LI400;
 
         public bool LSplus300;
+        public bool LSminus300;
     }
     
     class ProcessClient
@@ -96,6 +97,9 @@ namespace SellukeittoSovellus
                     case "LS+300":
                         mData.LSplus300 = (bool)item.Value.GetValue();
                         break;
+                    case "LS-300":
+                        mData.LSminus300 = (bool)item.Value.GetValue();
+                        break;
                     default:
                         logger.WriteLog("ERROR: ProcessItemsChanged item " + item.Key + " not handeled");
                         break;
@@ -115,7 +119,7 @@ namespace SellukeittoSovellus
 
             //Sensor
             mMppClient.AddToSubscription("LS+300");
-
+            mMppClient.AddToSubscription("LS-300");
             //Pumps
         }
 

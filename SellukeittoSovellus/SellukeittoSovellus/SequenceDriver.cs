@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Threading;
 using Tuni.MppOpcUaClientLib;
+using System.Diagnostics;
 
 
 namespace SellukeittoSovellus
@@ -46,6 +47,7 @@ namespace SellukeittoSovellus
 
         #endregion
 
+        double V104controlValue = 100;
 
         //#############################################
 
@@ -113,7 +115,7 @@ namespace SellukeittoSovellus
 
             EM3_OP1();
 
-            Thread.Sleep((int)(Impregnation_time)); // TODO TIME
+            Thread.Sleep((int)(Impregnation_time * 1000));
 
             EM2_OP2();
             EM5_OP3();
@@ -132,7 +134,7 @@ namespace SellukeittoSovellus
             EM4_OP1();
 
             //int limit = mProcessClient.mData.LI200;
-            while (mProcessClient.mData.LI400 > 31) // TODO START VALUE
+            while (mProcessClient.mData.LI400 > 28) // TODO START VALUE
             {
                 Thread.Sleep(10);
             }
@@ -163,12 +165,71 @@ namespace SellukeittoSovellus
         {
             logger.WriteLog("Running sequence four...");
             current_sequence_state = SEQUENCE4_STRING;
+
+            EM3_OP4();
+            EM1_OP1();
+
+            while (mProcessClient.mData.TI300 < Cooking_temperature)
+            {
+                Thread.Sleep(10);
+            }
+
+            EM3_OP1();
+            EM1_OP2();
+
+            // Drive cooking values up
+            while (mProcessClient.mData.PI300 < (int)Cooking_pressure || mProcessClient.mData.TI300 < Cooking_temperature)
+            {
+                Console.WriteLine(mProcessClient.mData.PI300);
+                U1_OP1_2();
+            }
+
+            // Maintaint cooking valuesS
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            while(stopwatch.ElapsedMilliseconds < Cooking_time * 1000) // TODO vahti
+            {
+                Console.WriteLine(mProcessClient.mData.PI300);
+                U1_OP1_2();
+            }
+
+            EM3_OP6();
+            EM1_OP4();
+
+            EM3_OP8();
         }
 
         private void RunSequenceFive()
         {
             logger.WriteLog("Running sequence five...");
             current_sequence_state = SEQUENCE5_STRING;
+
+            EM5_OP2();
+            EM3_OP5();
+
+            while (mProcessClient.mData.LSminus300)
+            {
+                Thread.Sleep(10);
+            }
+
+            EM5_OP4();
+            EM3_OP7();
+        }
+
+        private void U1_OP1_2()
+        {
+
+            V104controlValue = (V104controlValue -( 0.001*(Cooking_pressure - mProcessClient.mData.PI300))); // TÄMÄ
+            
+
+            if (V104controlValue > 100) { V104controlValue = 100; }
+            if (V104controlValue < 0) { V104controlValue = 0; }
+
+
+            mClient.SetValveOpening("V104", (int)V104controlValue);
+
+            bool E100controlValue = mProcessClient.mData.TI300 < Cooking_temperature;
+            mClient.SetOnOffItem("E100", E100controlValue);
         }
 
         private void EM1_OP1()
@@ -249,7 +310,7 @@ namespace SellukeittoSovellus
         private void EM3_OP7()
         {
             mClient.SetOnOffItem("V302", false);
-            mClient.SetValveOpening("V204", 0);
+            mClient.SetOnOffItem("V204", false);
 
         }
 
