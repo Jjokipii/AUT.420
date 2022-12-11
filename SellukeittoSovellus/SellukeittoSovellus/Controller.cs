@@ -158,9 +158,30 @@ namespace SellukeittoSovellus
         public void InterruptProcess()
         {
             State = STATE_FAILSAFE;
+            LockProcess();
             mSequenceDriver.StopSequence();
             mSequenceDriver = null;
             UpdateControl();
+        }
+
+        private void LockProcess()
+        {
+            mProcessClient.mMppClient.SetValveOpening("V102", 0);
+            mProcessClient.mMppClient.SetOnOffItem("V103", false);
+            mProcessClient.mMppClient.SetValveOpening("V104", 0);
+            mProcessClient.mMppClient.SetOnOffItem("V201", false);
+            mProcessClient.mMppClient.SetOnOffItem("V204", false);
+            mProcessClient.mMppClient.SetOnOffItem("V301", false);
+            mProcessClient.mMppClient.SetOnOffItem("V302", false);
+            mProcessClient.mMppClient.SetOnOffItem("V303", false);
+            mProcessClient.mMppClient.SetOnOffItem("V304", false);
+            mProcessClient.mMppClient.SetOnOffItem("V401", false);
+            mProcessClient.mMppClient.SetOnOffItem("V404", false);
+
+            mProcessClient.mMppClient.SetPumpControl("P100", 0);
+            mProcessClient.mMppClient.SetPumpControl("P200", 0);
+
+            mProcessClient.mMppClient.SetOnOffItem("E100", false);
         }
     }
 }
