@@ -328,6 +328,7 @@ namespace SellukeittoSovellus
         private void button_interrupt_process_Click(object sender, RoutedEventArgs e)
         {
             InterruptProcess();
+            UpdateControl();
         }
 
         private void button_connect_Click(object sender, RoutedEventArgs e)

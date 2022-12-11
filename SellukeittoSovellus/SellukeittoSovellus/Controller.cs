@@ -108,6 +108,13 @@ namespace SellukeittoSovellus
                                 mSequenceDriver = null;
                                 State = STATE_IDLE;
                             }
+                            else if (mSequenceDriver.sequence_error)
+                            {
+                                InterruptProcess();
+                                mSequenceDriver = null;
+                                State = STATE_FAILSAFE;
+                            }
+
 
                             break;
                         default:

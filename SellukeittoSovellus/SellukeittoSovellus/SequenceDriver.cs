@@ -11,19 +11,36 @@ namespace SellukeittoSovellus
     class SequenceDriver
     {
 
+        #region CONSTANTS
+
         private const string SEQUENCE1_STRING = "Vaihe 1";
         private const string SEQUENCE2_STRING = "Vaihe 2";
         private const string SEQUENCE3_STRING = "Vaihe 3";
         private const string SEQUENCE4_STRING = "Vaihe 4";
         private const string SEQUENCE5_STRING = "Vaihe 5";
 
+        #endregion
+
+
+        #region CLASS VARIABLES
+
+        public string current_sequence_state;
         public bool sequence_finished = false;
+        private Thread sequencedrivethread;
+        public bool sequence_error = false;
+
+        #endregion
+
+
+        #region OBJECTS
 
         Logger logger = new Logger();
 
-        public string current_sequence_state;
+        #endregion
 
-        private Thread sequencedrivethread;
+
+        //#############################################
+
 
         public SequenceDriver()
         {
@@ -60,47 +77,34 @@ namespace SellukeittoSovellus
             sequencedrivethread.Abort();
         }
         
-        private int RunSequenceOne()
+        private void RunSequenceOne()
         {
             logger.WriteLog("Running sequence one...");
             current_sequence_state = SEQUENCE1_STRING;
-            // TODO
-            return 0;
         }
 
-        private int RunSequenceTwo()
+        private void RunSequenceTwo()
         {
             logger.WriteLog("Running sequence two...");
             current_sequence_state = SEQUENCE2_STRING;
-            // TODO
-            return 0;
         }
 
-        private int RunSequenceThree()
+        private void RunSequenceThree()
         {
             logger.WriteLog("Running sequence three...");
             current_sequence_state = SEQUENCE3_STRING;
-            // TODO
-            return 0;
         }
 
-        private int RunSequenceFour()
+        private void RunSequenceFour()
         {
             logger.WriteLog("Running sequence four...");
             current_sequence_state = SEQUENCE4_STRING;
-            // TODO
-
-            return 0;
         }
 
-        private int RunSequenceFive()
+        private void RunSequenceFive()
         {
             logger.WriteLog("Running sequence five...");
             current_sequence_state = SEQUENCE5_STRING;
-            // TODO
-            return 0;
         }
-    
-
     }
 }
