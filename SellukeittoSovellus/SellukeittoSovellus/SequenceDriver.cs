@@ -42,7 +42,7 @@ namespace SellukeittoSovellus
 
         Logger logger = new Logger();
         MppClient mClient;
-        public Data mData;
+        ProcessClient mProcessClient;
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace SellukeittoSovellus
             this.Cooking_pressure = cookpres;
             this.Impregnation_time = imprtime;
             this.mClient = initializedProcessClient.mMppClient;
-            this.mData = initializedProcessClient.mData;
+            this.mProcessClient = initializedProcessClient;
 
             sequencedrivethread = new Thread(() => // Start control thread
             {
@@ -106,23 +106,18 @@ namespace SellukeittoSovellus
             EM5_OP1();
             EM3_OP2();
 
-            Console.WriteLine("Starting while looop");
-            while (true) 
+            while (!mProcessClient.mData.LSplus300) 
             {
-                Thread.Sleep(3);
-                Console.WriteLine("tick");
+                Thread.Sleep(10);
             }
-            Console.WriteLine("While loop over");
 
             EM3_OP1();
 
-            Thread.Sleep((int)(Impregnation_time));
+            Thread.Sleep((int)(Impregnation_time)); // TODO TIME
 
             EM2_OP2();
             EM5_OP3();
             EM3_OP6();
-
-            Console.WriteLine("EM3_OP8 aukee");
 
             EM3_OP8();
         }
@@ -136,13 +131,32 @@ namespace SellukeittoSovellus
             EM5_OP1();
             EM4_OP1();
 
+            //int limit = mProcessClient.mData.LI200;
+            while (mProcessClient.mData.LI400 > 31) // TODO START VALUE
+            {
+                Thread.Sleep(10);
+            }
 
+            EM3_OP6();
+            EM5_OP3();
+            EM4_OP2();
         }
 
         private void RunSequenceThree()
         {
             logger.WriteLog("Running sequence three...");
             current_sequence_state = SEQUENCE3_STRING;
+
+            EM3_OP3();
+            EM1_OP2();
+
+            while (mProcessClient.mData.LI400 < 90) // TODO START VALUE
+            {
+                Thread.Sleep(10);
+            }
+
+            EM3_OP6();
+            EM1_OP4();
         }
 
         private void RunSequenceFour()
@@ -188,7 +202,6 @@ namespace SellukeittoSovellus
         private void EM2_OP1()
         {
             mClient.SetOnOffItem("V201", true);
-
         }
         private void EM2_OP2()
         {
@@ -242,10 +255,10 @@ namespace SellukeittoSovellus
 
         private void EM3_OP8()
         {
-            mClient.SetValveOpening("V204", 100);
+            mClient.SetOnOffItem("V204", true);
             // Value 1000 is Td and defined in the customer requirements.
             Thread.Sleep(1000);
-            mClient.SetValveOpening("V204", 0);
+            mClient.SetOnOffItem("V204", false);
         }
 
         private void EM4_OP1()
