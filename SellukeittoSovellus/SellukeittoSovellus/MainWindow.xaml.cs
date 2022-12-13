@@ -62,21 +62,21 @@ namespace SellukeittoSovellus
 
         public int parameter_status = 0;
 
-        public double default_Cooking_time;
-        public int default_Cooking_time_min;
-        public int default_Cooking_time_max;
+        private double default_Cooking_time;
+        private int default_Cooking_time_min;
+        private int default_Cooking_time_max;
 
-        public double default_Cooking_temperature;
-        public int default_Cooking_temperature_min;
-        public int default_Cooking_temperature_max;
+        private double default_Cooking_temperature;
+        private int default_Cooking_temperature_min;
+        private int default_Cooking_temperature_max;
 
-        public double default_Cooking_pressure;
-        public int default_Cooking_pressure_min;
-        public int default_Cooking_pressure_max;
+        private double default_Cooking_pressure;
+        private int default_Cooking_pressure_min;
+        private int default_Cooking_pressure_max;
 
-        public double default_Impregnation_time;
-        public int default_Impregnation_time_min;
-        public int default_Impregnation_time_max;
+        private double default_Impregnation_time;
+        private int default_Impregnation_time_min;
+        private int default_Impregnation_time_max;
 
         #endregion
 

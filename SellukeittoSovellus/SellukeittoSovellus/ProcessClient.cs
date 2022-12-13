@@ -102,7 +102,6 @@ namespace SellukeittoSovellus
                         break;
                 }
             }
-
         }
 
         private void addSubscriptions()
@@ -117,13 +116,6 @@ namespace SellukeittoSovellus
             //Sensor
             mMppClient.AddToSubscription("LS+300");
             mMppClient.AddToSubscription("LS-300");
-            //Pumps
         }
-
-        public void startProcessConnection()
-        {
-
-        }
-
     }
 }

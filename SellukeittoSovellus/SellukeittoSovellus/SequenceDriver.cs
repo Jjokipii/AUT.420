@@ -28,7 +28,6 @@ namespace SellukeittoSovellus
 
         public string current_sequence_state;
         public bool sequence_finished = false;
-        private Thread sequencedrivethread;
         public bool sequence_error = false;
 
         public double Cooking_time;
@@ -36,7 +35,8 @@ namespace SellukeittoSovellus
         public double Cooking_pressure;
         public double Impregnation_time;
 
-        double V104controlValue = 100;
+        private Thread sequencedrivethread;
+        private double V104controlValue = 100;
 
         #endregion
 

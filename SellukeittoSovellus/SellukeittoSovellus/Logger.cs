@@ -11,9 +11,10 @@ namespace SellukeittoSovellus {
     public class Logger
     {
 
-        public string DEFAULT_LOGFILEPATH = "\\logs\\log_" + System.DateTime.Today.ToString().Split(' ')[0] + ".txt";
+        // We keep this public for future scalability
+        public string default_logfilepath = "\\logs\\log_" + System.DateTime.Today.ToString().Split(' ')[0] + ".txt";
 
-        public string logPath;
+        public string log_path;
 
         public Logger()
         {
@@ -27,14 +28,14 @@ namespace SellukeittoSovellus {
             {
                 basedirectory = Directory.GetParent(basedirectory).ToString();
             }
-            logPath = basedirectory + DEFAULT_LOGFILEPATH;
-            Console.WriteLine(logPath);
+            log_path = basedirectory + default_logfilepath;
+            Console.WriteLine(log_path);
         }
 
         public void WriteLog(string message)
         {
             Console.WriteLine(message);
-            using (StreamWriter writer = new StreamWriter(logPath, true))
+            using (StreamWriter writer = new StreamWriter(log_path, true))
             {
                 writer.WriteLine(DateTime.Now + " : " + message);
             }
