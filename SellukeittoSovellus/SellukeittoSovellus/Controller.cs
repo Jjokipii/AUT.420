@@ -31,10 +31,10 @@ namespace SellukeittoSovellus
         #region CONSTANTS
 
         // System state
-        public const int STATE_FAILSAFE = 0;
-        public const int STATE_DISCONNECTED = 1;
-        public const int STATE_IDLE = 2;
-        public const int STATE_RUNNING = 3;
+        private const int STATE_FAILSAFE = 0;
+        private const int STATE_DISCONNECTED = 1;
+        private const int STATE_IDLE = 2;
+        private const int STATE_RUNNING = 3;
 
         #endregion
 

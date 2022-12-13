@@ -30,10 +30,10 @@ namespace SellukeittoSovellus
         public bool sequence_finished = false;
         public bool sequence_error = false;
 
-        public double Cooking_time;
-        public double Cooking_temperature;
-        public double Cooking_pressure;
-        public double Impregnation_time;
+        private double Cooking_time;
+        private double Cooking_temperature;
+        private double Cooking_pressure;
+        private double Impregnation_time;
 
         private Thread sequencedrivethread;
         private double V104controlValue = 100;

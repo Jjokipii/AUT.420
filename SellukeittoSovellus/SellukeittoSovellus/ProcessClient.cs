@@ -20,22 +20,27 @@ namespace SellukeittoSovellus
     
     class ProcessClient
     {
-        const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
 
-        public bool mConnectionState = DISCONNECTED;
+        #region CONSTANTS
 
         const bool CONNECTED = true;
         const bool DISCONNECTED = false;
+        const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
+
+        #endregion
+
+        #region OBJECTS
 
         // OPC
-        ConnectionParamsHolder mConnectionParamsHolder;
         public MppClient mMppClient;
-
-        //DATA
-        
-        public Data mData = new Data();
+        ConnectionParamsHolder mConnectionParamsHolder;
 
         Logger logger = new Logger();
+
+        #endregion
+
+        public bool mConnectionState = DISCONNECTED;
+        public Data mData = new Data();
 
         public ProcessClient()
         {
