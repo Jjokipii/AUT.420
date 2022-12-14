@@ -70,6 +70,7 @@ namespace SellukeittoSovellus
 
         //#################
 
+        // Main control thread of the system
         private void ControlThread()
         {
             try
@@ -116,8 +117,6 @@ namespace SellukeittoSovellus
                                 mSequenceDriver = null;
                                 State = STATE_FAILSAFE;
                             }
-
-
                             break;
                         default:
                             logger.WriteLog("ERROR: UpdateValues() switch default statement called");
@@ -131,11 +130,12 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Check ProcessClient connection status
         private bool CheckConnectionStatus()
         {
             try
             {
-                if (mProcessClient.mConnectionState)
+                if (mProcessClient.mConnectionState) // Change state depending of starting state
                 {
                     if (State == STATE_DISCONNECTED)
                     {
@@ -160,6 +160,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Stops the process 
         private bool InterruptProcess()
         {
             try

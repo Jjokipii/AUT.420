@@ -24,6 +24,7 @@ namespace SellukeittoSovellus {
             InitLogPath();
         }
 
+        // Sets log file path
         private void InitLogPath()
         {
             string basedirectory = AppDomain.CurrentDomain.BaseDirectory;

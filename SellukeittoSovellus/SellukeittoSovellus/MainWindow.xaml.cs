@@ -117,6 +117,7 @@ namespace SellukeittoSovellus
 
         #region INITILIZATION
 
+        // Initializes the static UI elements
         private bool InitUI()
         {
             try
@@ -161,6 +162,7 @@ namespace SellukeittoSovellus
             }
         }
         
+        // Inits the UI sliders
         private bool InitSliders()
         {
             try
@@ -200,6 +202,7 @@ namespace SellukeittoSovellus
 
         #region UPDATES
 
+        // Updates UI control depending on the state
         private void UpdateControl()
         {
             try
@@ -273,6 +276,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Updates values depending on the state
         private void UpdateValues()
         {
             try
@@ -295,9 +299,9 @@ namespace SellukeittoSovellus
             {
                 logger.WriteLog(ex.Message);
             }
-
         }
 
+        // Helper function to updating UI controls
         private bool UpdateParameterControls(bool isEnabled)
         {
             try
@@ -423,6 +427,7 @@ namespace SellukeittoSovellus
 
         #region PARAMETER HANDLING
 
+        // Reads default parameters from file
         private bool readDefaultParametersFromFile()
         {
             try
@@ -477,6 +482,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Sets values from file input
         private bool declareDefaultParameters(string[] parameters)
         {
             try
@@ -525,6 +531,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Helper functin for updating UI controls
         private bool UpdateParameterUIStatus()
         {
             try
@@ -561,6 +568,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Helper function for reseting process parameters
         private void ResetUIParameters()
         {
             try

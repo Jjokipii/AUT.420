@@ -86,6 +86,7 @@ namespace SellukeittoSovellus
         {
             logger.WriteLog("Sequence Driver started.");
 
+            // Set class variables
             this.Cooking_time = cooktime;
             this.Cooking_temperature = cooktemp;
             this.Cooking_pressure = cookpres;
@@ -107,14 +108,11 @@ namespace SellukeittoSovellus
             // Compulsory flag for process pumps to start
             mClient.SetOnOffItem("P100_P200_PRESET", true);
 
+            // Run each sequence in order
             RunSequenceOne();
-
             RunSequenceTwo();
-
             RunSequenceThree();
-
             RunSequenceFour();
-
             RunSequenceFive();
 
             sequence_finished = true;
@@ -182,17 +180,19 @@ namespace SellukeittoSovellus
 
         #region MAIN SEQUENCES
 
+        // Run first stage of process
         private bool RunSequenceOne()
         {
             try
             {
                 logger.WriteLog("Running sequence one...");
-                current_sequence_state = SEQUENCE1_STRING;
+                current_sequence_state = SEQUENCE1_STRING; // Set UI label
 
                 EM2_OP1();
                 EM5_OP1();
                 EM3_OP2();
 
+                // Wait that tank is filled
                 while (!mProcessClient.mData.LSplus300) 
                 {
                     Thread.Sleep(10);
@@ -200,6 +200,7 @@ namespace SellukeittoSovellus
 
                 EM3_OP1();
 
+                // Wait for impregnation time
                 Thread.Sleep((int)(Impregnation_time * 1000));
 
                 EM2_OP2();
@@ -217,17 +218,19 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run stage two of process
         private bool RunSequenceTwo()
         {
             try
             {
                 logger.WriteLog("Running sequence two...");
-                current_sequence_state = SEQUENCE2_STRING;
+                current_sequence_state = SEQUENCE2_STRING; // Set UI label
 
                 EM3_OP2();
                 EM5_OP1();
                 EM4_OP1();
 
+                // Wait that tank liquid is completely replaced
                 while (mProcessClient.mData.LI400 > 27)
                 {
                     Thread.Sleep(10);
@@ -246,6 +249,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run stage three of process
         private bool RunSequenceThree()
         {
             try
@@ -256,6 +260,7 @@ namespace SellukeittoSovellus
                 EM3_OP3();
                 EM1_OP2();
 
+                // Wait that tank liquid is completely replaced
                 while (mProcessClient.mData.LI400 < 90)
                 {
                     Thread.Sleep(10);
@@ -273,6 +278,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run stage four of process
         private bool RunSequenceFour()
         {
             try
@@ -283,6 +289,7 @@ namespace SellukeittoSovellus
                 EM3_OP4();
                 EM1_OP1();
 
+                // Wait that tank liquid is heated up to desired value
                 while (mProcessClient.mData.TI300 < Cooking_temperature)
                 {
                     Thread.Sleep(10);
@@ -291,13 +298,13 @@ namespace SellukeittoSovellus
                 EM3_OP1();
                 EM1_OP2();
 
-                // Drive cooking values up
+                // Drive cooking pressure up
                 while (mProcessClient.mData.PI300 < (int)Cooking_pressure || mProcessClient.mData.TI300 < Cooking_temperature)
                 {
                     U1_OP1_2();
                 }
 
-                // Maintaint cooking values for cooking time
+                // Maintaint cooking temperature and pressure for cooking time
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
                 while(stopwatch.ElapsedMilliseconds < Cooking_time * 1000)
@@ -321,6 +328,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run stage five of process
         private bool RunSequenceFive()
         {
             try
@@ -331,6 +339,7 @@ namespace SellukeittoSovellus
                 EM5_OP2();
                 EM3_OP5();
 
+                // Wait that tank is empty
                 while (mProcessClient.mData.LSminus300)
                 {
                     Thread.Sleep(10);
@@ -353,6 +362,7 @@ namespace SellukeittoSovellus
 
         #region MINI SEQUENCE
 
+        // Controls cooking temperature and pressure 
         private bool U1_OP1_2()
         {
             try
@@ -376,6 +386,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM1_OP1
         private bool EM1_OP1()
         {
             try
@@ -394,6 +405,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM1_OP2
         private bool EM1_OP2()
         {
             try
@@ -411,6 +423,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM1_OP3
         private bool EM1_OP3()
         {
             try
@@ -429,6 +442,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM1_OP4
         private bool EM1_OP4()
         {
             try
@@ -446,6 +460,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM2_OP1
         private bool EM2_OP1()
         {
             try
@@ -461,6 +476,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM2_OP2
         private bool EM2_OP2()
         {
             try
@@ -476,6 +492,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM3_OP1
         private bool EM3_OP1()
         {
             try
@@ -493,6 +510,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM3_OP2
         private bool EM3_OP2()
         {
             try
@@ -509,6 +527,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM3_OP3
         private bool EM3_OP3()
         {
             try
@@ -525,6 +544,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM3_OP4
         private bool EM3_OP4()
         {
             try
@@ -541,6 +561,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM3_OP5
         private bool EM3_OP5()
         {
             try
@@ -557,6 +578,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM3_OP6
         private bool EM3_OP6()
         {
             try
@@ -575,6 +597,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM3_OP7
         private bool EM3_OP7()
         {
             try
@@ -591,6 +614,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM3_OP8
         private bool EM3_OP8()
         {
             try
@@ -609,6 +633,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM4_OP1
         private bool EM4_OP1()
         {
             try
@@ -624,6 +649,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM4_OP2
         private bool EM4_OP2()
         {
             try
@@ -639,6 +665,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM5_OP1
         private bool EM5_OP1()
         {
             try
@@ -655,6 +682,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM5_OP2
         private bool EM5_OP2()
         {
             try
@@ -672,6 +700,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM5_OP3
         private bool EM5_OP3()
         {
             try
@@ -688,6 +717,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Run EM5_OP4
         private bool EM5_OP4()
         {
             try

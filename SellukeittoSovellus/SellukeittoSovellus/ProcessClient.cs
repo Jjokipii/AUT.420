@@ -131,6 +131,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Add subsriptions to process devices
         private bool addSubscriptions()
         {
             try
@@ -159,6 +160,7 @@ namespace SellukeittoSovellus
 
         #region EVENTS
 
+        // Event for connection status changes
         private void ConnectionStatus(object source, ConnectionStatusEventArgs args)
         {
             try
@@ -171,6 +173,7 @@ namespace SellukeittoSovellus
             }
         }
 
+        // Event for process values changed
         private void ProcessItemsChanged(object source, ProcessItemChangedEventArgs args)
         {
             try
