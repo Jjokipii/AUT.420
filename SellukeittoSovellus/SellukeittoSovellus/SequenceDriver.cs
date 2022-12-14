@@ -100,6 +100,7 @@ namespace SellukeittoSovellus
         {
             try
             {
+                // Valves
                 mProcessClient.mMppClient.SetValveOpening("V102", 0);
                 mProcessClient.mMppClient.SetOnOffItem("V103", false);
                 mProcessClient.mMppClient.SetValveOpening("V104", 0);
@@ -112,9 +113,11 @@ namespace SellukeittoSovellus
                 mProcessClient.mMppClient.SetOnOffItem("V401", false);
                 mProcessClient.mMppClient.SetOnOffItem("V404", false);
 
+                // Pumps
                 mProcessClient.mMppClient.SetPumpControl("P100", 0);
                 mProcessClient.mMppClient.SetPumpControl("P200", 0);
 
+                // Heater
                 mProcessClient.mMppClient.SetOnOffItem("E100", false);
 
                 return true;
