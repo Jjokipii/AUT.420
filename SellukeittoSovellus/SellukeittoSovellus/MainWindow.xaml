@@ -24,7 +24,7 @@
         <Slider Height="23" HorizontalAlignment="Left" Margin="245,557,528,0" Name="slider_cooking_pressure" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
         <Slider Height="23" HorizontalAlignment="Left" Margin="245,592,0,0" Name="slider_cooking_temperature" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
         <Slider Height="23" HorizontalAlignment="Left" Margin="245,627,0,0" Name="slider_impregnation_time" VerticalAlignment="Top" Value="0" Minimum="0" Maximum="100" Width="255" VerticalContentAlignment="Center" ValueChanged="slider_ValueChanged"/>
-        <Button Content="Aseta" Height="23" HorizontalAlignment="Left" Margin="540,625,0,0" Name="button_set_parameters" VerticalAlignment="Top" Width="75" Click="button_set_parameters_Click" />
+        <Button Content="Aseta" Height="23" HorizontalAlignment="Left" Margin="540,620,0,0" Name="button_set_parameters" VerticalAlignment="Top" Width="75" Click="button_set_parameters_Click" />
         <Button Content="Palauta" Height="23" HorizontalAlignment="Left" Margin="540,590,0,0" Name="button_reset_parameters" VerticalAlignment="Top" Width="75" Click="button_reset_parameters_Click" />
         <ProgressBar Height="300" Margin="50,75,0,0" Name="progressBar_T100" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="175" LargeChange="1" Maximum="300" />
         <ProgressBar Height="300" Margin="300,75,0,0" Name="progressBar_T200" VerticalAlignment="Top" Orientation="Vertical" Value="0" HorizontalAlignment="Left" Width="175" Maximum="300" />
@@ -47,8 +47,9 @@
         <Button Content="Yhdistä" Height="23" HorizontalAlignment="Left" Margin="913,520,0,0" Name="button_connect" VerticalAlignment="Top" Width="75" Click="button_connect_Click" />
         <Label Content="Verkkoyhteydetön" Height="28" HorizontalAlignment="Left" Margin="705,520,0,0" Name="label_connection_status" VerticalAlignment="Top" FontSize="12" Foreground="Red" />
         <Label Content="Prosessi" Height="Auto" HorizontalAlignment="Left" Margin="727,587,0,0" Name="label_STATIC_control" VerticalAlignment="Top" Width="200" FontSize="18" HorizontalContentAlignment="Center" />
-        <Label Content="Tila: " Height="28" HorizontalAlignment="Left" Margin="670,627,0,0" Name="label_STATIC_control_status" VerticalAlignment="Top" FontSize="12" Width="35" />
-        <Label Content="Verkkoyhteydetön" Height="28" HorizontalAlignment="Left" Margin="705,627,0,0" Name="label_control_status" VerticalAlignment="Top" FontSize="12" Foreground="Red" />
+        <Label Content="Tila:" Height="28" HorizontalAlignment="Left" Margin="670,612,0,0" Name="label_STATIC_control_status" VerticalAlignment="Top" FontSize="12" Width="35" />
+        <Label Content="Prosessin vaihe:" Height="28" HorizontalAlignment="Left" Margin="670,632,0,0" Name="label_STATIC_process_stage" VerticalAlignment="Top" FontSize="12" Width="Auto" />
+        <Label Content="Verkkoyhteydetön" Height="28" HorizontalAlignment="Left" Margin="695,612,0,0" Name="label_control_status" VerticalAlignment="Top" FontSize="12" Foreground="Red" />
         <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="25,407,0,0" Name="label_T100" VerticalAlignment="Top" Width="225" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
         <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="275,407,0,0" Name="label_T200" VerticalAlignment="Top" Width="225" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
         <Label Content="0" Height="28" HorizontalAlignment="Left" Margin="550,407,0,0" Name="label_T300_pressure" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13" FontWeight="Bold" />
@@ -73,7 +74,7 @@
         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="206,622,0,0" Name="label_impregnation_time_min" Foreground="Teal" VerticalAlignment="Top" />
         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="500,622,0,0" Name="label_impregnation_time_max" Foreground="Teal" VerticalAlignment="Top" />
         <Button Content="Prosessi alkutilassaan" Height="23" HorizontalAlignment="Left" Margin="828,627,0,0" Name="button_confirm_initial_state" VerticalAlignment="Top" Width="160" Click="button_confirm_initial_state_Click" Visibility="Hidden" />
-        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="705,603,0,0" Name="label_sequence_state" Foreground="Purple" VerticalAlignment="Top" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="760,632,0,0" Name="label_sequence_state" Foreground="Purple" VerticalAlignment="Top" />
     </Grid>
 </Window>
 

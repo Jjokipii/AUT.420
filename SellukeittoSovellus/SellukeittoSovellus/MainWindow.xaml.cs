@@ -289,7 +289,7 @@ namespace SellukeittoSovellus
                 label_T200.Content = mProcessClient.mData.LI200;
                 label_T400.Content = mProcessClient.mData.LI400;
                 label_T300_pressure.Content = mProcessClient.mData.PI300;
-                label_T300_temperature.Content = mProcessClient.mData.TI300;
+                label_T300_temperature.Content = Math.Round(mProcessClient.mData.TI300,1);
             }
             catch (Exception ex)
             {
