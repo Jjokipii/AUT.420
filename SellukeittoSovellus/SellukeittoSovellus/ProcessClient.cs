@@ -23,11 +23,12 @@ namespace SellukeittoSovellus
 
         #region CONSTANTS
 
-        const bool CONNECTED = true;
-        const bool DISCONNECTED = false;
-        const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
+        private const bool CONNECTED = true;
+        private const bool DISCONNECTED = false;
+        private const string CLIENT_URL = "opc.tcp://127.0.0.1:8087";
 
         #endregion
+
 
         #region OBJECTS
 
@@ -39,8 +40,16 @@ namespace SellukeittoSovellus
 
         #endregion
 
+
+        #region VARIABLES
+
         public bool mConnectionState = DISCONNECTED;
         public Data mData = new Data();
+
+        #endregion
+
+
+        //###########################
 
         public ProcessClient()
         {

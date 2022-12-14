@@ -53,14 +53,14 @@ namespace SellukeittoSovellus
         private const string PARAMETERS_CONFIRMED = "Muutokset tallennettu.";
 
         // Defaul file URL
-        public const string PARAMETER_TEXTFILE_PATH = "\\default_parameter_values.txt";
+        private const string PARAMETER_TEXTFILE_PATH = "\\default_parameter_values.txt";
 
         #endregion
 
 
         #region CLASS VARIABLES
 
-        public int parameter_status = 0;
+        private int parameter_status = 0;
 
         private double default_Cooking_time;
         private int default_Cooking_time_min;

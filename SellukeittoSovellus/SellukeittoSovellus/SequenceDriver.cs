@@ -35,7 +35,6 @@ namespace SellukeittoSovellus
         private double Cooking_pressure;
         private double Impregnation_time;
 
-        private Thread sequencedrivethread;
         private double V104controlValue = 100;
 
         #endregion
@@ -43,9 +42,13 @@ namespace SellukeittoSovellus
 
         #region OBJECTS
 
-        Logger logger = new Logger();
-        MppClient mClient;
-        ProcessClient mProcessClient;
+        private Logger logger = new Logger();
+
+        private MppClient mClient;
+
+        private ProcessClient mProcessClient;
+
+        private Thread sequencedrivethread;
 
         #endregion
 
@@ -64,7 +67,8 @@ namespace SellukeittoSovellus
             this.mClient = initializedProcessClient.mMppClient;
             this.mProcessClient = initializedProcessClient;
 
-            sequencedrivethread = new Thread(() => // Start control thread
+            // Thread that handles sequence logic
+            sequencedrivethread = new Thread(() => 
             {
                 Thread.CurrentThread.IsBackground = true;
                 RunSequence();
@@ -74,7 +78,7 @@ namespace SellukeittoSovellus
 
         private void RunSequence()
         {
-            // Compulsory flag
+            // Compulsory flag for process pumps to start
             mClient.SetOnOffItem("P100_P200_PRESET", true);
 
             RunSequenceOne();
@@ -89,8 +93,27 @@ namespace SellukeittoSovellus
 
             sequence_finished = true;
 
-            logger.WriteLog("Sequence finished succesfully!");
-            logger.WriteLog("");
+            logger.WriteLog("Sequence finished succesfully!\n");
+        }
+
+        public void LockProcess()
+        {
+            mProcessClient.mMppClient.SetValveOpening("V102", 0);
+            mProcessClient.mMppClient.SetOnOffItem("V103", false);
+            mProcessClient.mMppClient.SetValveOpening("V104", 0);
+            mProcessClient.mMppClient.SetOnOffItem("V201", false);
+            mProcessClient.mMppClient.SetOnOffItem("V204", false);
+            mProcessClient.mMppClient.SetOnOffItem("V301", false);
+            mProcessClient.mMppClient.SetOnOffItem("V302", false);
+            mProcessClient.mMppClient.SetOnOffItem("V303", false);
+            mProcessClient.mMppClient.SetOnOffItem("V304", false);
+            mProcessClient.mMppClient.SetOnOffItem("V401", false);
+            mProcessClient.mMppClient.SetOnOffItem("V404", false);
+
+            mProcessClient.mMppClient.SetPumpControl("P100", 0);
+            mProcessClient.mMppClient.SetPumpControl("P200", 0);
+
+            mProcessClient.mMppClient.SetOnOffItem("E100", false);
         }
 
         public void StopSequence()
@@ -102,10 +125,8 @@ namespace SellukeittoSovellus
 
         #region MAIN SEQUENCES
 
-        
         private void RunSequenceOne()
         {
-            // Impregnation process
             logger.WriteLog("Running sequence one...");
             current_sequence_state = SEQUENCE1_STRING;
 
@@ -220,7 +241,6 @@ namespace SellukeittoSovellus
             EM5_OP4();
             EM3_OP7();
         }
-
 
         #endregion
 
