@@ -127,7 +127,6 @@ namespace SellukeittoSovellus
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 logger.WriteLog(ex.Message);
             }
         }
