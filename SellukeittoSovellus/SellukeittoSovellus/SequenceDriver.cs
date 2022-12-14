@@ -10,6 +10,14 @@ using System.Diagnostics;
 
 namespace SellukeittoSovellus
 {
+    /// <summary>
+    /// Class for running the process sequency
+    /// </summary>
+    /// <param name="cooktime">Cooking time of process</param>
+    /// <param name="cooktemp">Cooking temperature of process</param>
+    /// <param name="cookpres">Cooking pressure of process</param>
+    /// <param name="imprtime">Impregnation time of process</param>
+    /// <param name="initializedProcessClient">Object for communicating with process</param>
     class SequenceDriver
     {
 
@@ -26,8 +34,19 @@ namespace SellukeittoSovellus
 
         #region CLASS VARIABLES
 
+        /// <summary>
+        /// Sequence state
+        /// </summary>
         public string current_sequence_state;
+
+        /// <summary>
+        /// Sequence finished flag
+        /// </summary>
         public bool sequence_finished = false;
+
+        /// <summary>
+        /// Sequency error flag
+        /// </summary>
         public bool sequence_error = false;
 
         private double Cooking_time;
@@ -55,7 +74,14 @@ namespace SellukeittoSovellus
 
         //#############################################
 
-
+        /// <summary>
+        /// Constructor for class
+        /// </summary>
+        /// <param name="cooktime">Cooking time of process</param>
+        /// <param name="cooktemp">Cooking temperature of process</param>
+        /// <param name="cookpres">Cooking pressure of process</param>
+        /// <param name="imprtime">Impregnation time of process</param>
+        /// <param name="initializedProcessClient">Object for communicating with process</param>
         public SequenceDriver(double cooktime, double cooktemp, double cookpres, double imprtime, ProcessClient initializedProcessClient)
         {
             logger.WriteLog("Sequence Driver started.");
@@ -96,6 +122,10 @@ namespace SellukeittoSovellus
             logger.WriteLog("Sequence finished succesfully!\n");
         }
 
+        /// <summary>
+        /// Sets all the process devices to "closed" state
+        /// </summary>
+        /// <returns>Method success</returns>
         public bool LockProcess()
         {
             try
@@ -129,6 +159,10 @@ namespace SellukeittoSovellus
             }
         }
 
+        /// <summary>
+        /// Stops the sequency thread
+        /// </summary>
+        /// <returns>Methud success</returns>
         public bool StopSequence()
         {
             try

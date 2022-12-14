@@ -19,7 +19,7 @@ using System.Windows.Threading;
 namespace SellukeittoSovellus
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Class containing the MainWindow and Controller partial class implementations
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -84,7 +84,7 @@ namespace SellukeittoSovellus
         //#####################
 
         /// <summary>
-        /// Class containing the MainWindow and Controller partial class implementations
+        /// Class constructor
         /// </summary>
         public MainWindow()
         {

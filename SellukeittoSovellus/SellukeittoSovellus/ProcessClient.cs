@@ -47,6 +47,9 @@ namespace SellukeittoSovellus
         public bool LSminus300;
     }
     
+    /// <summary>
+    /// Class for handeling communication with process
+    /// </summary>
     class ProcessClient
     {
 
@@ -61,18 +64,28 @@ namespace SellukeittoSovellus
 
         #region OBJECTS
 
-        // OPC
+        /// <summary>
+        /// Client for communicating with process
+        /// </summary>
         public MppClient mMppClient;
-        ConnectionParamsHolder mConnectionParamsHolder;
 
-        Logger logger = new Logger();
+        private ConnectionParamsHolder mConnectionParamsHolder;
+
+        private Logger logger = new Logger();
 
         #endregion
 
 
         #region VARIABLES
 
+        /// <summary>
+        /// Client connection state
+        /// </summary>
         public bool mConnectionState = DISCONNECTED;
+
+        /// <summary>
+        /// Process data
+        /// </summary>
         public Data mData = new Data();
 
         #endregion
@@ -80,12 +93,19 @@ namespace SellukeittoSovellus
 
         //###########################
 
+        /// <summary>
+        /// Constructor for class
+        /// </summary>
         public ProcessClient()
         {
             mConnectionParamsHolder = new ConnectionParamsHolder(CLIENT_URL);
             ConnectOPCUA();
         }
 
+        /// <summary>
+        /// Tries to establish connection to process
+        /// </summary>
+        /// <returns></returns>
         public bool ConnectOPCUA()
         {
             try
