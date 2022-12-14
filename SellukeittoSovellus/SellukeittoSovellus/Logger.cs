@@ -27,13 +27,20 @@ namespace SellukeittoSovellus {
         // Sets log file path
         private void InitLogPath()
         {
-            string basedirectory = AppDomain.CurrentDomain.BaseDirectory;
-            for (int i = 0; i <= 3; i++) // TODO modular
+            try
             {
-                basedirectory = Directory.GetParent(basedirectory).ToString();
+                string basedirectory = AppDomain.CurrentDomain.BaseDirectory;
+                for (int i = 0; i <= 3; i++) // TODO modular
+                {
+                    basedirectory = Directory.GetParent(basedirectory).ToString();
+                }
+                log_path = basedirectory + default_logfilepath;
+                Console.WriteLine(log_path);
             }
-            log_path = basedirectory + default_logfilepath;
-            Console.WriteLine(log_path);
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>
@@ -42,10 +49,17 @@ namespace SellukeittoSovellus {
         /// <param name="message">Message to be written to log</param>
         public void WriteLog(string message)
         {
-            Console.WriteLine(message);
-            using (StreamWriter writer = new StreamWriter(log_path, true))
+            try
             {
-                writer.WriteLine(DateTime.Now + " : " + message);
+                Console.WriteLine(message);
+                using (StreamWriter writer = new StreamWriter(log_path, true))
+                {
+                    writer.WriteLine(DateTime.Now + " : " + message);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
