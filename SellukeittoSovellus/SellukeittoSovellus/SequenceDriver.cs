@@ -13,11 +13,6 @@ namespace SellukeittoSovellus
     /// <summary>
     /// Class for running the process sequency
     /// </summary>
-    /// <param name="cooktime">Cooking time of process</param>
-    /// <param name="cooktemp">Cooking temperature of process</param>
-    /// <param name="cookpres">Cooking pressure of process</param>
-    /// <param name="imprtime">Impregnation time of process</param>
-    /// <param name="initializedProcessClient">Object for communicating with process</param>
     class SequenceDriver
     {
 
@@ -123,7 +118,7 @@ namespace SellukeittoSovellus
             }
             catch (Exception ex)
             { 
-            
+                logger.WriteLog(ex.Message);
             }
 
         }
