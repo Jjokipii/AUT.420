@@ -105,19 +105,27 @@ namespace SellukeittoSovellus
 
         private void RunSequence()
         {
-            // Compulsory flag for process pumps to start
-            mClient.SetOnOffItem("P100_P200_PRESET", true);
+            try
+            {
+                // Compulsory flag for process pumps to start
+                mClient.SetOnOffItem("P100_P200_PRESET", true);
 
-            // Run each sequence in order
-            RunSequenceOne();
-            RunSequenceTwo();
-            RunSequenceThree();
-            RunSequenceFour();
-            RunSequenceFive();
+                // Run each sequence in order
+                RunSequenceOne();
+                RunSequenceTwo();
+                RunSequenceThree();
+                RunSequenceFour();
+                RunSequenceFive();
 
-            sequence_finished = true;
+                sequence_finished = true;
 
-            logger.WriteLog("Sequence finished succesfully!\n");
+                logger.WriteLog("Sequence finished succesfully!\n");
+            }
+            catch (Exception ex)
+            { 
+            
+            }
+
         }
 
         /// <summary>
