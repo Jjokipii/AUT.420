@@ -6,15 +6,44 @@ using Tuni.MppOpcUaClientLib;
 
 namespace SellukeittoSovellus
 {
+    /// <summary>
+    /// Data structure used for storing process values
+    /// </summary>
     public struct Data
     {
+        /// <summary>
+        /// Variable containing LI100 data
+        /// </summary>
         public int LI100;
+
+        /// <summary>
+        /// Variable containing LI200 data
+        /// </summary>
         public int LI200;
+
+        /// <summary>
+        /// Variable containing PI300 data
+        /// </summary>
         public int PI300;
+
+        /// <summary>
+        /// Variable containing TI300 data
+        /// </summary>
         public double TI300;
+
+        /// <summary>
+        /// Variable containing LI400 data
+        /// </summary>
         public int LI400;
 
+        /// <summary>
+        /// Variable containing LS+300 data
+        /// </summary>
         public bool LSplus300;
+
+        /// <summary>
+        /// Variable containing LS-300 data
+        /// </summary>
         public bool LSminus300;
     }
     

@@ -43,12 +43,12 @@ namespace SellukeittoSovellus
 
         ProcessClient mProcessClient = new ProcessClient();
 
-        public int State = STATE_DISCONNECTED; // Controller state
+        private int State = STATE_DISCONNECTED; // Controller state
 
-        public double Cooking_time;
-        public double Cooking_temperature;
-        public double Cooking_pressure;
-        public double Impregnation_time;
+        private double Cooking_time;
+        private double Cooking_temperature;
+        private double Cooking_pressure;
+        private double Impregnation_time;
 
         #endregion
 

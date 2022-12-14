@@ -83,6 +83,9 @@ namespace SellukeittoSovellus
 
         //#####################
 
+        /// <summary>
+        /// Class containing the MainWindow and Controller partial class implementations
+        /// </summary>
         public MainWindow()
         {
             Logger logger = new Logger();   // Initializes the logger element.

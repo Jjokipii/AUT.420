@@ -7,14 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SellukeittoSovellus {
-
+    /// <summary>
+    /// Class used for logging messages to program logfile
+    /// </summary>
     public class Logger
     {
-        // We keep this public for future scalability
-        public string default_logfilepath = "\\logs\\log_" + System.DateTime.Today.ToString().Split(' ')[0] + ".txt";
+        private string default_logfilepath = "\\logs\\log_" + System.DateTime.Today.ToString().Split(' ')[0] + ".txt";
 
         private string log_path;
 
+        /// <summary>
+        /// Constructor for logger class
+        /// </summary>
         public Logger()
         {
             InitLogPath();
@@ -31,6 +35,10 @@ namespace SellukeittoSovellus {
             Console.WriteLine(log_path);
         }
 
+        /// <summary>
+        /// Method for writing messages to log
+        /// </summary>
+        /// <param name="message">Message to be written to log</param>
         public void WriteLog(string message)
         {
             Console.WriteLine(message);
