@@ -10,11 +10,10 @@ namespace SellukeittoSovellus {
 
     public class Logger
     {
-
         // We keep this public for future scalability
         public string default_logfilepath = "\\logs\\log_" + System.DateTime.Today.ToString().Split(' ')[0] + ".txt";
 
-        public string log_path;
+        private string log_path;
 
         public Logger()
         {

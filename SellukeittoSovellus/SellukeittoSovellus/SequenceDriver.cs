@@ -268,7 +268,6 @@ namespace SellukeittoSovellus
                 stopwatch.Start();
                 while(stopwatch.ElapsedMilliseconds < Cooking_time * 1000)
                 {
-                    Console.WriteLine(mProcessClient.mData.PI300);
                     sequence_error = (mProcessClient.mData.PI300 < Cooking_pressure - 10 || mProcessClient.mData.PI300 > Cooking_pressure + 10);
                     sequence_error = (mProcessClient.mData.TI300 < Cooking_temperature - 0.3 || mProcessClient.mData.TI300 > Cooking_temperature + 0.3);
                     U1_OP1_2();

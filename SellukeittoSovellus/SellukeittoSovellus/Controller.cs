@@ -131,31 +131,53 @@ namespace SellukeittoSovellus
             }
         }
 
-        private void CheckConnectionStatus()
+        private bool CheckConnectionStatus()
         {
-            if (mProcessClient.mConnectionState)
+            try
             {
-                if (State == STATE_DISCONNECTED)
+                if (mProcessClient.mConnectionState)
                 {
-                    State = STATE_IDLE;
+                    if (State == STATE_DISCONNECTED)
+                    {
+                        State = STATE_IDLE;
+                    }
                 }
+                else
+                {
+                    if (State == STATE_RUNNING || State == STATE_IDLE)
+                    {
+                        State = STATE_FAILSAFE;
+                    }
+                }
+            
+                return true;
             }
-            else
+            catch (Exception ex)
             {
-                if (State == STATE_RUNNING || State == STATE_IDLE)
-                {
-                    State = STATE_FAILSAFE;
-                }
+                logger.WriteLog(ex.Message);
+
+                return false;
             }
         }
 
-        private void InterruptProcess()
+        private bool InterruptProcess()
         {
-            State = STATE_FAILSAFE;
-            mSequenceDriver.StopSequence();
-            mSequenceDriver.LockProcess();
-            mSequenceDriver = null;
-            UpdateControl();
+            try
+            {
+                State = STATE_FAILSAFE;
+                mSequenceDriver.StopSequence();
+                mSequenceDriver.LockProcess();
+                mSequenceDriver = null;
+                UpdateControl();
+            
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex.Message);
+
+                return false;
+            }
         } 
     }
 }

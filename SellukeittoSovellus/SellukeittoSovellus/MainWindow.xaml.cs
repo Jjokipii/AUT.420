@@ -114,62 +114,82 @@ namespace SellukeittoSovellus
 
         #region INITILIZATION
 
-        private void InitUI()
+        private bool InitUI()
         {
-            // T100
-            progressBar_T100.Maximum = TANK_MAX_L_VALUE;
-            progressBar_T100.Minimum = TANK_MIN_L_VALUE;
-            label_T100_max.Content = TANK_MAX_L_VALUE;
-            label_T100_min.Content = TANK_MIN_L_VALUE;
+            try
+            {
+                // T100
+                progressBar_T100.Maximum = TANK_MAX_L_VALUE;
+                progressBar_T100.Minimum = TANK_MIN_L_VALUE;
+                label_T100_max.Content = TANK_MAX_L_VALUE;
+                label_T100_min.Content = TANK_MIN_L_VALUE;
 
-            // T200
-            progressBar_T200.Maximum = TANK_MAX_L_VALUE;
-            progressBar_T200.Minimum = TANK_MIN_L_VALUE;
-            label_T200_max.Content = TANK_MAX_L_VALUE;
-            label_T200_min.Content = TANK_MIN_L_VALUE;
+                // T200
+                progressBar_T200.Maximum = TANK_MAX_L_VALUE;
+                progressBar_T200.Minimum = TANK_MIN_L_VALUE;
+                label_T200_max.Content = TANK_MAX_L_VALUE;
+                label_T200_min.Content = TANK_MIN_L_VALUE;
 
-            // T300 - Pressure
-            progressBar_T300_pressure.Maximum = TANK_MAX_P_VALUE;
-            progressBar_T300_pressure.Minimum = TANK_MIN_P_VALUE;
-            label_T300_pressure_max.Content = TANK_MAX_P_VALUE;
-            label_T300_pressure_min.Content = TANK_MIN_P_VALUE;
+                // T300 - Pressure
+                progressBar_T300_pressure.Maximum = TANK_MAX_P_VALUE;
+                progressBar_T300_pressure.Minimum = TANK_MIN_P_VALUE;
+                label_T300_pressure_max.Content = TANK_MAX_P_VALUE;
+                label_T300_pressure_min.Content = TANK_MIN_P_VALUE;
 
-            // T300 - Temperature
-            progressBar_T300_temperature.Maximum = TANK_MAX_T_VALUE;
-            progressBar_T300_temperature.Minimum = TANK_MIN_T_VALUE;
-            label_T300_temperature_max.Content = TANK_MAX_T_VALUE;
-            label_T300_temperature_min.Content = TANK_MIN_T_VALUE;
+                // T300 - Temperature
+                progressBar_T300_temperature.Maximum = TANK_MAX_T_VALUE;
+                progressBar_T300_temperature.Minimum = TANK_MIN_T_VALUE;
+                label_T300_temperature_max.Content = TANK_MAX_T_VALUE;
+                label_T300_temperature_min.Content = TANK_MIN_T_VALUE;
 
-            // T400
-            progressBar_T400.Maximum = TANK_MAX_L_VALUE;
-            progressBar_T400.Minimum = TANK_MIN_L_VALUE;
-            label_T400_max.Content = TANK_MAX_L_VALUE;
-            label_T400_min.Content = TANK_MIN_L_VALUE;
+                // T400
+                progressBar_T400.Maximum = TANK_MAX_L_VALUE;
+                progressBar_T400.Minimum = TANK_MIN_L_VALUE;
+                label_T400_max.Content = TANK_MAX_L_VALUE;
+                label_T400_min.Content = TANK_MIN_L_VALUE;
 
-           
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex.Message);
+
+                return false;
+            }
         }
         
-        private void InitSliders()
+        private bool InitSliders()
         {
-            // Slider elements
-            slider_cooking_time.Maximum = double.Parse(default_Cooking_time_max.ToString());
-            slider_cooking_time.Minimum = double.Parse(default_Cooking_time_min.ToString());
-            slider_cooking_pressure.Minimum = double.Parse(default_Cooking_pressure_min.ToString());
-            slider_cooking_pressure.Maximum = double.Parse(default_Cooking_pressure_max.ToString());
-            slider_cooking_temperature.Minimum = double.Parse(default_Cooking_temperature_min.ToString());
-            slider_cooking_temperature.Maximum = double.Parse(default_Cooking_temperature_max.ToString());
-            slider_impregnation_time.Maximum = double.Parse(default_Impregnation_time_max.ToString());
-            slider_impregnation_time.Minimum = double.Parse(default_Impregnation_time_min.ToString());
+            try
+            {   
+                // Slider elements
+                slider_cooking_time.Maximum = double.Parse(default_Cooking_time_max.ToString());
+                slider_cooking_time.Minimum = double.Parse(default_Cooking_time_min.ToString());
+                slider_cooking_pressure.Minimum = double.Parse(default_Cooking_pressure_min.ToString());
+                slider_cooking_pressure.Maximum = double.Parse(default_Cooking_pressure_max.ToString());
+                slider_cooking_temperature.Minimum = double.Parse(default_Cooking_temperature_min.ToString());
+                slider_cooking_temperature.Maximum = double.Parse(default_Cooking_temperature_max.ToString());
+                slider_impregnation_time.Maximum = double.Parse(default_Impregnation_time_max.ToString());
+                slider_impregnation_time.Minimum = double.Parse(default_Impregnation_time_min.ToString());
 
-            // Min and max label elements
-            label_cooking_time_min.Content = default_Cooking_time_min.ToString();
-            label_cooking_time_max.Content = default_Cooking_time_max.ToString();
-            label_cooking_pressure_min.Content = default_Cooking_pressure_min.ToString();
-            label_cooking_pressure_max.Content = default_Cooking_pressure_max.ToString();
-            label_cooking_temperature_min.Content = default_Cooking_temperature_min.ToString();
-            label_cooking_temperature_max.Content = default_Cooking_temperature_max.ToString();
-            label_impregnation_time_min.Content = default_Impregnation_time_min.ToString();
-            label_impregnation_time_max.Content = default_Impregnation_time_max.ToString();
+                // Min and max label elements
+                label_cooking_time_min.Content = default_Cooking_time_min.ToString();
+                label_cooking_time_max.Content = default_Cooking_time_max.ToString();
+                label_cooking_pressure_min.Content = default_Cooking_pressure_min.ToString();
+                label_cooking_pressure_max.Content = default_Cooking_pressure_max.ToString();
+                label_cooking_temperature_min.Content = default_Cooking_temperature_min.ToString();
+                label_cooking_temperature_max.Content = default_Cooking_temperature_max.ToString();
+                label_impregnation_time_min.Content = default_Impregnation_time_min.ToString();
+                label_impregnation_time_max.Content = default_Impregnation_time_max.ToString();
+            
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex.Message);
+
+                return false;
+            }
         }
 
         #endregion
@@ -179,103 +199,126 @@ namespace SellukeittoSovellus
 
         private void UpdateControl()
         {
-            switch (State)
+            try
             {
-                case STATE_FAILSAFE:
-                    button_connect.IsEnabled = false;
-                    button_confirm_initial_state.Visibility = System.Windows.Visibility.Visible;
-                    button_interrupt_process.IsEnabled = false;
-                    button_set_parameters.IsEnabled = false;
-                    button_reset_parameters.IsEnabled = false;
-                    UpdateParameterControls(false);
-                    label_connection_status.Content = mProcessClient.mConnectionState ? STATE_CONNECTED_STRING : STATE_DISCONNECTED_STRING;
-                    label_connection_status.Foreground = mProcessClient.mConnectionState ? STATE_COLOR_GREEN : STATE_COLOR_RED;
-                    label_control_status.Content = STATE_FAILSAFE_STRING;
-                    label_control_status.Foreground = STATE_COLOR_RED;
-                    button_start_process.IsEnabled = false;
-                    label_sequence_state.Content = "";
-                    break;
-                case STATE_DISCONNECTED:
-                    button_connect.IsEnabled = true;
-                    button_confirm_initial_state.Visibility = System.Windows.Visibility.Hidden;
-                    button_interrupt_process.IsEnabled = false;
-                    button_set_parameters.IsEnabled = false;
-                    button_reset_parameters.IsEnabled = false;
-                    UpdateParameterControls(false);
-                    label_connection_status.Content = STATE_DISCONNECTED_STRING;
-                    label_connection_status.Foreground = STATE_COLOR_RED;
-                    label_control_status.Content = STATE_DISCONNECTED_STRING;
-                    label_control_status.Foreground = STATE_COLOR_RED;
-                    button_start_process.IsEnabled = false;
-                    label_sequence_state.Content = "";
-                    break;
-                case STATE_IDLE:
-                    button_connect.IsEnabled = false;
-                    button_confirm_initial_state.Visibility = System.Windows.Visibility.Hidden;
-                    button_interrupt_process.IsEnabled = false;
-                    button_set_parameters.IsEnabled = true;
-                    button_reset_parameters.IsEnabled = true;
-                    UpdateParameterControls(true);
-                    label_connection_status.Content = STATE_CONNECTED_STRING;
-                    label_connection_status.Foreground = STATE_COLOR_GREEN;
-                    label_control_status.Content = STATE_IDLE_STRING;
-                    label_control_status.Foreground = STATE_COLOR_GREEN;
-                    label_sequence_state.Content = "";
-                    UpdateParameterUIStatus();
-                    break;
-                case STATE_RUNNING:
-                    button_connect.IsEnabled = false;
-                    button_confirm_initial_state.Visibility = System.Windows.Visibility.Hidden;
-                    button_interrupt_process.IsEnabled = true;
-                    button_set_parameters.IsEnabled = false;
-                    button_reset_parameters.IsEnabled = false;
-                    UpdateParameterControls(false);
-                    label_connection_status.Content = STATE_CONNECTED_STRING;
-                    label_connection_status.Foreground = STATE_COLOR_GREEN;
-                    label_control_status.Content = STATE_RUNNING_STRING;
-                    label_control_status.Foreground = STATE_COLOR_GREEN;
-                    button_start_process.IsEnabled = false;
-                    label_sequence_state.Content = mSequenceDriver == null? "":mSequenceDriver.current_sequence_state;
-                    break;
-                default:
-                    Console.WriteLine("ERROR: UpdateControl() switch default statement called");
-                    break;
+                switch (State)
+                {
+                    case STATE_FAILSAFE:
+                        button_connect.IsEnabled = false;
+                        button_confirm_initial_state.Visibility = System.Windows.Visibility.Visible;
+                        button_interrupt_process.IsEnabled = false;
+                        button_set_parameters.IsEnabled = false;
+                        button_reset_parameters.IsEnabled = false;
+                        UpdateParameterControls(false);
+                        label_connection_status.Content = mProcessClient.mConnectionState ? STATE_CONNECTED_STRING : STATE_DISCONNECTED_STRING;
+                        label_connection_status.Foreground = mProcessClient.mConnectionState ? STATE_COLOR_GREEN : STATE_COLOR_RED;
+                        label_control_status.Content = STATE_FAILSAFE_STRING;
+                        label_control_status.Foreground = STATE_COLOR_RED;
+                        button_start_process.IsEnabled = false;
+                        label_sequence_state.Content = "";
+                        break;
+                    case STATE_DISCONNECTED:
+                        button_connect.IsEnabled = true;
+                        button_confirm_initial_state.Visibility = System.Windows.Visibility.Hidden;
+                        button_interrupt_process.IsEnabled = false;
+                        button_set_parameters.IsEnabled = false;
+                        button_reset_parameters.IsEnabled = false;
+                        UpdateParameterControls(false);
+                        label_connection_status.Content = STATE_DISCONNECTED_STRING;
+                        label_connection_status.Foreground = STATE_COLOR_RED;
+                        label_control_status.Content = STATE_DISCONNECTED_STRING;
+                        label_control_status.Foreground = STATE_COLOR_RED;
+                        button_start_process.IsEnabled = false;
+                        label_sequence_state.Content = "";
+                        break;
+                    case STATE_IDLE:
+                        button_connect.IsEnabled = false;
+                        button_confirm_initial_state.Visibility = System.Windows.Visibility.Hidden;
+                        button_interrupt_process.IsEnabled = false;
+                        button_set_parameters.IsEnabled = true;
+                        button_reset_parameters.IsEnabled = true;
+                        UpdateParameterControls(true);
+                        label_connection_status.Content = STATE_CONNECTED_STRING;
+                        label_connection_status.Foreground = STATE_COLOR_GREEN;
+                        label_control_status.Content = STATE_IDLE_STRING;
+                        label_control_status.Foreground = STATE_COLOR_GREEN;
+                        label_sequence_state.Content = "";
+                        UpdateParameterUIStatus();
+                        break;
+                    case STATE_RUNNING:
+                        button_connect.IsEnabled = false;
+                        button_confirm_initial_state.Visibility = System.Windows.Visibility.Hidden;
+                        button_interrupt_process.IsEnabled = true;
+                        button_set_parameters.IsEnabled = false;
+                        button_reset_parameters.IsEnabled = false;
+                        UpdateParameterControls(false);
+                        label_connection_status.Content = STATE_CONNECTED_STRING;
+                        label_connection_status.Foreground = STATE_COLOR_GREEN;
+                        label_control_status.Content = STATE_RUNNING_STRING;
+                        label_control_status.Foreground = STATE_COLOR_GREEN;
+                        button_start_process.IsEnabled = false;
+                        label_sequence_state.Content = mSequenceDriver == null? "":mSequenceDriver.current_sequence_state;
+                        break;
+                    default:
+                        Console.WriteLine("ERROR: UpdateControl() switch default statement called");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex.Message);
             }
         }
 
         private void UpdateValues()
         {
-            //Console.WriteLine("UpdateValues called");
+            try
+            {
+                // Graphics 
+                progressBar_T100.Value = mProcessClient.mData.LI100;
+                progressBar_T200.Value = mProcessClient.mData.LI200;
+                progressBar_T400.Value = mProcessClient.mData.LI400;
+                progressBar_T300_pressure.Value = mProcessClient.mData.PI300;
+                progressBar_T300_temperature.Value = mProcessClient.mData.TI300;
 
-            // Graphics 
-            progressBar_T100.Value = mProcessClient.mData.LI100;
-            progressBar_T200.Value = mProcessClient.mData.LI200;
-            progressBar_T400.Value = mProcessClient.mData.LI400;
-            progressBar_T300_pressure.Value = mProcessClient.mData.PI300;
-            progressBar_T300_temperature.Value = mProcessClient.mData.TI300;
-
-            // Numerical
-            label_T100.Content = mProcessClient.mData.LI100;
-            label_T200.Content = mProcessClient.mData.LI200;
-            label_T400.Content = mProcessClient.mData.LI400;
-            label_T300_pressure.Content = mProcessClient.mData.PI300;
-            label_T300_temperature.Content = mProcessClient.mData.TI300;
+                // Numerical
+                label_T100.Content = mProcessClient.mData.LI100;
+                label_T200.Content = mProcessClient.mData.LI200;
+                label_T400.Content = mProcessClient.mData.LI400;
+                label_T300_pressure.Content = mProcessClient.mData.PI300;
+                label_T300_temperature.Content = mProcessClient.mData.TI300;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex.Message);
+            }
 
         }
 
-        private void UpdateParameterControls(bool isEnabled)
+        private bool UpdateParameterControls(bool isEnabled)
         {
-            // Update slider controls status
-            slider_cooking_pressure.IsEnabled = isEnabled;
-            slider_cooking_temperature.IsEnabled = isEnabled;
-            slider_cooking_time.IsEnabled = isEnabled;
-            slider_impregnation_time.IsEnabled = isEnabled;
+            try
+            {
+                // Update slider controls status
+                slider_cooking_pressure.IsEnabled = isEnabled;
+                slider_cooking_temperature.IsEnabled = isEnabled;
+                slider_cooking_time.IsEnabled = isEnabled;
+                slider_impregnation_time.IsEnabled = isEnabled;
             
-            // Update textbox slider status
-            textBox_cooking_pressure.IsEnabled = isEnabled;
-            textBox_cooking_temperature.IsEnabled = isEnabled;
-            textBox_cooking_time.IsEnabled = isEnabled;
-            textBox_impregnation_time.IsEnabled = isEnabled;
+                // Update textbox slider status
+                textBox_cooking_pressure.IsEnabled = isEnabled;
+                textBox_cooking_temperature.IsEnabled = isEnabled;
+                textBox_cooking_time.IsEnabled = isEnabled;
+                textBox_impregnation_time.IsEnabled = isEnabled;
+            
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex.Message);
+
+                return false;
+            }
         }
 
         #endregion
@@ -377,7 +420,7 @@ namespace SellukeittoSovellus
 
         #region PARAMETER HANDLING
 
-        private void readDefaultParametersFromFile()
+        private bool readDefaultParametersFromFile()
         {
             try
             {
@@ -397,6 +440,8 @@ namespace SellukeittoSovellus
                     declareDefaultParameters(parameters);
                 }
                 logger.WriteLog("Default parameters loaded.");
+
+                return true;
             }
             catch (Exception ex)
             {
@@ -424,68 +469,92 @@ namespace SellukeittoSovellus
                 default_Impregnation_time_min = -1;
                 default_Impregnation_time_max = 1;
                 slider_impregnation_time.IsEnabled = false;
+
+                return false;
             }
         }
 
-        private void declareDefaultParameters(string[] parameters)
+        private bool declareDefaultParameters(string[] parameters)
         {
-            string min_and_max_string;
-            string[] min_and_max_array;
+            try
+            {
+                string min_and_max_string;
+                string[] min_and_max_array;
 
-            // Lets separate the key arguments, default values and default value borders from each other.
-            min_and_max_string = parameters[2];
-            char[] charsToTrim = { '[', ' ', ']' };
-            min_and_max_string = min_and_max_string.Trim(charsToTrim);
-            min_and_max_array = min_and_max_string.Split(',');
+                // Lets separate the key arguments, default values and default value borders from each other.
+                min_and_max_string = parameters[2];
+                char[] charsToTrim = { '[', ' ', ']' };
+                min_and_max_string = min_and_max_string.Trim(charsToTrim);
+                min_and_max_array = min_and_max_string.Split(',');
             
-            if (parameters[0] == "default_Cooking_time")
-            {
-                default_Cooking_time = double.Parse(parameters[1]);
-                default_Cooking_time_min = Int32.Parse(min_and_max_array[0]);
-                default_Cooking_time_max = Int32.Parse(min_and_max_array[1]);
+                if (parameters[0] == "default_Cooking_time")
+                {
+                    default_Cooking_time = double.Parse(parameters[1]);
+                    default_Cooking_time_min = Int32.Parse(min_and_max_array[0]);
+                    default_Cooking_time_max = Int32.Parse(min_and_max_array[1]);
+                }
+                else if (parameters[0] == "default_Cooking_temperature")
+                {
+                    default_Cooking_temperature = double.Parse(parameters[1]);
+                    default_Cooking_temperature_min = Int32.Parse(min_and_max_array[0]);
+                    default_Cooking_temperature_max = Int32.Parse(min_and_max_array[1]);
+                }
+                else if (parameters[0] == "default_Cooking_pressure")
+                {
+                    default_Cooking_pressure = double.Parse(parameters[1]);
+                    default_Cooking_pressure_min = Int32.Parse(min_and_max_array[0]);
+                    default_Cooking_pressure_max = Int32.Parse(min_and_max_array[1]);
+                }
+                else if (parameters[0] == "default_Impregnation_time")
+                {
+                    default_Impregnation_time = double.Parse(parameters[1]);
+                    default_Impregnation_time_min = Int32.Parse(min_and_max_array[0]);
+                    default_Impregnation_time_max = Int32.Parse(min_and_max_array[1]);
+                }
+            
+                return true;
             }
-            else if (parameters[0] == "default_Cooking_temperature")
+            catch (Exception ex)
             {
-                default_Cooking_temperature = double.Parse(parameters[1]);
-                default_Cooking_temperature_min = Int32.Parse(min_and_max_array[0]);
-                default_Cooking_temperature_max = Int32.Parse(min_and_max_array[1]);
-            }
-            else if (parameters[0] == "default_Cooking_pressure")
-            {
-                default_Cooking_pressure = double.Parse(parameters[1]);
-                default_Cooking_pressure_min = Int32.Parse(min_and_max_array[0]);
-                default_Cooking_pressure_max = Int32.Parse(min_and_max_array[1]);
-            }
-            else if (parameters[0] == "default_Impregnation_time")
-            {
-                default_Impregnation_time = double.Parse(parameters[1]);
-                default_Impregnation_time_min = Int32.Parse(min_and_max_array[0]);
-                default_Impregnation_time_max = Int32.Parse(min_and_max_array[1]);
+                logger.WriteLog(ex.Message);
+
+                return false;
             }
         }
 
-        private void UpdateParameterUIStatus()
+        private bool UpdateParameterUIStatus()
         {
-            if (parameter_status == PARAMETERS_STATE_CONFIRMED)
+            try
             {
-                textblock_parameter_status.Text = PARAMETERS_CONFIRMED;
-                textblock_parameter_status.Foreground = STATE_COLOR_GREEN;
-                button_start_process.IsEnabled = true;
-                button_set_parameters.IsEnabled = false;
+                if (parameter_status == PARAMETERS_STATE_CONFIRMED)
+                {
+                    textblock_parameter_status.Text = PARAMETERS_CONFIRMED;
+                    textblock_parameter_status.Foreground = STATE_COLOR_GREEN;
+                    button_start_process.IsEnabled = true;
+                    button_set_parameters.IsEnabled = false;
+                }
+                else if (parameter_status == PARAMETERS_STATE_INCORRECT)
+                {
+                    textblock_parameter_status.Text = PARAMETERS_INCORRECT;
+                    textblock_parameter_status.Foreground = STATE_COLOR_RED;
+                    button_start_process.IsEnabled = false;
+                    button_set_parameters.IsEnabled = true;
+                }
+                else if (parameter_status == PARAMETERS_STATE_NOT_CONFIRMED)
+                {
+                    textblock_parameter_status.Text = PARAMETERS_NOT_CONFIRMED;
+                    textblock_parameter_status.Foreground = STATE_COLOR_RED;
+                    button_start_process.IsEnabled = false;
+                    button_set_parameters.IsEnabled = true;
+                }
+            
+                return true;
             }
-            else if (parameter_status == PARAMETERS_STATE_INCORRECT)
+            catch (Exception ex)
             {
-                textblock_parameter_status.Text = PARAMETERS_INCORRECT;
-                textblock_parameter_status.Foreground = STATE_COLOR_RED;
-                button_start_process.IsEnabled = false;
-                button_set_parameters.IsEnabled = true;
-            }
-            else if (parameter_status == PARAMETERS_STATE_NOT_CONFIRMED)
-            {
-                textblock_parameter_status.Text = PARAMETERS_NOT_CONFIRMED;
-                textblock_parameter_status.Foreground = STATE_COLOR_RED;
-                button_start_process.IsEnabled = false;
-                button_set_parameters.IsEnabled = true;
+                logger.WriteLog(ex.Message);
+
+                return false;
             }
         }
 
